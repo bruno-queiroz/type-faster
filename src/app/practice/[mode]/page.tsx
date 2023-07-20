@@ -2,8 +2,7 @@
 import Link from "next/link";
 import { ChangeEvent, useRef, useState } from "react";
 
-const text = `dolor sit amet consectetur adipisicing elit. Minus,
-assumenda laborum earum eos autem architecto rerum eligendi
+const text = `Minus, assumenda laborum earum eos autem architecto rerum eligendi
 similique nemo hic voluptatum in ut alias exercitationem quod, animi
 corrupti, vero unde!`;
 
@@ -16,10 +15,12 @@ for (let i = 0; i < text.length; i++) {
 
 interface MissingTypes extends Event {
   inputType: string;
+  data: string | null;
 }
 
 const Page = ({ params }: { params: { mode: string } }) => {
   const [input, setInput] = useState("");
+  const [inputIndex, setInputIndex] = useState(0);
   const [isMisspelled, setIsMisspelled] = useState({
     is: false,
     index: 0,
@@ -27,41 +28,48 @@ const Page = ({ params }: { params: { mode: string } }) => {
   const textElement = useRef<HTMLParagraphElement>(null);
 
   const type = (e: ChangeEvent<HTMLInputElement>) => {
+    const nativeEvent = e.nativeEvent as MissingTypes;
     const isDeleteContentBackward =
-      (e.nativeEvent as MissingTypes).inputType === "deleteContentBackward";
+      nativeEvent.inputType === "deleteContentBackward";
+    const keyPressed = nativeEvent.data;
+    console.log(keyPressed);
 
     if (textElement.current) {
-      const currentCharElement = textElement.current?.children[
-        input.length
-      ] as HTMLSpanElement;
-
-      setInput(e.target.value);
       const currentText = e.target.value;
       const currentLastChar = e.target.value[currentText.length - 1];
 
+      const currentCharElement = textElement.current?.children[
+        inputIndex
+      ] as HTMLSpanElement;
+
+      setInput(e.target.value);
+
       if (
-        textArray[input.length] === currentLastChar &&
+        textArray[inputIndex] === currentLastChar &&
         !isMisspelled.is &&
         !isDeleteContentBackward
       ) {
+        setInputIndex(inputIndex + 1);
         currentCharElement.style.color = "green";
       } else if (isDeleteContentBackward) {
         const currentCharElement = textElement.current?.children[
-          input.length - 1
+          inputIndex - 1
         ] as HTMLSpanElement;
-        if (isMisspelled.is && isMisspelled.index === input.length - 1) {
+        if (isMisspelled.is && isMisspelled.index === inputIndex - 1) {
           setIsMisspelled({
             is: false,
             index: 0,
           });
         }
+        setInputIndex(inputIndex - 1);
 
         currentCharElement.style.color = "black";
         currentCharElement.style.backgroundColor = "transparent";
       } else {
         if (!isMisspelled.is) {
-          setIsMisspelled({ is: true, index: input.length });
+          setIsMisspelled({ is: true, index: inputIndex });
         }
+        setInputIndex(inputIndex + 1);
         currentCharElement.style.backgroundColor = "#F87171";
       }
     }
