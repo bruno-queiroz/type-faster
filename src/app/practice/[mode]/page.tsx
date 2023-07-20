@@ -50,6 +50,9 @@ const Page = ({ params }: { params: { mode: string } }) => {
         !isDeleteContentBackward
       ) {
         setInputIndex(inputIndex + 1);
+        if (keyPressed === " ") {
+          setInput("");
+        }
         currentCharElement.style.color = "green";
       } else if (isDeleteContentBackward) {
         const currentCharElement = textElement.current?.children[
