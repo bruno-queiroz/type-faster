@@ -32,7 +32,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
     const isDeleteContentBackward =
       nativeEvent.inputType === "deleteContentBackward";
     const keyPressed = nativeEvent.data;
-    console.log(keyPressed);
+    const isDeleteWordBackward = nativeEvent.inputType === "deleteWordBackward";
 
     if (textElement.current) {
       const currentText = e.target.value;
@@ -68,6 +68,17 @@ const Page = ({ params }: { params: { mode: string } }) => {
 
         currentCharElement.style.color = "black";
         currentCharElement.style.backgroundColor = "transparent";
+      } else if (isDeleteWordBackward) {
+        setInputIndex(inputIndex - input.length);
+
+        for (let i = 0; i < input.length; i++) {
+          const currentCharElement = textElement.current?.children[
+            inputIndex - i - 1
+          ] as HTMLSpanElement;
+
+          currentCharElement.style.color = "black";
+          currentCharElement.style.backgroundColor = "transparent";
+        }
       } else {
         if (!isMisspelled.is) {
           setIsMisspelled({ is: true, index: inputIndex });
