@@ -27,7 +27,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
   });
   const textElement = useRef<HTMLParagraphElement>(null);
 
-  const type = (e: ChangeEvent<HTMLInputElement>) => {
+  const onType = (e: ChangeEvent<HTMLInputElement>) => {
     const nativeEvent = e.nativeEvent as MissingTypes;
     const isDeleteContentBackward =
       nativeEvent.inputType === "deleteContentBackward";
@@ -105,7 +105,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
             spellCheck="false"
             className="p-2 bg-gray-200"
             value={input}
-            onChange={type}
+            onChange={onType}
           />
         </div>
         <div className="flex justify-between">
