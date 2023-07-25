@@ -1,6 +1,7 @@
 "use client";
+import { handleNotSequentialAction } from "@/utils/handleNotSequentialAction";
 import Link from "next/link";
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useRef, useState } from "react";
 
 const text = `Minus, assumenda laborum earum eos autem architecto rerum eligendi
 similique nemo hic voluptatum in ut alias exercitationem quod, animi
@@ -37,6 +38,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
     if (textElement.current) {
       const currentText = e.target.value;
       const currentLastChar = e.target.value[currentText.length - 1];
+      const selectionStart = e.target.selectionStart;
 
       const currentCharElement = textElement.current?.children[
         inputIndex
@@ -50,6 +52,16 @@ const Page = ({ params }: { params: { mode: string } }) => {
         !isDeleteContentBackward
       ) {
         setInputIndex(inputIndex + 1);
+
+        if (input.length - 2 >= selectionStart!) {
+          handleNotSequentialAction(
+            inputIndex,
+            textArray,
+            e.target.value,
+            textElement.current?.children
+          );
+        }
+
         if (keyPressed === " ") {
           setInput("");
         }
@@ -58,6 +70,16 @@ const Page = ({ params }: { params: { mode: string } }) => {
         const currentCharElement = textElement.current?.children[
           inputIndex - 1
         ] as HTMLSpanElement;
+
+        if (input.length - 2 >= selectionStart!) {
+          handleNotSequentialAction(
+            inputIndex,
+            textArray,
+            e.target.value,
+            textElement.current?.children
+          );
+        }
+
         if (isMisspelled.is && isMisspelled.index === inputIndex - 1) {
           setIsMisspelled({
             is: false,
@@ -85,8 +107,16 @@ const Page = ({ params }: { params: { mode: string } }) => {
         }
         setInputIndex(inputIndex + 1);
         currentCharElement.style.backgroundColor = "#F87171";
+        currentCharElement.style.color = "black";
       }
     }
+  };
+
+  const onSelectText = (e: KeyboardEvent<HTMLInputElement>) => {
+    const test = e.target as HTMLInputElement;
+    // console.log("start", test.selectionStart);
+    // console.log("end", test.selectionEnd);
+    // console.log("input", input.length);
   };
 
   return (
@@ -106,6 +136,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
             className="p-2 bg-gray-200"
             value={input}
             onChange={onType}
+            onKeyUp={onSelectText}
           />
         </div>
         <div className="flex justify-between">
