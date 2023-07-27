@@ -1,5 +1,5 @@
 "use client";
-import { handleNotSequentialAction } from "@/utils/handleNotSequentialAction";
+import { checkWord } from "@/utils/checkWord";
 import Link from "next/link";
 import { ChangeEvent, KeyboardEvent, useRef, useState } from "react";
 
@@ -22,6 +22,7 @@ interface MissingTypes extends Event {
 const Page = ({ params }: { params: { mode: string } }) => {
   const [input, setInput] = useState("");
   const [inputIndex, setInputIndex] = useState(0);
+  const [currentWordBeginningIndex, setCurrentWordBeginningIndex] = useState(0);
   const [isMisspelled, setIsMisspelled] = useState({
     is: false,
     index: 0,
@@ -52,17 +53,19 @@ const Page = ({ params }: { params: { mode: string } }) => {
         !isDeleteContentBackward
       ) {
         setInputIndex(inputIndex + 1);
-
         if (input.length - 2 >= selectionStart!) {
-          handleNotSequentialAction(
+          const isMisspelledData = checkWord(
             inputIndex,
-            textArray,
             e.target.value,
-            textElement.current?.children
+            textElement.current?.children,
+            textArray,
+            currentWordBeginningIndex
           );
-        }
 
+          setIsMisspelled(isMisspelledData);
+        }
         if (keyPressed === " ") {
+          setCurrentWordBeginningIndex(inputIndex + 1);
           setInput("");
         }
         currentCharElement.style.color = "green";
@@ -72,12 +75,15 @@ const Page = ({ params }: { params: { mode: string } }) => {
         ] as HTMLSpanElement;
 
         if (input.length - 2 >= selectionStart!) {
-          handleNotSequentialAction(
+          const isMisspelledData = checkWord(
             inputIndex,
-            textArray,
             e.target.value,
-            textElement.current?.children
+            textElement.current?.children,
+            textArray,
+            currentWordBeginningIndex
           );
+
+          setIsMisspelled(isMisspelledData);
         }
 
         if (isMisspelled.is && isMisspelled.index === inputIndex - 1) {
@@ -93,6 +99,16 @@ const Page = ({ params }: { params: { mode: string } }) => {
       } else if (isDeleteWordBackward) {
         setInputIndex(inputIndex - input.length);
 
+        const isMisspelledData = checkWord(
+          inputIndex,
+          e.target.value,
+          textElement.current?.children,
+          textArray,
+          currentWordBeginningIndex
+        );
+
+        setIsMisspelled(isMisspelledData);
+
         for (let i = 0; i < input.length; i++) {
           const currentCharElement = textElement.current?.children[
             inputIndex - i - 1
@@ -105,26 +121,35 @@ const Page = ({ params }: { params: { mode: string } }) => {
         if (!isMisspelled.is) {
           setIsMisspelled({ is: true, index: inputIndex });
         }
+
+        const isMisspelledData = checkWord(
+          inputIndex,
+          e.target.value,
+          textElement.current?.children,
+          textArray,
+          currentWordBeginningIndex
+        );
+
+        setIsMisspelled(isMisspelledData);
+
         setInputIndex(inputIndex + 1);
-        currentCharElement.style.backgroundColor = "#F87171";
-        currentCharElement.style.color = "black";
       }
     }
   };
 
-  const onSelectText = (e: KeyboardEvent<HTMLInputElement>) => {
-    const test = e.target as HTMLInputElement;
-    // console.log("start", test.selectionStart);
-    // console.log("end", test.selectionEnd);
-    // console.log("input", input.length);
-  };
+  // const onSelectText = (e: KeyboardEvent<HTMLInputElement>) => {
+  //   const test = e.target as HTMLInputElement;
+  //   // console.log("start", test.selectionStart);
+  //   // console.log("end", test.selectionEnd);
+  //   // console.log("input", input.length);
+  // };
 
   return (
     <section className="p-4">
       <div className="flex flex-col gap-4 bg-gray-200 rounded-md p-4">
         <div>practice progress</div>
         <div className="flex flex-col gap-4 p-4 bg-gray-300 rounded">
-          <p ref={textElement}>
+          <p ref={textElement} className="font-mono">
             {textArray.map((char, index) => (
               <span key={index}>{char}</span>
             ))}
@@ -134,9 +159,10 @@ const Page = ({ params }: { params: { mode: string } }) => {
             type="text"
             spellCheck="false"
             className="p-2 bg-gray-200"
+            style={{ backgroundColor: isMisspelled.is ? "#F87171" : "" }}
             value={input}
             onChange={onType}
-            onKeyUp={onSelectText}
+            // onKeyUp={onSelectText}
           />
         </div>
         <div className="flex justify-between">
