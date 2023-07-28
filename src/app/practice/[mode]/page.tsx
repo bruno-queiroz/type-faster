@@ -1,4 +1,5 @@
 "use client";
+import { addUnderlineToTheNewWord } from "@/utils/AddUnderlineToTheNewWord";
 import { checkWord } from "@/utils/checkWord";
 import { clearLetterStyles } from "@/utils/cleanLetterStyles";
 import Link from "next/link";
@@ -66,6 +67,11 @@ const Page = ({ params }: { params: { mode: string } }) => {
         }
         if (keyPressed === " ") {
           setCurrentWordBeginningIndex(inputIndex + 1);
+          addUnderlineToTheNewWord(
+            inputIndex + 1,
+            textArray,
+            textElement.current?.children
+          );
           setInput("");
         }
         currentCharElement.style.color = "green";
