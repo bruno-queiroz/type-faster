@@ -1,7 +1,8 @@
 "use client";
 import { checkWord } from "@/utils/checkWord";
+import { cleanLetterStyles } from "@/utils/cleanLetterStyles";
 import Link from "next/link";
-import { ChangeEvent, KeyboardEvent, useRef, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 
 const text = `Minus, assumenda laborum earum eos autem architecto rerum eligendi
 similique nemo hic voluptatum in ut alias exercitationem quod, animi
@@ -74,7 +75,10 @@ const Page = ({ params }: { params: { mode: string } }) => {
           inputIndex - 1
         ] as HTMLSpanElement;
 
-        if (input.length - 2 >= selectionStart!) {
+        const wasMoreThanOneLetterDeletedAtOnce =
+          inputIndex - 1 !== e.target.value.length + currentWordBeginningIndex;
+
+        if (wasMoreThanOneLetterDeletedAtOnce) {
           const isMisspelledData = checkWord(
             inputIndex,
             e.target.value,
@@ -84,6 +88,11 @@ const Page = ({ params }: { params: { mode: string } }) => {
           );
 
           setIsMisspelled(isMisspelledData);
+          setInputIndex(e.target.value.length + currentWordBeginningIndex);
+        } else {
+          currentCharElement.style.color = "black";
+          currentCharElement.style.backgroundColor = "transparent";
+          setInputIndex(inputIndex - 1);
         }
 
         if (isMisspelled.is && isMisspelled.index === inputIndex - 1) {
@@ -92,12 +101,8 @@ const Page = ({ params }: { params: { mode: string } }) => {
             index: 0,
           });
         }
-        setInputIndex(inputIndex - 1);
-
-        currentCharElement.style.color = "black";
-        currentCharElement.style.backgroundColor = "transparent";
       } else if (isDeleteWordBackward) {
-        setInputIndex(inputIndex - input.length);
+        setInputIndex(inputIndex - (input.length - e.target.value.length));
 
         const isMisspelledData = checkWord(
           inputIndex,
@@ -108,15 +113,6 @@ const Page = ({ params }: { params: { mode: string } }) => {
         );
 
         setIsMisspelled(isMisspelledData);
-
-        for (let i = 0; i < input.length; i++) {
-          const currentCharElement = textElement.current?.children[
-            inputIndex - i - 1
-          ] as HTMLSpanElement;
-
-          currentCharElement.style.color = "black";
-          currentCharElement.style.backgroundColor = "transparent";
-        }
       } else {
         if (!isMisspelled.is) {
           setIsMisspelled({ is: true, index: inputIndex });
