@@ -1,5 +1,4 @@
 export const checkWord = (
-  inputIndex: number,
   inputValue: string,
   elements: HTMLCollection,
   textArray: string[],
@@ -9,7 +8,6 @@ export const checkWord = (
     is: false,
     index: 0,
   };
-
   const isTheFirstWord = currentWordBeginningIndex === 0;
 
   for (let i = 0; i < inputValue.length; i++) {
@@ -31,7 +29,7 @@ export const checkWord = (
           index: isTheFirstWord ? i : currentWordBeginningIndex + i,
         };
       }
-      currentCharElement.style.backgroundColor = "blue";
+      currentCharElement.style.backgroundColor = "#F87171";
       currentCharElement.style.color = "black";
     }
   }

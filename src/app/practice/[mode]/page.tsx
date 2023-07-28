@@ -56,7 +56,6 @@ const Page = ({ params }: { params: { mode: string } }) => {
         setInputIndex(inputIndex + 1);
         if (input.length - 2 >= selectionStart!) {
           const isMisspelledData = checkWord(
-            inputIndex,
             e.target.value,
             textElement.current?.children,
             textArray,
@@ -86,7 +85,6 @@ const Page = ({ params }: { params: { mode: string } }) => {
           );
 
           const isMisspelledData = checkWord(
-            inputIndex,
             e.target.value,
             textElement.current?.children,
             textArray,
@@ -117,7 +115,6 @@ const Page = ({ params }: { params: { mode: string } }) => {
         );
 
         const isMisspelledData = checkWord(
-          inputIndex,
           e.target.value,
           textElement.current?.children,
           textArray,
@@ -131,7 +128,6 @@ const Page = ({ params }: { params: { mode: string } }) => {
         }
 
         const isMisspelledData = checkWord(
-          inputIndex,
           e.target.value,
           textElement.current?.children,
           textArray,
