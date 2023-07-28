@@ -1,6 +1,6 @@
 "use client";
 import { checkWord } from "@/utils/checkWord";
-import { cleanLetterStyles } from "@/utils/cleanLetterStyles";
+import { clearLetterStyles } from "@/utils/cleanLetterStyles";
 import Link from "next/link";
 import { ChangeEvent, useRef, useState } from "react";
 
@@ -79,6 +79,12 @@ const Page = ({ params }: { params: { mode: string } }) => {
           inputIndex - 1 !== e.target.value.length + currentWordBeginningIndex;
 
         if (wasMoreThanOneLetterDeletedAtOnce) {
+          clearLetterStyles(
+            input.length,
+            textElement.current?.children,
+            inputIndex
+          );
+
           const isMisspelledData = checkWord(
             inputIndex,
             e.target.value,
@@ -103,6 +109,12 @@ const Page = ({ params }: { params: { mode: string } }) => {
         }
       } else if (isDeleteWordBackward) {
         setInputIndex(inputIndex - (input.length - e.target.value.length));
+
+        clearLetterStyles(
+          input.length,
+          textElement.current?.children,
+          inputIndex
+        );
 
         const isMisspelledData = checkWord(
           inputIndex,
