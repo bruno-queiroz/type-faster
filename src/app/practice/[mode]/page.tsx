@@ -2,6 +2,7 @@
 import { addUnderlineToTheNewWord } from "@/utils/AddUnderlineToTheNewWord";
 import { checkWord } from "@/utils/checkWord";
 import { clearLetterStyles } from "@/utils/cleanLetterStyles";
+import { removeUnderlineOfThePreviousWord } from "@/utils/removeUnderlineOfThePreviousWord";
 import Link from "next/link";
 import { ChangeEvent, useRef, useState } from "react";
 
@@ -55,6 +56,8 @@ const Page = ({ params }: { params: { mode: string } }) => {
         !isDeleteContentBackward
       ) {
         setInputIndex(inputIndex + 1);
+        currentCharElement.style.color = "green";
+
         if (input.length - 2 >= selectionStart!) {
           const isMisspelledData = checkWord(
             e.target.value,
@@ -65,16 +68,29 @@ const Page = ({ params }: { params: { mode: string } }) => {
 
           setIsMisspelled(isMisspelledData);
         }
+
         if (keyPressed === " ") {
-          setCurrentWordBeginningIndex(inputIndex + 1);
           addUnderlineToTheNewWord(
             inputIndex + 1,
             textArray,
             textElement.current?.children
           );
+          removeUnderlineOfThePreviousWord(
+            currentWordBeginningIndex,
+            textArray,
+            textElement.current?.children
+          );
+
           setInput("");
+          setCurrentWordBeginningIndex(inputIndex + 1);
         }
-        currentCharElement.style.color = "green";
+        if (currentWordBeginningIndex === 0) {
+          addUnderlineToTheNewWord(
+            inputIndex + 1,
+            textArray,
+            textElement.current?.children
+          );
+        }
       } else if (isDeleteContentBackward) {
         const currentCharElement = textElement.current?.children[
           inputIndex - 1
