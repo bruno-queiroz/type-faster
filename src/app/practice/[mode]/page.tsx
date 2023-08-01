@@ -1,7 +1,9 @@
 "use client";
-import { addUnderlineToTheNewWord } from "@/utils/AddUnderlineToTheNewWord";
+import { addCursor } from "@/utils/addCursor";
+import { addUnderlineToTheNewWord } from "@/utils/addUnderlineToTheNewWord";
 import { checkWord } from "@/utils/checkWord";
 import { clearLetterStyles } from "@/utils/cleanLetterStyles";
+import { removeCursor } from "@/utils/removeCursor";
 import { removeUnderlineOfThePreviousWord } from "@/utils/removeUnderlineOfThePreviousWord";
 import Link from "next/link";
 import { ChangeEvent, useRef, useState } from "react";
@@ -55,9 +57,6 @@ const Page = ({ params }: { params: { mode: string } }) => {
         !isMisspelled.is &&
         !isDeleteContentBackward
       ) {
-        setInputIndex(inputIndex + 1);
-        currentCharElement.style.color = "green";
-
         if (input.length - 2 >= selectionStart!) {
           const isMisspelledData = checkWord(
             e.target.value,
@@ -91,6 +90,11 @@ const Page = ({ params }: { params: { mode: string } }) => {
             textElement.current?.children
           );
         }
+        setInputIndex(inputIndex + 1);
+        currentCharElement.style.color = "green";
+
+        addCursor(inputIndex, textElement.current.children);
+        removeCursor(inputIndex - 1, textElement.current.children);
       } else if (isDeleteContentBackward) {
         const currentCharElement = textElement.current?.children[
           inputIndex - 1
@@ -115,10 +119,20 @@ const Page = ({ params }: { params: { mode: string } }) => {
 
           setIsMisspelled(isMisspelledData);
           setInputIndex(e.target.value.length + currentWordBeginningIndex);
+
+          addCursor(
+            e.target.value.length + currentWordBeginningIndex - 1,
+            textElement.current.children
+          );
+          removeCursor(inputIndex - 1, textElement.current.children);
         } else {
           currentCharElement.style.color = "black";
           currentCharElement.style.backgroundColor = "transparent";
+
           setInputIndex(inputIndex - 1);
+
+          addCursor(inputIndex - 2, textElement.current.children);
+          removeCursor(inputIndex - 1, textElement.current.children);
         }
 
         if (isMisspelled.is && isMisspelled.index === inputIndex - 1) {
@@ -128,8 +142,6 @@ const Page = ({ params }: { params: { mode: string } }) => {
           });
         }
       } else if (isDeleteWordBackward) {
-        setInputIndex(inputIndex - (input.length - e.target.value.length));
-
         clearLetterStyles(
           input.length,
           textElement.current?.children,
@@ -144,6 +156,13 @@ const Page = ({ params }: { params: { mode: string } }) => {
         );
 
         setIsMisspelled(isMisspelledData);
+        setInputIndex(inputIndex - (input.length - e.target.value.length));
+
+        addCursor(
+          inputIndex - (input.length - e.target.value.length) - 1,
+          textElement.current.children
+        );
+        removeCursor(inputIndex - 1, textElement.current.children);
       } else {
         if (!isMisspelled.is) {
           setIsMisspelled({ is: true, index: inputIndex });
@@ -159,6 +178,9 @@ const Page = ({ params }: { params: { mode: string } }) => {
         setIsMisspelled(isMisspelledData);
 
         setInputIndex(inputIndex + 1);
+
+        addCursor(inputIndex, textElement.current.children);
+        removeCursor(inputIndex - 1, textElement.current.children);
       }
     }
   };
