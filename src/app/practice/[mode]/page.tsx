@@ -6,7 +6,13 @@ import { clearLetterStyles } from "@/utils/cleanLetterStyles";
 import { removeCursor } from "@/utils/removeCursor";
 import { removeUnderlineOfThePreviousWord } from "@/utils/removeUnderlineOfThePreviousWord";
 import Link from "next/link";
-import { ChangeEvent, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  KeyboardEvent,
+  MouseEvent,
+  useRef,
+  useState,
+} from "react";
 
 const text = `Minus, assumenda laborum earum eos autem architecto rerum eligendi
 similique nemo hic voluptatum in ut alias exercitationem quod, animi
@@ -185,12 +191,53 @@ const Page = ({ params }: { params: { mode: string } }) => {
     }
   };
 
-  // const onSelectText = (e: KeyboardEvent<HTMLInputElement>) => {
-  //   const test = e.target as HTMLInputElement;
-  //   // console.log("start", test.selectionStart);
-  //   // console.log("end", test.selectionEnd);
-  //   // console.log("input", input.length);
-  // };
+  const onSelectText = (e: KeyboardEvent<HTMLInputElement>) => {
+    // const test = e.target as HTMLInputElement;
+    // console.log(test);
+    // console.log("start", test.selectionStart);
+    // console.log("end", test.selectionEnd);
+    // console.log("input", input.length);
+  };
+
+  const onKeyDownChangeCursor = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (textElement.current) {
+      const key = e.key;
+      const cursorStart = (e.target as HTMLInputElement).selectionStart || 0;
+      const textElementChildren = textElement.current.children;
+      const blackBg = "rgba(0, 0, 0, 0)";
+      const blackText = "rgb(0, 0, 0)";
+
+      if (key === "ArrowLeft") {
+        const safeCursorStart = cursorStart - 2 < 0 ? 0 : cursorStart - 2;
+
+        addCursor(
+          currentWordBeginningIndex + safeCursorStart,
+          textElementChildren
+        );
+
+        removeCursor(
+          currentWordBeginningIndex + cursorStart - 1,
+          textElementChildren
+        );
+      } else if (key === "ArrowRight") {
+        const elementComputedStyles = getComputedStyle(
+          textElementChildren[currentWordBeginningIndex + cursorStart]
+        );
+        const elementColor = elementComputedStyles.color;
+        const elementBgColor = elementComputedStyles.backgroundColor;
+
+        if (elementColor === blackText && elementBgColor === blackBg) {
+          return;
+        }
+        addCursor(currentWordBeginningIndex + cursorStart, textElementChildren);
+
+        removeCursor(
+          currentWordBeginningIndex + cursorStart - 1,
+          textElementChildren
+        );
+      }
+    }
+  };
 
   return (
     <section className="p-4">
@@ -210,7 +257,9 @@ const Page = ({ params }: { params: { mode: string } }) => {
             style={{ backgroundColor: isMisspelled.is ? "#F87171" : "" }}
             value={input}
             onChange={onType}
-            // onKeyUp={onSelectText}
+            onKeyUp={onSelectText}
+            onKeyDown={onKeyDownChangeCursor}
+            // onClick={onClick}
           />
         </div>
         <div className="flex justify-between">
