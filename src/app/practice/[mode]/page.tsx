@@ -14,9 +14,8 @@ import {
   useState,
 } from "react";
 
-const text = `Minus, assumenda laborum earum eos autem architecto rerum eligendi
-similique nemo hic voluptatum in ut alias exercitationem quod, animi
-corrupti, vero unde!`;
+const text =
+  "There must be quite a few things a hot bath won't cure, but I don't know many of them.";
 
 const textArray: string[] = [];
 
@@ -50,7 +49,8 @@ const Page = ({ params }: { params: { mode: string } }) => {
     if (textElement.current) {
       const currentText = e.target.value;
       const currentLastChar = e.target.value[currentText.length - 1];
-      const selectionStart = e.target.selectionStart;
+      const selectionStart = e.target.selectionStart || 0;
+      const currentCursorSafeIndex = selectionStart + currentWordBeginningIndex;
 
       const currentCharElement = textElement.current?.children[
         inputIndex
@@ -147,8 +147,8 @@ const Page = ({ params }: { params: { mode: string } }) => {
 
           setIsMisspelled(isMisspelledData);
 
-          addCursor(inputIndex - 2, textElement.current.children);
-          removeCursor(inputIndex - 1, textElement.current.children);
+          addCursor(currentCursorSafeIndex - 1, textElement.current.children);
+          removeCursor(currentCursorSafeIndex, textElement.current.children);
         }
       } else if (isDeleteWordBackward) {
         clearLetterStyles(
@@ -187,9 +187,8 @@ const Page = ({ params }: { params: { mode: string } }) => {
         setIsMisspelled(isMisspelledData);
 
         setInputIndex(inputIndex + 1);
-
-        addCursor(inputIndex, textElement.current.children);
-        removeCursor(inputIndex - 1, textElement.current.children);
+        addCursor(currentCursorSafeIndex - 1, textElement.current.children);
+        removeCursor(currentCursorSafeIndex - 2, textElement.current.children);
       }
     }
   };
@@ -211,7 +210,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
       const blackText = "rgb(0, 0, 0)";
 
       if (key === "ArrowLeft") {
-        const safeCursorStart = cursorStart - 2 < 0 ? 0 : cursorStart - 2;
+        const safeCursorStart = cursorStart - 2 < -1 ? -1 : cursorStart - 2;
 
         addCursor(
           currentWordBeginningIndex + safeCursorStart,
