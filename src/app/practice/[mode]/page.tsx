@@ -141,12 +141,14 @@ const Page = ({ params }: { params: { mode: string } }) => {
           removeCursor(inputIndex - 1, textElement.current.children);
         }
 
-        if (isMisspelled.is && isMisspelled.index === inputIndex - 1) {
-          setIsMisspelled({
-            is: false,
-            index: 0,
-          });
-        }
+        const isMisspelledData = checkWord(
+          e.target.value,
+          textElement.current?.children,
+          textArray,
+          currentWordBeginningIndex
+        );
+
+        setIsMisspelled(isMisspelledData);
       } else if (isDeleteWordBackward) {
         clearLetterStyles(
           input.length,
@@ -238,6 +240,14 @@ const Page = ({ params }: { params: { mode: string } }) => {
       }
     }
   };
+
+  // const onClick = (e: MouseEvent<HTMLInputElement, globalThis.MouseEvent>) => {
+  //   const test = e.target as HTMLInputElement;
+  //   console.log(test);
+  //   console.log("start", test.selectionStart);
+  //   console.log("end", test.selectionEnd);
+  //   console.log("input", input.length);
+  // };
 
   return (
     <section className="p-4">
