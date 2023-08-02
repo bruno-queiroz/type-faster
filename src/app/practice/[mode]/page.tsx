@@ -58,11 +58,12 @@ const Page = ({ params }: { params: { mode: string } }) => {
 
       setInput(e.target.value);
 
-      if (
+      const isCorrectInput =
         textArray[inputIndex] === currentLastChar &&
         !isMisspelled.is &&
-        !isDeleteContentBackward
-      ) {
+        !isDeleteContentBackward;
+
+      if (isCorrectInput) {
         if (input.length - 2 >= selectionStart!) {
           const isMisspelledData = checkWord(
             e.target.value,
