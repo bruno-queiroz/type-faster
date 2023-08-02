@@ -3,7 +3,7 @@ export const addUnderlineToTheNewWord = (
   textArray: string[],
   elements: HTMLCollection
 ) => {
-  while (textArray[startIndex] !== " ") {
+  while (textArray[startIndex] !== " " && startIndex < textArray.length) {
     (elements[startIndex] as HTMLSpanElement).style.textDecoration =
       "underline";
     startIndex++;
