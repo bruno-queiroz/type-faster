@@ -137,18 +137,18 @@ const Page = ({ params }: { params: { mode: string } }) => {
 
           setInputIndex(inputIndex - 1);
 
+          const isMisspelledData = checkWord(
+            e.target.value,
+            textElement.current?.children,
+            textArray,
+            currentWordBeginningIndex
+          );
+
+          setIsMisspelled(isMisspelledData);
+
           addCursor(inputIndex - 2, textElement.current.children);
           removeCursor(inputIndex - 1, textElement.current.children);
         }
-
-        const isMisspelledData = checkWord(
-          e.target.value,
-          textElement.current?.children,
-          textArray,
-          currentWordBeginningIndex
-        );
-
-        setIsMisspelled(isMisspelledData);
       } else if (isDeleteWordBackward) {
         clearLetterStyles(
           input.length,
