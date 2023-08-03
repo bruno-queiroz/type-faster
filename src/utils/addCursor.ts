@@ -1,12 +1,24 @@
 export const addCursor = (inputIndex: number, elements: HTMLCollection) => {
   const currentCharElement = elements[inputIndex] as HTMLSpanElement;
+  const nextElement = elements[inputIndex + 1] as HTMLSpanElement;
 
   if (currentCharElement) {
-    currentCharElement.style.position = "relative";
+    if (currentCharElement.textContent === " " && nextElement) {
+      nextElement.style.position = "relative";
 
-    const cursor = document.createElement("div");
-    cursor.classList.add("cursor");
+      const cursor = document.createElement("div");
+      cursor.style.left = "0";
+      cursor.classList.add("cursor");
 
-    currentCharElement.appendChild(cursor);
+      nextElement.appendChild(cursor);
+    } else {
+      currentCharElement.style.position = "relative";
+
+      const cursor = document.createElement("div");
+      cursor.style.right = "-1px";
+      cursor.classList.add("cursor");
+
+      currentCharElement.appendChild(cursor);
+    }
   }
 };
