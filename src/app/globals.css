@@ -4,7 +4,6 @@
 
 .cursor {
   position: absolute;
-  right: -1px;
   top: 0;
   width: 1.3px;
   height: 100%;
