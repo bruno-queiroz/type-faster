@@ -1,6 +1,12 @@
 export const removeCursor = (inputIndex: number, elements: HTMLCollection) => {
   const spanElement = elements[inputIndex];
+  const nextSpanElement = elements[inputIndex + 1];
 
-  const cursor = spanElement?.querySelector("div");
-  cursor?.remove();
+  if (spanElement?.textContent === " ") {
+    const cursor = nextSpanElement?.querySelector("div");
+    cursor?.remove();
+  } else {
+    const cursor = spanElement?.querySelector("div");
+    cursor?.remove();
+  }
 };
