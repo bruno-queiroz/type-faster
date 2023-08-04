@@ -3,6 +3,7 @@ import { addCursor } from "@/utils/addCursor";
 import { addUnderlineToTheNewWord } from "@/utils/addUnderlineToTheNewWord";
 import { checkWord } from "@/utils/checkWord";
 import { clearLetterStyles } from "@/utils/cleanLetterStyles";
+import { positionCursorCtrlLeft } from "@/utils/positionCursorCtrlLeft";
 import { removeCursor } from "@/utils/removeCursor";
 import { removeUnderlineOfThePreviousWord } from "@/utils/removeUnderlineOfThePreviousWord";
 import Link from "next/link";
@@ -15,7 +16,7 @@ import {
 } from "react";
 
 const text =
-  "There must be quite a few things a hot bath won't cure, but I don't know many of them.";
+  "There before me was a woman who had finally, after all this time, made it to the start line, at the absolute worst moment imaginable. It was truly a tragic sight of a truly hopeless girl who had just begun her first love when it was far too late.";
 
 const textArray: string[] = [];
 
@@ -204,12 +205,39 @@ const Page = ({ params }: { params: { mode: string } }) => {
   const onKeyDownChangeCursor = (e: KeyboardEvent<HTMLInputElement>) => {
     if (textElement.current) {
       const key = e.key;
+      const isCtrl = e.ctrlKey;
       const cursorStart = (e.target as HTMLInputElement).selectionStart || 0;
       const textElementChildren = textElement.current.children;
+      const inputValue = (e.target as HTMLInputElement).value;
       const blackBg = "rgba(0, 0, 0, 0)";
       const blackText = "rgb(0, 0, 0)";
 
-      if (key === "ArrowLeft") {
+      if ((isCtrl && key === "ArrowLeft") || key === "ArrowUp") {
+        const newCursorPosition = positionCursorCtrlLeft(
+          inputValue,
+          cursorStart - 1
+        );
+
+        addCursor(
+          currentWordBeginningIndex + newCursorPosition - 1,
+          textElementChildren
+        );
+
+        removeCursor(
+          currentWordBeginningIndex + cursorStart - 1,
+          textElementChildren
+        );
+      } else if ((isCtrl && key === "ArrowRight") || key === "ArrowDown") {
+        addCursor(
+          currentWordBeginningIndex + inputValue.length - 1,
+          textElementChildren
+        );
+
+        removeCursor(
+          currentWordBeginningIndex + cursorStart - 1,
+          textElementChildren
+        );
+      } else if (key === "ArrowLeft") {
         const safeCursorStart = cursorStart - 2 < -1 ? -1 : cursorStart - 2;
 
         addCursor(
