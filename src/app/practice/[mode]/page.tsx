@@ -101,8 +101,8 @@ const Page = ({ params }: { params: { mode: string } }) => {
         setInputIndex(inputIndex + 1);
         currentCharElement.style.color = "green";
 
-        addCursor(inputIndex, textElement.current.children);
         removeCursor(inputIndex - 1, textElement.current.children);
+        addCursor(inputIndex, textElement.current.children);
       } else if (isDeleteContentBackward) {
         const currentCharElement = textElement.current?.children[
           inputIndex - 1
@@ -282,7 +282,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
       <div className="flex flex-col gap-4 bg-gray-200 rounded-md p-4">
         <div>practice progress</div>
         <div className="flex flex-col gap-4 p-4 bg-gray-300 rounded">
-          <p ref={textElement} className="font-mono">
+          <p ref={textElement} className="font-mono whitespace-pre-wrap">
             {textArray.map((char, index) => (
               <span key={index}>{char}</span>
             ))}
