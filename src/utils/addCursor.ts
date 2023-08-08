@@ -5,33 +5,15 @@ export const addCursor = (inputIndex: number, elements: HTMLCollection) => {
 
   const isFirstChar = inputIndex === -1;
   if (isFirstChar) {
-    firstCharElement.style.position = "relative";
-
-    const cursor = document.createElement("div");
-    cursor.style.left = "0";
-    cursor.classList.add("cursor");
-
-    firstCharElement.appendChild(cursor);
+    firstCharElement.style.boxShadow = "inset 1px 0px 0px black";
     return;
   }
 
   if (currentCharElement) {
     if (currentCharElement.textContent === " " && nextElement) {
-      nextElement.style.position = "relative";
-
-      const cursor = document.createElement("div");
-      cursor.style.left = "0";
-      cursor.classList.add("cursor");
-
-      nextElement.appendChild(cursor);
+      nextElement.style.boxShadow = "inset 1px 0px 0px black";
     } else {
-      currentCharElement.style.position = "relative";
-
-      const cursor = document.createElement("div");
-      cursor.style.right = "-1px";
-      cursor.classList.add("cursor");
-
-      currentCharElement.appendChild(cursor);
+      currentCharElement.style.boxShadow = "inset -1px 0px 0px black";
     }
   }
 };
