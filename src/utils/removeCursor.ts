@@ -1,20 +1,17 @@
 export const removeCursor = (inputIndex: number, elements: HTMLCollection) => {
-  const spanElement = elements[inputIndex];
-  const nextSpanElement = elements[inputIndex + 1];
-  const firstCharElement = elements[0];
+  const spanElement = elements[inputIndex] as HTMLSpanElement;
+  const nextSpanElement = elements[inputIndex + 1] as HTMLSpanElement;
+  const firstCharElement = elements[0] as HTMLSpanElement;
 
   const isFirstChar = inputIndex === -1;
   if (isFirstChar) {
-    const cursor = firstCharElement?.querySelector("div");
-    cursor?.remove();
+    firstCharElement.style.boxShadow = "";
     return;
   }
 
   if (spanElement?.textContent === " ") {
-    const cursor = nextSpanElement?.querySelector("div");
-    cursor?.remove();
+    nextSpanElement.style.boxShadow = "";
   } else {
-    const cursor = spanElement?.querySelector("div");
-    cursor?.remove();
+    spanElement.style.boxShadow = "";
   }
 };
