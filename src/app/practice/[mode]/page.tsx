@@ -218,35 +218,35 @@ const Page = ({ params }: { params: { mode: string } }) => {
           cursorStart - 1
         );
 
+        removeCursor(
+          currentWordBeginningIndex + cursorStart - 1,
+          textElementChildren
+        );
+
         addCursor(
           currentWordBeginningIndex + newCursorPosition - 1,
           textElementChildren
         );
-
+      } else if ((isCtrl && key === "ArrowRight") || key === "ArrowDown") {
         removeCursor(
           currentWordBeginningIndex + cursorStart - 1,
           textElementChildren
         );
-      } else if ((isCtrl && key === "ArrowRight") || key === "ArrowDown") {
+
         addCursor(
           currentWordBeginningIndex + inputValue.length - 1,
-          textElementChildren
-        );
-
-        removeCursor(
-          currentWordBeginningIndex + cursorStart - 1,
           textElementChildren
         );
       } else if (key === "ArrowLeft") {
         const safeCursorStart = cursorStart - 2 < -1 ? -1 : cursorStart - 2;
 
-        addCursor(
-          currentWordBeginningIndex + safeCursorStart,
+        removeCursor(
+          currentWordBeginningIndex + cursorStart - 1,
           textElementChildren
         );
 
-        removeCursor(
-          currentWordBeginningIndex + cursorStart - 1,
+        addCursor(
+          currentWordBeginningIndex + safeCursorStart,
           textElementChildren
         );
       } else if (key === "ArrowRight") {
@@ -259,12 +259,13 @@ const Page = ({ params }: { params: { mode: string } }) => {
         if (elementColor === blackText && elementBgColor === blackBg) {
           return;
         }
-        addCursor(currentWordBeginningIndex + cursorStart, textElementChildren);
 
         removeCursor(
           currentWordBeginningIndex + cursorStart - 1,
           textElementChildren
         );
+
+        addCursor(currentWordBeginningIndex + cursorStart, textElementChildren);
       }
     }
   };
