@@ -3,6 +3,7 @@ import { addCursor } from "@/utils/addCursor";
 import { addUnderlineToTheNewWord } from "@/utils/addUnderlineToTheNewWord";
 import { checkWord } from "@/utils/checkWord";
 import { clearLetterStyles } from "@/utils/cleanLetterStyles";
+import { getCursorPositionCtrlRight } from "@/utils/getCursorPositionCtrlRight";
 import { positionCursorCtrlLeft } from "@/utils/positionCursorCtrlLeft";
 import { removeCursor } from "@/utils/removeCursor";
 import { removeUnderlineOfThePreviousWord } from "@/utils/removeUnderlineOfThePreviousWord";
@@ -16,7 +17,7 @@ import {
 } from "react";
 
 const text =
-  "There before me was a woman who had finally, after all this time, made it to the start line, at the absolute worst moment imaginable. It was truly a tragic sight of a truly hopeless girl who had just begun her first love when it was far too late.";
+  "There, lorem-ipsum before me was a woman who had finally, after all this time, made it to the start line, at the absolute worst moment imaginable. It was truly a tragic sight of a truly hopeless girl who had just begun her first love when it was far too late.";
 
 const textArray: string[] = [];
 
@@ -224,17 +225,22 @@ const Page = ({ params }: { params: { mode: string } }) => {
         );
 
         addCursor(
-          currentWordBeginningIndex + newCursorPosition - 1,
+          currentWordBeginningIndex + newCursorPosition,
           textElementChildren
         );
       } else if ((isCtrl && key === "ArrowRight") || key === "ArrowDown") {
+        const newCursorPosition = getCursorPositionCtrlRight(
+          inputValue,
+          cursorStart - 1
+        );
+
         removeCursor(
           currentWordBeginningIndex + cursorStart - 1,
           textElementChildren
         );
 
         addCursor(
-          currentWordBeginningIndex + inputValue.length - 1,
+          currentWordBeginningIndex + newCursorPosition,
           textElementChildren
         );
       } else if (key === "ArrowLeft") {
