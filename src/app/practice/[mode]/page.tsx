@@ -256,22 +256,27 @@ const Page = ({ params }: { params: { mode: string } }) => {
           textElementChildren
         );
       } else if (key === "ArrowRight") {
-        const elementComputedStyles = getComputedStyle(
-          textElementChildren[currentWordBeginningIndex + cursorStart]
-        );
-        const elementColor = elementComputedStyles.color;
-        const elementBgColor = elementComputedStyles.backgroundColor;
+        if (textElementChildren[currentWordBeginningIndex + cursorStart]) {
+          const elementComputedStyles = getComputedStyle(
+            textElementChildren[currentWordBeginningIndex + cursorStart]
+          );
+          const elementColor = elementComputedStyles.color;
+          const elementBgColor = elementComputedStyles.backgroundColor;
 
-        if (elementColor === blackText && elementBgColor === blackBg) {
-          return;
+          if (elementColor === blackText && elementBgColor === blackBg) {
+            return;
+          }
+
+          removeCursor(
+            currentWordBeginningIndex + cursorStart - 1,
+            textElementChildren
+          );
+
+          addCursor(
+            currentWordBeginningIndex + cursorStart,
+            textElementChildren
+          );
         }
-
-        removeCursor(
-          currentWordBeginningIndex + cursorStart - 1,
-          textElementChildren
-        );
-
-        addCursor(currentWordBeginningIndex + cursorStart, textElementChildren);
       }
     }
   };
