@@ -1,4 +1,7 @@
-export const positionCursorCtrlLeft = (input: string, cursorIndex: number) => {
+export const getCursorPositionCtrlLeft = (
+  input: string,
+  cursorIndex: number
+) => {
   const isWordChar = /\w/;
 
   if (!isWordChar.test(input[cursorIndex])) {
