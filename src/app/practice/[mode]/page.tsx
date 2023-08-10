@@ -4,7 +4,7 @@ import { addUnderlineToTheNewWord } from "@/utils/addUnderlineToTheNewWord";
 import { checkWord } from "@/utils/checkWord";
 import { clearLetterStyles } from "@/utils/cleanLetterStyles";
 import { getCursorPositionCtrlRight } from "@/utils/getCursorPositionCtrlRight";
-import { positionCursorCtrlLeft } from "@/utils/positionCursorCtrlLeft";
+import { getCursorPositionCtrlLeft } from "@/utils/getCursorPositionCtrlLeft";
 import { removeCursor } from "@/utils/removeCursor";
 import { removeUnderlineOfThePreviousWord } from "@/utils/removeUnderlineOfThePreviousWord";
 import Link from "next/link";
@@ -214,7 +214,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
       const blackText = "rgb(0, 0, 0)";
 
       if ((isCtrl && key === "ArrowLeft") || key === "ArrowUp") {
-        const newCursorPosition = positionCursorCtrlLeft(
+        const newCursorPosition = getCursorPositionCtrlLeft(
           inputValue,
           cursorStart - 1
         );
