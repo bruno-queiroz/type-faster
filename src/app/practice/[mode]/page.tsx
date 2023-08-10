@@ -15,6 +15,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { removeCursorFromWord } from "@/utils/removeCursorFromWord";
 
 const text =
   "There, lorem-ipsum before me was a woman who had finally, after all this time, made it to the start line, at the absolute worst moment imaginable. It was truly a tragic sight of a truly hopeless girl who had just begun her first love when it was far too late.";
@@ -195,14 +196,6 @@ const Page = ({ params }: { params: { mode: string } }) => {
     }
   };
 
-  const onSelectText = (e: KeyboardEvent<HTMLInputElement>) => {
-    // const test = e.target as HTMLInputElement;
-    // console.log(test);
-    // console.log("start", test.selectionStart);
-    // console.log("end", test.selectionEnd);
-    // console.log("input", input.length);
-  };
-
   const onKeyDownChangeCursor = (e: KeyboardEvent<HTMLInputElement>) => {
     if (textElement.current) {
       const key = e.key;
@@ -281,13 +274,22 @@ const Page = ({ params }: { params: { mode: string } }) => {
     }
   };
 
-  // const onClick = (e: MouseEvent<HTMLInputElement, globalThis.MouseEvent>) => {
-  //   const test = e.target as HTMLInputElement;
-  //   console.log(test);
-  //   console.log("start", test.selectionStart);
-  //   console.log("end", test.selectionEnd);
-  //   console.log("input", input.length);
-  // };
+  const onClick = (e: MouseEvent<HTMLInputElement, globalThis.MouseEvent>) => {
+    if (textElement.current) {
+      const textElementChildren = textElement.current.children;
+      const selectionStart = (e.target as HTMLInputElement).selectionStart || 0;
+
+      removeCursorFromWord(
+        currentWordBeginningIndex,
+        textElementChildren,
+        textArray.length - 1
+      );
+      addCursor(
+        currentWordBeginningIndex + selectionStart - 1 || 1,
+        textElementChildren
+      );
+    }
+  };
 
   return (
     <section className="p-4">
@@ -307,9 +309,8 @@ const Page = ({ params }: { params: { mode: string } }) => {
             style={{ backgroundColor: isMisspelled.is ? "#F87171" : "" }}
             value={input}
             onChange={onType}
-            onKeyUp={onSelectText}
             onKeyDown={onKeyDownChangeCursor}
-            // onClick={onClick}
+            onClick={onClick}
           />
         </div>
         <div className="flex justify-between">
