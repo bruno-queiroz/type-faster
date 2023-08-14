@@ -308,7 +308,12 @@ const Page = ({ params }: { params: { mode: string } }) => {
   return (
     <section className="p-4">
       <div className="flex flex-col gap-4 bg-gray-200 rounded-md p-4">
-        <div>practice progress</div>
+        <div>
+          <div className="border-[2px] border-black w-[max-content] py-1 rounded px-4 ml-auto">
+            {cpm}
+          </div>
+          <div>practice progress</div>
+        </div>
         <div className="flex flex-col gap-4 p-4 bg-gray-300 rounded">
           <p ref={textElement} className="font-mono whitespace-pre-wrap">
             {textArray.map((char, index) => (
