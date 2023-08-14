@@ -12,14 +12,16 @@ import {
   ChangeEvent,
   KeyboardEvent,
   MouseEvent,
+  useEffect,
   useRef,
   useState,
 } from "react";
 import { removeCursorFromWord } from "@/utils/removeCursorFromWord";
+import { type } from "os";
+import { getCPMContext } from "@/utils/getCPM";
 
 const text =
-  "There, lorem-ipsum before me was a woman who had finally, after all this time, made it to the start line, at the absolute worst moment imaginable. It was truly a tragic sight of a truly hopeless girl who had just begun her first love when it was far too late.";
-
+  "A água pode ser usada para dividir um exército inimigo, de maneira que sua força se desuna e a tua se fortaleça.";
 const textArray: string[] = [];
 
 for (let i = 0; i < text.length; i++) {
@@ -31,6 +33,7 @@ interface MissingTypes extends Event {
   inputType: string;
   data: string | null;
 }
+let lettersTyped = 0;
 
 const Page = ({ params }: { params: { mode: string } }) => {
   const [input, setInput] = useState("");
@@ -41,6 +44,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
     index: 0,
   });
   const textElement = useRef<HTMLParagraphElement>(null);
+  const [cpm, setCpm] = useState(0);
 
   const onType = (e: ChangeEvent<HTMLInputElement>) => {
     const nativeEvent = e.nativeEvent as MissingTypes;
@@ -51,7 +55,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
 
     if (textElement.current) {
       const currentText = e.target.value;
-      const currentLastChar = e.target.value[currentText.length - 1];
+      const currentChar = currentText[currentText.length - 1];
       const selectionStart = e.target.selectionStart || 0;
       const currentCursorSafeIndex = selectionStart + currentWordBeginningIndex;
 
@@ -62,11 +66,21 @@ const Page = ({ params }: { params: { mode: string } }) => {
       setInput(e.target.value);
 
       const isCorrectInput =
-        textArray[inputIndex] === currentLastChar &&
+        textArray[inputIndex] === currentChar &&
         !isMisspelled.is &&
         !isDeleteContentBackward;
 
       if (isCorrectInput) {
+        lettersTyped++;
+        if (lettersTyped === 1) {
+          const getCPM = getCPMContext();
+
+          setInterval(() => {
+            const newCpm = getCPM(lettersTyped);
+            setCpm(newCpm);
+          }, 2000);
+        }
+
         if (input.length - 2 >= selectionStart!) {
           const isMisspelledData = checkWord(
             e.target.value,
@@ -95,7 +109,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
         }
         if (currentWordBeginningIndex === 0) {
           addUnderlineToTheNewWord(
-            inputIndex + 1,
+            inputIndex,
             textArray,
             textElement.current?.children
           );
