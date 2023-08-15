@@ -6,6 +6,6 @@ export const getCPMContext = () => {
     const elapsedTimeInSeconds = elapsedTime / 1000;
     const cpm = (inputLength * 60) / elapsedTimeInSeconds;
 
-    return Math.trunc(cpm);
+    return { cpm: Math.trunc(cpm), initialDate };
   };
 };
