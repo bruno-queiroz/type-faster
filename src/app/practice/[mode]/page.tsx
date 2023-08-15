@@ -44,7 +44,9 @@ const Page = ({ params }: { params: { mode: string } }) => {
     index: 0,
   });
   const textElement = useRef<HTMLParagraphElement>(null);
-  const [cpm, setCpm] = useState(0);
+  const [cpm, setCpm] = useState({ cpm: 0, initialDate: 0 });
+  const [intervalId, setIntervalId] = useState<NodeJS.Timer>();
+  const [isTypingFinished, setIsTypingFinished] = useState(false);
 
   const onType = (e: ChangeEvent<HTMLInputElement>) => {
     const nativeEvent = e.nativeEvent as MissingTypes;
@@ -72,13 +74,22 @@ const Page = ({ params }: { params: { mode: string } }) => {
 
       if (isCorrectInput) {
         lettersTyped++;
-        if (lettersTyped === 1) {
+
+        const isFinished = inputIndex === textArray.length - 1;
+        if (isFinished) {
+          clearInterval(intervalId);
+          setIsTypingFinished(true);
+        }
+
+        const isFirstInput = lettersTyped === 1;
+        if (isFirstInput) {
           const getCPM = getCPMContext();
 
-          setInterval(() => {
+          const intervalId = setInterval(() => {
             const newCpm = getCPM(lettersTyped);
             setCpm(newCpm);
           }, 2000);
+          setIntervalId(intervalId);
         }
 
         if (input.length - 2 >= selectionStart!) {
@@ -310,7 +321,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
       <div className="flex flex-col gap-4 bg-gray-200 rounded-md p-4">
         <div>
           <div className="border-[2px] border-black w-[max-content] py-1 rounded px-4 ml-auto">
-            {cpm}
+            {cpm.cpm}
           </div>
           <div>practice progress</div>
         </div>
