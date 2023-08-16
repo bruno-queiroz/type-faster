@@ -19,6 +19,9 @@ export const checkWord = (
       ? (elements[i] as HTMLSpanElement)
       : (elements[currentWordBeginningIndex + i] as HTMLSpanElement);
 
+    if (!currentCharElement)
+      return { is: true, index: currentWordBeginningIndex + i };
+
     if (inputChar === textChar && !isMisspelled.is) {
       currentCharElement.style.color = "green";
       currentCharElement.style.backgroundColor = "white";
