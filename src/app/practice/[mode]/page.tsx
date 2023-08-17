@@ -339,7 +339,10 @@ const Page = ({ params }: { params: { mode: string } }) => {
           <div>practice progress</div>
         </div>
         <div className="flex flex-col gap-4 p-4 bg-gray-300 rounded">
-          <p ref={textElement} className="font-mono whitespace-pre-wrap">
+          <p
+            ref={textElement}
+            className="font-mono whitespace-pre-wrap select-none"
+          >
             {textArray.map((char, index) => (
               <span key={index}>{char}</span>
             ))}
