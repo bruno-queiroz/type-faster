@@ -357,6 +357,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
             onChange={onType}
             onKeyDown={onKeyDownChangeCursor}
             onClick={onClick}
+            onPaste={(e) => e.preventDefault()}
           />
         </div>
         <div className="flex justify-between">
