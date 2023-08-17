@@ -2,7 +2,7 @@
 import { addCursor } from "@/utils/addCursor";
 import { addUnderlineToTheNewWord } from "@/utils/addUnderlineToTheNewWord";
 import { checkWord } from "@/utils/checkWord";
-import { clearLetterStyles } from "@/utils/cleanLetterStyles";
+import { clearLetterStyles } from "@/utils/clearLetterStyles";
 import { getCursorPositionCtrlRight } from "@/utils/getCursorPositionCtrlRight";
 import { getCursorPositionCtrlLeft } from "@/utils/getCursorPositionCtrlLeft";
 import { removeCursor } from "@/utils/removeCursor";
@@ -12,13 +12,13 @@ import {
   ChangeEvent,
   KeyboardEvent,
   MouseEvent,
-  useEffect,
   useRef,
   useState,
 } from "react";
 import { removeCursorFromWord } from "@/utils/removeCursorFromWord";
-import { type } from "os";
 import { getCPMContext } from "@/utils/getCPM";
+import { getAccuracy } from "@/utils/getAccuracy";
+import { getTypingElapsedTime } from "@/utils/getTypingElapsedTime";
 
 const text =
   "A água pode ser usada para dividir um exército inimigo, de maneira que sua força se desuna e a tua se fortaleça.";
@@ -47,6 +47,9 @@ const Page = ({ params }: { params: { mode: string } }) => {
   const [cpm, setCpm] = useState({ cpm: 0, initialDate: 0 });
   const [intervalId, setIntervalId] = useState<NodeJS.Timer>();
   const [isTypingFinished, setIsTypingFinished] = useState(false);
+  const [mistakeCount, setMistakeCount] = useState(0);
+  const [accuracy, setAccuracy] = useState("0");
+  const [time, setTime] = useState("");
 
   const onType = (e: ChangeEvent<HTMLInputElement>) => {
     const nativeEvent = e.nativeEvent as MissingTypes;
@@ -79,6 +82,12 @@ const Page = ({ params }: { params: { mode: string } }) => {
         if (isFinished) {
           clearInterval(intervalId);
           setIsTypingFinished(true);
+
+          const typeAccuracy = getAccuracy(mistakeCount, lettersTyped);
+          const typedTime = getTypingElapsedTime(cpm.initialDate);
+
+          setAccuracy(typeAccuracy);
+          setTime(typedTime);
         }
 
         const isFirstInput = lettersTyped === 1;
@@ -161,8 +170,10 @@ const Page = ({ params }: { params: { mode: string } }) => {
           );
           removeCursor(inputIndex - 1, textElement.current.children);
         } else {
-          currentCharElement.style.color = "black";
-          currentCharElement.style.backgroundColor = "transparent";
+          if (currentCharElement) {
+            currentCharElement.style.color = "black";
+            currentCharElement.style.backgroundColor = "transparent";
+          }
 
           setInputIndex(inputIndex - 1);
 
@@ -201,6 +212,8 @@ const Page = ({ params }: { params: { mode: string } }) => {
         );
         removeCursor(inputIndex - 1, textElement.current.children);
       } else {
+        setMistakeCount(mistakeCount + 1);
+
         if (!isMisspelled.is) {
           setIsMisspelled({ is: true, index: inputIndex });
         }
@@ -211,12 +224,12 @@ const Page = ({ params }: { params: { mode: string } }) => {
           textArray,
           currentWordBeginningIndex
         );
-
         setIsMisspelled(isMisspelledData);
 
-        setInputIndex(inputIndex + 1);
         addCursor(currentCursorSafeIndex - 1, textElement.current.children);
         removeCursor(currentCursorSafeIndex - 2, textElement.current.children);
+
+        setInputIndex(inputIndex + 1);
       }
     }
   };
@@ -358,9 +371,20 @@ const Page = ({ params }: { params: { mode: string } }) => {
           </button>
         </div>
 
-        <div>
-          <div>this text is from</div>
-        </div>
+        {isTypingFinished && (
+          <div>
+            <div>
+              <h2>Book name</h2>
+              <p>Author</p>
+            </div>
+            <div className="flex flex-col gap-2">
+              <span>Speed: {cpm.cpm}</span>
+              <span>Accuracy: {accuracy}</span>
+              <span>Time: {time}</span>
+            </div>
+            <button>try iy again</button>
+          </div>
+        )}
       </div>
     </section>
   );
