@@ -5,15 +5,15 @@ export const addCursor = (inputIndex: number, elements: HTMLCollection) => {
 
   const isFirstChar = inputIndex === -1;
   if (isFirstChar) {
-    firstCharElement.style.boxShadow = "inset 1px 0px 0px black";
+    firstCharElement.classList.add("cursor-on-left");
     return;
   }
 
   if (currentCharElement) {
     if (currentCharElement.textContent === " " && nextElement) {
-      nextElement.style.boxShadow = "inset 1px 0px 0px black";
+      nextElement.classList.add("cursor-on-left");
     } else {
-      currentCharElement.style.boxShadow = "inset -1px 0px 0px black";
+      currentCharElement.classList.add("cursor-on-right");
     }
   }
 };
