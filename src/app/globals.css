@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.cursor-on-right {
+  box-shadow: 1px 0px 0px rgba(0, 0, 0, 1);
+  animation: blink 1s steps(2) infinite;
+}
+
+.cursor-on-left {
+  box-shadow: inset 1px 0px 0px rgba(0, 0, 0, 1);
+  animation: blink 1s steps(2) infinite;
+}
+
+@keyframes blink {
+  to {
+    box-shadow: none;
+  }
+}
