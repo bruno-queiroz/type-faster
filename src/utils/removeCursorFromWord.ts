@@ -12,7 +12,9 @@ export const removeCursorFromWord = (
       currentWordBeginningIndex + index
     ] as HTMLSpanElement;
 
-    element.style.boxShadow = "";
+    element.classList.remove("cursor-on-left");
+    element.classList.remove("cursor-on-right");
+
     index++;
   }
 };

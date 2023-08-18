@@ -5,15 +5,15 @@ export const removeCursor = (inputIndex: number, elements: HTMLCollection) => {
 
   const isFirstChar = inputIndex === -1;
   if (isFirstChar) {
-    firstCharElement.style.boxShadow = "";
+    firstCharElement.classList.remove("cursor-on-left");
     return;
   }
 
   if (!currentCharElement) return;
 
   if (currentCharElement?.textContent === " ") {
-    nextCharElement.style.boxShadow = "";
+    nextCharElement.classList.remove("cursor-on-left");
   } else {
-    currentCharElement.style.boxShadow = "";
+    currentCharElement.classList.remove("cursor-on-right");
   }
 };
