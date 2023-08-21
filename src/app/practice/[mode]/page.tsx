@@ -19,9 +19,10 @@ import { removeCursorFromWord } from "@/utils/removeCursorFromWord";
 import { getCPMContext } from "@/utils/getCPM";
 import { getAccuracy } from "@/utils/getAccuracy";
 import { getTypingElapsedTime } from "@/utils/getTypingElapsedTime";
+import ConsecutiveMistakesModal from "@/components/ConsecutiveMistakesModal";
 
 const text =
-  "A água pode ser usada para dividir um exército inimigo, de maneira que sua força se desuna e a tua se fortaleça.";
+  "I'm wondering why do all the monsters come out at night? Why do we sleep where we want to hide? Why do I run back to you like I don't mind if you ruin up my life?";
 const textArray: string[] = [];
 
 for (let i = 0; i < text.length; i++) {
@@ -48,6 +49,9 @@ const Page = ({ params }: { params: { mode: string } }) => {
   const [intervalId, setIntervalId] = useState<NodeJS.Timer>();
   const [isTypingFinished, setIsTypingFinished] = useState(false);
   const [mistakeCount, setMistakeCount] = useState(0);
+  const [consecutiveMistakesCount, setConsecutiveMistakesCount] = useState(0);
+  const [isConsecutiveMistakesModalOpen, setIsConsecutiveMistakesModalOpen] =
+    useState(false);
   const [accuracy, setAccuracy] = useState("0");
   const [time, setTime] = useState("");
 
@@ -57,6 +61,10 @@ const Page = ({ params }: { params: { mode: string } }) => {
       nativeEvent.inputType === "deleteContentBackward";
     const keyPressed = nativeEvent.data;
     const isDeleteWordBackward = nativeEvent.inputType === "deleteWordBackward";
+
+    if (!isMisspelled.is && consecutiveMistakesCount > 0) {
+      setConsecutiveMistakesCount(0);
+    }
 
     if (textElement.current) {
       const currentText = e.target.value;
@@ -68,7 +76,15 @@ const Page = ({ params }: { params: { mode: string } }) => {
         inputIndex
       ] as HTMLSpanElement;
 
-      setInput(e.target.value);
+      const isMoreThanFiveConsecutiveMistakes =
+        isMisspelled.is && consecutiveMistakesCount > 5;
+      if (isMoreThanFiveConsecutiveMistakes) {
+        if (isDeleteContentBackward || isDeleteWordBackward) {
+          setInput(e.target.value);
+        }
+      } else {
+        setInput(e.target.value);
+      }
 
       const isCorrectInput =
         textArray[inputIndex] === currentChar &&
@@ -143,7 +159,6 @@ const Page = ({ params }: { params: { mode: string } }) => {
         const currentCharElement = textElement.current?.children[
           inputIndex - 1
         ] as HTMLSpanElement;
-
         const wasMoreThanOneLetterDeletedAtOnce =
           inputIndex - 1 !== e.target.value.length + currentWordBeginningIndex;
 
@@ -169,32 +184,42 @@ const Page = ({ params }: { params: { mode: string } }) => {
             textElement.current.children
           );
           removeCursor(inputIndex - 1, textElement.current.children);
-        } else {
-          if (currentCharElement) {
-            currentCharElement.style.color = "black";
-            currentCharElement.style.backgroundColor = "transparent";
-          }
-
-          setInputIndex(inputIndex - 1);
-
-          const isMisspelledData = checkWord(
-            e.target.value,
-            textElement.current?.children,
-            textArray,
-            currentWordBeginningIndex
-          );
-
-          setIsMisspelled(isMisspelledData);
-
-          addCursor(currentCursorSafeIndex - 1, textElement.current.children);
-          removeCursor(currentCursorSafeIndex, textElement.current.children);
+          return;
         }
+
+        if (currentCharElement) {
+          currentCharElement.style.color = "black";
+          currentCharElement.style.backgroundColor = "transparent";
+        }
+
+        if (consecutiveMistakesCount > 0) {
+          setConsecutiveMistakesCount((prev) => prev - 1);
+        }
+
+        if (consecutiveMistakesCount === 1) {
+          setIsConsecutiveMistakesModalOpen(false);
+        }
+
+        setInputIndex(inputIndex - 1);
+        const isMisspelledData = checkWord(
+          e.target.value,
+          textElement.current?.children,
+          textArray,
+          currentWordBeginningIndex
+        );
+
+        setIsMisspelled(isMisspelledData);
+
+        addCursor(currentCursorSafeIndex - 1, textElement.current.children);
+        removeCursor(currentCursorSafeIndex, textElement.current.children);
       } else if (isDeleteWordBackward) {
         clearLetterStyles(
           input.length,
           textElement.current?.children,
           inputIndex
         );
+
+        setIsConsecutiveMistakesModalOpen(false);
 
         const isMisspelledData = checkWord(
           e.target.value,
@@ -212,6 +237,11 @@ const Page = ({ params }: { params: { mode: string } }) => {
         );
         removeCursor(inputIndex - 1, textElement.current.children);
       } else {
+        if (consecutiveMistakesCount > 5) {
+          setIsConsecutiveMistakesModalOpen(true);
+          return;
+        }
+        setConsecutiveMistakesCount((prev) => prev + 1);
         setMistakeCount(mistakeCount + 1);
 
         if (!isMisspelled.is) {
@@ -332,6 +362,11 @@ const Page = ({ params }: { params: { mode: string } }) => {
   return (
     <section className="p-4">
       <div className="flex flex-col gap-4 bg-gray-200 rounded-md p-4">
+        <ConsecutiveMistakesModal
+          word={"test"}
+          isOpen={isConsecutiveMistakesModalOpen}
+        />
+
         <div>
           <div className="border-[2px] border-black w-[max-content] py-1 rounded px-4 ml-auto">
             {cpm.cpm}
@@ -382,8 +417,8 @@ const Page = ({ params }: { params: { mode: string } }) => {
               <p>Author</p>
             </div>
             <div className="flex flex-col gap-2">
-              <span>Speed: {cpm.cpm}</span>
-              <span>Accuracy: {accuracy}</span>
+              <span>Speed: {cpm.cpm} CPM</span>
+              <span>Accuracy: {accuracy}%</span>
               <span>Time: {time}</span>
             </div>
             <button>try iy again</button>
