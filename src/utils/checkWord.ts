@@ -2,7 +2,8 @@ export const checkWord = (
   inputValue: string,
   elements: HTMLCollection,
   textArray: string[],
-  currentWordBeginningIndex: number
+  currentWordBeginningIndex: number,
+  endMatch: () => void
 ) => {
   let isMisspelled = {
     is: false,
@@ -25,6 +26,9 @@ export const checkWord = (
     if (inputChar === textChar && !isMisspelled.is) {
       currentCharElement.style.color = "green";
       currentCharElement.style.backgroundColor = "white";
+      if (currentWordBeginningIndex + i === textArray.length - 1) {
+        endMatch();
+      }
     } else {
       if (!isMisspelled.is) {
         isMisspelled = {
