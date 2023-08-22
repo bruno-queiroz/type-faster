@@ -20,6 +20,7 @@ import { getCPMContext } from "@/utils/getCPM";
 import { getAccuracy } from "@/utils/getAccuracy";
 import { getTypingElapsedTime } from "@/utils/getTypingElapsedTime";
 import ConsecutiveMistakesModal from "@/components/ConsecutiveMistakesModal";
+import { getWord } from "@/utils/getWord";
 
 const text =
   "I'm wondering why do all the monsters come out at night? Why do we sleep where we want to hide? Why do I run back to you like I don't mind if you ruin up my life?";
@@ -50,8 +51,10 @@ const Page = ({ params }: { params: { mode: string } }) => {
   const [isTypingFinished, setIsTypingFinished] = useState(false);
   const [mistakeCount, setMistakeCount] = useState(0);
   const [consecutiveMistakesCount, setConsecutiveMistakesCount] = useState(0);
-  const [isConsecutiveMistakesModalOpen, setIsConsecutiveMistakesModalOpen] =
-    useState(false);
+  const [consecutiveMistakesModal, setConsecutiveMistakesModal] = useState({
+    isOpen: false,
+    word: "",
+  });
   const [accuracy, setAccuracy] = useState("0");
   const [time, setTime] = useState("");
 
@@ -197,7 +200,10 @@ const Page = ({ params }: { params: { mode: string } }) => {
         }
 
         if (consecutiveMistakesCount === 1) {
-          setIsConsecutiveMistakesModalOpen(false);
+          setConsecutiveMistakesModal({
+            isOpen: false,
+            word: "",
+          });
         }
 
         setInputIndex(inputIndex - 1);
@@ -219,7 +225,10 @@ const Page = ({ params }: { params: { mode: string } }) => {
           inputIndex
         );
 
-        setIsConsecutiveMistakesModalOpen(false);
+        setConsecutiveMistakesModal({
+          isOpen: false,
+          word: "",
+        });
 
         const isMisspelledData = checkWord(
           e.target.value,
@@ -238,7 +247,12 @@ const Page = ({ params }: { params: { mode: string } }) => {
         removeCursor(inputIndex - 1, textElement.current.children);
       } else {
         if (consecutiveMistakesCount > 5) {
-          setIsConsecutiveMistakesModalOpen(true);
+          const word = getWord(currentWordBeginningIndex, textArray);
+
+          setConsecutiveMistakesModal({
+            isOpen: true,
+            word,
+          });
           return;
         }
         setConsecutiveMistakesCount((prev) => prev + 1);
@@ -362,10 +376,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
   return (
     <section className="p-4">
       <div className="flex flex-col gap-4 bg-gray-200 rounded-md p-4">
-        <ConsecutiveMistakesModal
-          word={"test"}
-          isOpen={isConsecutiveMistakesModalOpen}
-        />
+        <ConsecutiveMistakesModal modalData={consecutiveMistakesModal} />
 
         <div>
           <div className="border-[2px] border-black w-[max-content] py-1 rounded px-4 ml-auto">
