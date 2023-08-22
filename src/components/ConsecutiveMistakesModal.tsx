@@ -2,16 +2,16 @@ import React from "react";
 
 interface ConsecutiveMistakesModalProps {
   modalData: {
-    is: boolean;
+    isOpen: boolean;
     word: string;
   };
 }
 
 const ConsecutiveMistakesModal = ({
-  modalData: { is, word },
+  modalData: { isOpen, word },
 }: ConsecutiveMistakesModalProps) => {
   return (
-    <dialog open={is} className="rounded p-4">
+    <dialog open={isOpen} className="rounded p-4">
       <h3 className="text-xl font-semibold mb-4">Typo Alert</h3>
       <div className="flex flex-col gap-1">
         <p>
