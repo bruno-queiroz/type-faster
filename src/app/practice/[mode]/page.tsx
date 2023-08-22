@@ -45,7 +45,6 @@ const Page = ({ params }: { params: { mode: string } }) => {
     is: false,
     index: 0,
   });
-  const textElement = useRef<HTMLParagraphElement>(null);
   const [cpm, setCpm] = useState({ cpm: 0, initialDate: 0 });
   const [intervalId, setIntervalId] = useState<NodeJS.Timer>();
   const [isTypingFinished, setIsTypingFinished] = useState(false);
@@ -57,6 +56,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
   });
   const [accuracy, setAccuracy] = useState("0");
   const [time, setTime] = useState("");
+  const textElement = useRef<HTMLParagraphElement>(null);
 
   const onType = (e: ChangeEvent<HTMLInputElement>) => {
     const nativeEvent = e.nativeEvent as MissingTypes;
@@ -119,7 +119,8 @@ const Page = ({ params }: { params: { mode: string } }) => {
             e.target.value,
             textElement.current?.children,
             textArray,
-            currentWordBeginningIndex
+            currentWordBeginningIndex,
+            endMatch
           );
 
           setIsMisspelled(isMisspelledData);
@@ -170,7 +171,8 @@ const Page = ({ params }: { params: { mode: string } }) => {
             e.target.value,
             textElement.current?.children,
             textArray,
-            currentWordBeginningIndex
+            currentWordBeginningIndex,
+            endMatch
           );
 
           setIsMisspelled(isMisspelledData);
@@ -201,11 +203,13 @@ const Page = ({ params }: { params: { mode: string } }) => {
         }
 
         setInputIndex(inputIndex - 1);
+
         const isMisspelledData = checkWord(
           e.target.value,
           textElement.current?.children,
           textArray,
-          currentWordBeginningIndex
+          currentWordBeginningIndex,
+          endMatch
         );
 
         setIsMisspelled(isMisspelledData);
@@ -228,7 +232,8 @@ const Page = ({ params }: { params: { mode: string } }) => {
           e.target.value,
           textElement.current?.children,
           textArray,
-          currentWordBeginningIndex
+          currentWordBeginningIndex,
+          endMatch
         );
 
         setIsMisspelled(isMisspelledData);
@@ -260,7 +265,8 @@ const Page = ({ params }: { params: { mode: string } }) => {
           e.target.value,
           textElement.current?.children,
           textArray,
-          currentWordBeginningIndex
+          currentWordBeginningIndex,
+          endMatch
         );
         setIsMisspelled(isMisspelledData);
 
