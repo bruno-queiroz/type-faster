@@ -99,14 +99,8 @@ const Page = ({ params }: { params: { mode: string } }) => {
 
         const isFinished = inputIndex === textArray.length - 1;
         if (isFinished) {
-          clearInterval(intervalId);
-          setIsTypingFinished(true);
-
-          const typeAccuracy = getAccuracy(mistakeCount, lettersTyped);
-          const typedTime = getTypingElapsedTime(cpm.initialDate);
-
-          setAccuracy(typeAccuracy);
-          setTime(typedTime);
+          endMatch();
+          return;
         }
 
         const isFirstInput = lettersTyped === 1;
@@ -276,6 +270,17 @@ const Page = ({ params }: { params: { mode: string } }) => {
         setInputIndex(inputIndex + 1);
       }
     }
+  };
+
+  const endMatch = () => {
+    clearInterval(intervalId);
+    setIsTypingFinished(true);
+
+    const typeAccuracy = getAccuracy(mistakeCount, lettersTyped);
+    const typedTime = getTypingElapsedTime(cpm.initialDate);
+
+    setAccuracy(typeAccuracy);
+    setTime(typedTime);
   };
 
   const onKeyDownChangeCursor = (e: KeyboardEvent<HTMLInputElement>) => {
