@@ -21,6 +21,8 @@ import { getAccuracy } from "@/utils/getAccuracy";
 import { getTypingElapsedTime } from "@/utils/getTypingElapsedTime";
 import ConsecutiveMistakesModal from "@/components/ConsecutiveMistakesModal";
 import { getWord } from "@/utils/getWord";
+import TypedProgressBar from "@/components/TypedProgressBar";
+import { getTypedProgress } from "@/utils/getTypedProgress";
 
 const text =
   "I'm wondering why do all the monsters come out at night? Why do we sleep where we want to hide? Why do I run back to you like I don't mind if you ruin up my life?";
@@ -95,12 +97,13 @@ const Page = ({ params }: { params: { mode: string } }) => {
         !isDeleteContentBackward;
 
       if (isCorrectInput) {
-        lettersTyped++;
+        if (inputIndex + 1 > lettersTyped) {
+          lettersTyped++;
+        }
 
         const isFinished = inputIndex === textArray.length - 1;
         if (isFinished) {
           endMatch();
-          return;
         }
 
         const isFirstInput = lettersTyped === 1;
@@ -393,7 +396,11 @@ const Page = ({ params }: { params: { mode: string } }) => {
           <div className="border-[2px] border-black w-[max-content] py-1 rounded px-4 ml-auto">
             {cpm.cpm}
           </div>
-          <div>practice progress</div>
+          <div className="mt-4">
+            <TypedProgressBar
+              progress={getTypedProgress(textArray.length, inputIndex)}
+            />
+          </div>
         </div>
         <div className="flex flex-col gap-4 p-4 bg-gray-300 rounded">
           <p
