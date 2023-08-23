@@ -25,7 +25,7 @@ import TypedProgressBar from "@/components/TypedProgressBar";
 import { getTypedProgress } from "@/utils/getTypedProgress";
 
 const text =
-  "I'm wondering why do all the monsters come out at night? Why do we sleep where we want to hide? Why do I run back to you like I don't mind if you ruin up my life?";
+  "Lifelike, this is what your life like, try to live your life right, people really know you, push your buttons like type write, this is like a movie, but it's really very lifelike.";
 const textArray: string[] = [];
 
 for (let i = 0; i < text.length; i++) {
@@ -37,7 +37,9 @@ interface MissingTypes extends Event {
   inputType: string;
   data: string | null;
 }
+
 let lettersTyped = 0;
+const wordsTypedWrong = new Set<string>();
 
 const Page = ({ params }: { params: { mode: string } }) => {
   const [input, setInput] = useState("");
@@ -248,6 +250,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
         );
         removeCursor(inputIndex - 1, textElement.current.children);
       } else {
+        wordsTypedWrong.add(getWord(currentWordBeginningIndex, textArray));
         if (consecutiveMistakesCount > 5) {
           const word = getWord(currentWordBeginningIndex, textArray);
 
@@ -282,6 +285,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
   };
 
   const endMatch = () => {
+    console.log(wordsTypedWrong);
     clearInterval(intervalId);
     setIsTypingFinished(true);
 
@@ -451,6 +455,15 @@ const Page = ({ params }: { params: { mode: string } }) => {
               <span>Time: {time}</span>
             </div>
             <button>try iy again</button>
+
+            <div>
+              Mistakes
+              <div className="flex flex-col">
+                {[...wordsTypedWrong].map((word, i) => (
+                  <span key={i}>{word}</span>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>
