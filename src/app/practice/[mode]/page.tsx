@@ -23,6 +23,7 @@ import ConsecutiveMistakesModal from "@/components/ConsecutiveMistakesModal";
 import { getWord } from "@/utils/getWord";
 import TypedProgressBar from "@/components/TypedProgressBar";
 import { getTypedProgress } from "@/utils/getTypedProgress";
+import { playTypingReview } from "@/utils/playTypingReview";
 
 const text =
   "Lifelike, this is what your life like, try to live your life right, people really know you, push your buttons like type write, this is like a movie, but it's really very lifelike.";
@@ -38,8 +39,14 @@ interface MissingTypes extends Event {
   data: string | null;
 }
 
+export interface TypingHistory {
+  value: string;
+  time: number;
+}
+
 let lettersTyped = 0;
 const wordsTypedWrong = new Set<string>();
+const typingHistory: TypingHistory[] = [];
 
 const Page = ({ params }: { params: { mode: string } }) => {
   const [input, setInput] = useState("");
@@ -61,6 +68,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
   const [accuracy, setAccuracy] = useState("0");
   const [time, setTime] = useState("");
   const textElement = useRef<HTMLParagraphElement>(null);
+  const [typingReview, setTypingReview] = useState<string[]>([]);
 
   const onType = (e: ChangeEvent<HTMLInputElement>) => {
     const nativeEvent = e.nativeEvent as MissingTypes;
@@ -103,6 +111,10 @@ const Page = ({ params }: { params: { mode: string } }) => {
           lettersTyped++;
         }
 
+        typingHistory.push({
+          value: currentChar,
+          time: new Date().getTime(),
+        });
         const isFinished = inputIndex === textArray.length - 1;
         if (isFinished) {
           endMatch();
@@ -243,7 +255,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
 
         setIsMisspelled(isMisspelledData);
         setInputIndex(inputIndex - (input.length - e.target.value.length));
-
+        console.log("delete", input.length - e.target.value.length);
         addCursor(
           inputIndex - (input.length - e.target.value.length) - 1,
           textElement.current.children
@@ -291,6 +303,8 @@ const Page = ({ params }: { params: { mode: string } }) => {
 
     const typeAccuracy = getAccuracy(mistakeCount, lettersTyped);
     const typedTime = getTypingElapsedTime(cpm.initialDate);
+
+    console.log(typingHistory);
 
     setAccuracy(typeAccuracy);
     setTime(typedTime);
@@ -463,6 +477,26 @@ const Page = ({ params }: { params: { mode: string } }) => {
                   <span key={i}>{word}</span>
                 ))}
               </div>
+            </div>
+
+            <div>
+              <p>
+                {typingReview.map((char, index) => (
+                  <span key={index}>{char}</span>
+                ))}
+              </p>
+
+              <button
+                onClick={() =>
+                  playTypingReview(
+                    typingHistory,
+                    setTypingReview,
+                    cpm.initialDate
+                  )
+                }
+              >
+                start
+              </button>
             </div>
           </div>
         )}
