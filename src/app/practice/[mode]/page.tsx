@@ -25,8 +25,7 @@ import TypedProgressBar from "@/components/TypedProgressBar";
 import { getTypedProgress } from "@/utils/getTypedProgress";
 import { playTypingReview } from "@/utils/playTypingReview";
 
-const text =
-  "Lifelike, this is what your life like, try to live your life right, people really know you, push your buttons like type write, this is like a movie, but it's really very lifelike.";
+const text = "In detective work, there's no winning or losing.";
 const textArray: string[] = [];
 
 for (let i = 0; i < text.length; i++) {
@@ -42,6 +41,9 @@ interface MissingTypes extends Event {
 export interface TypingHistory {
   value: string;
   time: number;
+  isDeleteContent: boolean;
+  startPoint: number;
+  deletedAmount: number;
 }
 
 let lettersTyped = 0;
@@ -114,7 +116,11 @@ const Page = ({ params }: { params: { mode: string } }) => {
         typingHistory.push({
           value: currentChar,
           time: new Date().getTime(),
+          isDeleteContent: false,
+          startPoint: 0,
+          deletedAmount: 0,
         });
+
         const isFinished = inputIndex === textArray.length - 1;
         if (isFinished) {
           endMatch();
@@ -174,8 +180,17 @@ const Page = ({ params }: { params: { mode: string } }) => {
         const currentCharElement = textElement.current?.children[
           inputIndex - 1
         ] as HTMLSpanElement;
+
         const wasMoreThanOneLetterDeletedAtOnce =
           inputIndex - 1 !== e.target.value.length + currentWordBeginningIndex;
+
+        typingHistory.push({
+          value: "Backspace",
+          time: new Date().getTime(),
+          isDeleteContent: true,
+          startPoint: currentText.length - selectionStart,
+          deletedAmount: input.length - currentText.length,
+        });
 
         if (wasMoreThanOneLetterDeletedAtOnce) {
           clearLetterStyles(
@@ -240,6 +255,14 @@ const Page = ({ params }: { params: { mode: string } }) => {
           inputIndex
         );
 
+        typingHistory.push({
+          value: "Backspace",
+          time: new Date().getTime(),
+          isDeleteContent: true,
+          startPoint: currentText.length - selectionStart,
+          deletedAmount: input.length - currentText.length,
+        });
+
         setConsecutiveMistakesModal({
           isOpen: false,
           word: "",
@@ -274,6 +297,14 @@ const Page = ({ params }: { params: { mode: string } }) => {
         }
         setConsecutiveMistakesCount((prev) => prev + 1);
         setMistakeCount(mistakeCount + 1);
+
+        typingHistory.push({
+          value: currentChar,
+          time: new Date().getTime(),
+          isDeleteContent: false,
+          startPoint: 0,
+          deletedAmount: 0,
+        });
 
         if (!isMisspelled.is) {
           setIsMisspelled({ is: true, index: inputIndex });
