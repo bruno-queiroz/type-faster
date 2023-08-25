@@ -8,7 +8,19 @@ export const playTypingReview = (
 ) => {
   typingHistory.forEach((type) => {
     setTimeout(() => {
-      setState((prev) => [...prev, type.value]);
+      if (type.isDeleteContent) {
+        setState((prev) => {
+          const updatedHistory = [...prev];
+          updatedHistory.splice(
+            (type.startPoint + type.deletedAmount) * -1,
+            type.deletedAmount
+          );
+
+          return updatedHistory;
+        });
+      } else {
+        setState((prev) => [...prev, type.value]);
+      }
     }, type.time - initialDate);
   });
 };
