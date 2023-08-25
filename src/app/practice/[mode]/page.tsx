@@ -278,7 +278,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
 
         setIsMisspelled(isMisspelledData);
         setInputIndex(inputIndex - (input.length - e.target.value.length));
-        console.log("delete", input.length - e.target.value.length);
+
         addCursor(
           inputIndex - (input.length - e.target.value.length) - 1,
           textElement.current.children
@@ -328,14 +328,11 @@ const Page = ({ params }: { params: { mode: string } }) => {
   };
 
   const endMatch = () => {
-    console.log(wordsTypedWrong);
     clearInterval(intervalId);
     setIsTypingFinished(true);
 
     const typeAccuracy = getAccuracy(mistakeCount, lettersTyped);
     const typedTime = getTypingElapsedTime(cpm.initialDate);
-
-    console.log(typingHistory);
 
     setAccuracy(typeAccuracy);
     setTime(typedTime);
