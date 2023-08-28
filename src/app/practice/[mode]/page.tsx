@@ -33,7 +33,7 @@ for (let i = 0; i < text.length; i++) {
   textArray.push(char);
 }
 
-interface MissingTypes extends Event {
+interface NativeEventMissingTypes extends Event {
   inputType: string;
   data: string | null;
 }
@@ -73,7 +73,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
   const [typingReview, setTypingReview] = useState<string[]>([]);
 
   const onType = (e: ChangeEvent<HTMLInputElement>) => {
-    const nativeEvent = e.nativeEvent as MissingTypes;
+    const nativeEvent = e.nativeEvent as NativeEventMissingTypes;
     const isDeleteContentBackward =
       nativeEvent.inputType === "deleteContentBackward";
     const keyPressed = nativeEvent.data;
@@ -114,10 +114,10 @@ const Page = ({ params }: { params: { mode: string } }) => {
         }
 
         typingHistory.push({
-          value: currentChar,
+          value: nativeEvent.data!,
           time: new Date().getTime(),
           isDeleteContent: false,
-          startPoint: 0,
+          startPoint: currentText.length - selectionStart,
           deletedAmount: 0,
         });
 
@@ -299,10 +299,10 @@ const Page = ({ params }: { params: { mode: string } }) => {
         setMistakeCount(mistakeCount + 1);
 
         typingHistory.push({
-          value: currentChar,
+          value: nativeEvent.data!,
           time: new Date().getTime(),
           isDeleteContent: false,
-          startPoint: 0,
+          startPoint: currentText.length - selectionStart,
           deletedAmount: 0,
         });
 
