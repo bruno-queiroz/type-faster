@@ -19,6 +19,16 @@ export const playTypingReview = (
           return updatedHistory;
         });
       } else {
+        if (type.startPoint > 0) {
+          setState((prev) => {
+            const updatedHistory = [...prev];
+            updatedHistory.splice(type.startPoint * -1, 0, type.value);
+
+            return updatedHistory;
+          });
+          return;
+        }
+
         setState((prev) => [...prev, type.value]);
       }
     }, type.time - initialDate);
