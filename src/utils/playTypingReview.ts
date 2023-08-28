@@ -6,7 +6,9 @@ export const playTypingReview = (
   setState: Dispatch<SetStateAction<string[]>>,
   initialDate: number
 ) => {
-  typingHistory.forEach((type) => {
+  for (let i = 0; i < typingHistory.length; i++) {
+    const type = typingHistory[i];
+
     setTimeout(() => {
       if (type.isDeleteContent) {
         setState((prev) => {
@@ -32,5 +34,5 @@ export const playTypingReview = (
         setState((prev) => [...prev, type.value]);
       }
     }, type.time - initialDate);
-  });
+  }
 };
