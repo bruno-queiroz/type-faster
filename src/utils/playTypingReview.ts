@@ -3,17 +3,21 @@ import { Dispatch, SetStateAction } from "react";
 
 export const playTypingReview = ({
   typingHistory,
-  initialDate,
   setTypingReview,
   setTypingReviewIndex,
   typingReviewIndex,
 }: {
   typingHistory: TypingHistory[];
   setTypingReview: Dispatch<SetStateAction<string[]>>;
-  initialDate: number;
   typingReviewIndex: number;
   setTypingReviewIndex: Dispatch<SetStateAction<number>>;
 }) => {
+  let initialDate = typingHistory[0].time;
+
+  if (typingReviewIndex > 0) {
+    initialDate = typingHistory[typingReviewIndex].time;
+  }
+
   for (let i = typingReviewIndex; i < typingHistory.length; i++) {
     const type = typingHistory[i];
 
