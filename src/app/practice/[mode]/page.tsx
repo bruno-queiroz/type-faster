@@ -24,6 +24,7 @@ import { getWord } from "@/utils/getWord";
 import TypedProgressBar from "@/components/TypedProgressBar";
 import { getTypedProgress } from "@/utils/getTypedProgress";
 import { playTypingReview } from "@/utils/playTypingReview";
+import { clearAllSetIntervals } from "@/utils/clearAllSetIntervals";
 
 const text = "In detective work, there's no winning or losing.";
 const textArray: string[] = [];
@@ -437,11 +438,14 @@ const Page = ({ params }: { params: { mode: string } }) => {
   const startTypingReview = () => {
     playTypingReview({
       typingHistory,
-      initialDate: cpm.initialDate,
       setTypingReview,
       setTypingReviewIndex,
       typingReviewIndex,
     });
+  };
+
+  const pauseTypingReview = () => {
+    clearAllSetIntervals(typingReviewIndex);
   };
 
   return (
@@ -526,6 +530,8 @@ const Page = ({ params }: { params: { mode: string } }) => {
               </p>
 
               <button onClick={startTypingReview}>start</button>
+
+              <button onClick={pauseTypingReview}>pause</button>
             </div>
           </div>
         )}
