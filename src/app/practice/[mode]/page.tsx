@@ -71,6 +71,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
   const [time, setTime] = useState("");
   const textElement = useRef<HTMLParagraphElement>(null);
   const [typingReview, setTypingReview] = useState<string[]>([]);
+  const [typingReviewIndex, setTypingReviewIndex] = useState(0);
 
   const onType = (e: ChangeEvent<HTMLInputElement>) => {
     const nativeEvent = e.nativeEvent as NativeEventMissingTypes;
@@ -433,6 +434,16 @@ const Page = ({ params }: { params: { mode: string } }) => {
     }
   };
 
+  const startTypingReview = () => {
+    playTypingReview({
+      typingHistory,
+      initialDate: cpm.initialDate,
+      setTypingReview,
+      setTypingReviewIndex,
+      typingReviewIndex,
+    });
+  };
+
   return (
     <section className="p-4">
       <div className="flex flex-col gap-4 bg-gray-200 rounded-md p-4">
@@ -514,17 +525,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
                 ))}
               </p>
 
-              <button
-                onClick={() =>
-                  playTypingReview(
-                    typingHistory,
-                    setTypingReview,
-                    cpm.initialDate
-                  )
-                }
-              >
-                start
-              </button>
+              <button onClick={startTypingReview}>start</button>
             </div>
           </div>
         )}
