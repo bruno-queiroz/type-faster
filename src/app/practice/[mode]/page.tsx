@@ -45,6 +45,8 @@ export interface TypingHistory {
   isDeleteContent: boolean;
   startPoint: number;
   deletedAmount: number;
+  cpm: number;
+  accuracy: string;
 }
 
 let lettersTyped = 0;
@@ -121,6 +123,8 @@ const Page = ({ params }: { params: { mode: string } }) => {
           isDeleteContent: false,
           startPoint: currentText.length - selectionStart,
           deletedAmount: 0,
+          cpm: cpm.cpm,
+          accuracy: accuracy,
         });
 
         const isFinished = inputIndex === textArray.length - 1;
@@ -192,6 +196,8 @@ const Page = ({ params }: { params: { mode: string } }) => {
           isDeleteContent: true,
           startPoint: currentText.length - selectionStart,
           deletedAmount: input.length - currentText.length,
+          cpm: cpm.cpm,
+          accuracy: accuracy,
         });
 
         if (wasMoreThanOneLetterDeletedAtOnce) {
@@ -263,6 +269,8 @@ const Page = ({ params }: { params: { mode: string } }) => {
           isDeleteContent: true,
           startPoint: currentText.length - selectionStart,
           deletedAmount: input.length - currentText.length,
+          cpm: cpm.cpm,
+          accuracy: accuracy,
         });
 
         setConsecutiveMistakesModal({
@@ -306,6 +314,8 @@ const Page = ({ params }: { params: { mode: string } }) => {
           isDeleteContent: false,
           startPoint: currentText.length - selectionStart,
           deletedAmount: 0,
+          cpm: cpm.cpm,
+          accuracy: accuracy,
         });
 
         if (!isMisspelled.is) {
@@ -332,7 +342,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
   const endMatch = () => {
     clearInterval(intervalId);
     setIsTypingFinished(true);
-
+    console.log(typingHistory);
     const typeAccuracy = getAccuracy(mistakeCount, lettersTyped);
     const typedTime = getTypingElapsedTime(cpm.initialDate);
 
