@@ -26,7 +26,7 @@ import { getTypedProgress } from "@/utils/getTypedProgress";
 import TypeReview from "@/components/TypeReview";
 
 const text =
-  "Well, this is the end of a perfect day, near the end of a journey, too. But it leaves a thought that is big and strong, with a wish that is kind and true. For memory has painted this perfect day with colors that never fade, and we find at the end of a perfect day the soul of a friend we've made.";
+  "Well, this is the end of a perfect day, near the end of a journey, too.";
 const textArray: string[] = [];
 
 for (let i = 0; i < text.length; i++) {
@@ -452,42 +452,47 @@ const Page = ({ params }: { params: { mode: string } }) => {
 
   return (
     <section className="p-4">
-      <div className="flex flex-col gap-4 bg-gray-200 rounded-md p-4">
-        <ConsecutiveMistakesModal modalData={consecutiveMistakesModal} />
+      <div>
+        <div
+          className="flex flex-col gap-4 bg-gray-200 p-4 pb-0"
+          style={{ display: isTypingFinished ? "none" : "flex" }}
+        >
+          <ConsecutiveMistakesModal modalData={consecutiveMistakesModal} />
 
-        <div>
-          <div className="border-[2px] border-black w-[max-content] py-1 rounded px-4 ml-auto">
-            {cpm.cpm}
+          <div>
+            <div className="border-[2px] border-black w-[max-content] py-1 rounded px-4 ml-auto">
+              {cpm.cpm}
+            </div>
+            <div className="mt-4">
+              <TypedProgressBar
+                progress={getTypedProgress(textArray.length, inputIndex)}
+              />
+            </div>
           </div>
-          <div className="mt-4">
-            <TypedProgressBar
-              progress={getTypedProgress(textArray.length, inputIndex)}
+          <div className="flex flex-col gap-4 p-4 bg-gray-300 rounded">
+            <p
+              ref={textElement}
+              className="font-mono whitespace-pre-wrap select-none"
+            >
+              {textArray.map((char, index) => (
+                <span key={index}>{char}</span>
+              ))}
+            </p>
+
+            <input
+              type="text"
+              spellCheck="false"
+              className="p-2 bg-gray-200"
+              style={{ backgroundColor: isMisspelled.is ? "#F87171" : "" }}
+              value={input}
+              onChange={onType}
+              onKeyDown={onKeyDownChangeCursor}
+              onClick={onClick}
+              onPaste={(e) => e.preventDefault()}
             />
           </div>
         </div>
-        <div className="flex flex-col gap-4 p-4 bg-gray-300 rounded">
-          <p
-            ref={textElement}
-            className="font-mono whitespace-pre-wrap select-none"
-          >
-            {textArray.map((char, index) => (
-              <span key={index}>{char}</span>
-            ))}
-          </p>
-
-          <input
-            type="text"
-            spellCheck="false"
-            className="p-2 bg-gray-200"
-            style={{ backgroundColor: isMisspelled.is ? "#F87171" : "" }}
-            value={input}
-            onChange={onType}
-            onKeyDown={onKeyDownChangeCursor}
-            onClick={onClick}
-            onPaste={(e) => e.preventDefault()}
-          />
-        </div>
-        <div className="flex justify-between">
+        <div className="flex justify-between bg-gray-200 p-4">
           <Link
             href={"/"}
             className="py-2 px-4 rounded bg-white text-neutral-900"
@@ -504,7 +509,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
 
         {isTypingFinished && (
           <>
-            <div>
+            <div className="flex flex-col gap-2 bg-gray-200 p-4">
               <div>
                 <h2>Book name</h2>
                 <p>Author</p>
@@ -514,7 +519,9 @@ const Page = ({ params }: { params: { mode: string } }) => {
                 <span>Accuracy: {accuracy}%</span>
                 <span>Time: {time}</span>
               </div>
-              <button>try iy again</button>
+              <button className="py-2 px-4 mt-2 rounded bg-neutral-900 text-white">
+                Try it again
+              </button>
             </div>
 
             <div>
