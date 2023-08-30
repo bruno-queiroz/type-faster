@@ -26,7 +26,8 @@ import { getTypedProgress } from "@/utils/getTypedProgress";
 import { playTypingReview } from "@/utils/playTypingReview";
 import { clearAllSetIntervals } from "@/utils/clearAllSetIntervals";
 
-const text = "In detective work, there's no winning or losing.";
+const text =
+  "Well, this is the end of a perfect day, near the end of a journey, too. But it leaves a thought that is big and strong, with a wish that is kind and true. For memory has painted this perfect day with colors that never fade, and we find at the end of a perfect day the soul of a friend we've made.";
 const textArray: string[] = [];
 
 for (let i = 0; i < text.length; i++) {
@@ -45,6 +46,12 @@ export interface TypingHistory {
   isDeleteContent: boolean;
   startPoint: number;
   deletedAmount: number;
+  cpm: number;
+  accuracy: string;
+}
+
+export interface TypingReview {
+  value: string;
   cpm: number;
   accuracy: string;
 }
@@ -73,7 +80,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
   const [accuracy, setAccuracy] = useState("0");
   const [time, setTime] = useState("");
   const textElement = useRef<HTMLParagraphElement>(null);
-  const [typingReview, setTypingReview] = useState<string[]>([]);
+  const [typingReview, setTypingReview] = useState<TypingReview[]>([]);
   const [typingReviewIndex, setTypingReviewIndex] = useState(0);
 
   const onType = (e: ChangeEvent<HTMLInputElement>) => {
@@ -124,7 +131,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
           startPoint: currentText.length - selectionStart,
           deletedAmount: 0,
           cpm: cpm.cpm,
-          accuracy: accuracy,
+          accuracy: getAccuracy(mistakeCount, lettersTyped),
         });
 
         const isFinished = inputIndex === textArray.length - 1;
@@ -197,7 +204,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
           startPoint: currentText.length - selectionStart,
           deletedAmount: input.length - currentText.length,
           cpm: cpm.cpm,
-          accuracy: accuracy,
+          accuracy: getAccuracy(mistakeCount, lettersTyped),
         });
 
         if (wasMoreThanOneLetterDeletedAtOnce) {
@@ -270,7 +277,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
           startPoint: currentText.length - selectionStart,
           deletedAmount: input.length - currentText.length,
           cpm: cpm.cpm,
-          accuracy: accuracy,
+          accuracy: getAccuracy(mistakeCount, lettersTyped),
         });
 
         setConsecutiveMistakesModal({
@@ -315,7 +322,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
           startPoint: currentText.length - selectionStart,
           deletedAmount: 0,
           cpm: cpm.cpm,
-          accuracy: accuracy,
+          accuracy: getAccuracy(mistakeCount, lettersTyped),
         });
 
         if (!isMisspelled.is) {
@@ -343,6 +350,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
     clearInterval(intervalId);
     setIsTypingFinished(true);
     console.log(typingHistory);
+
     const typeAccuracy = getAccuracy(mistakeCount, lettersTyped);
     const typedTime = getTypingElapsedTime(cpm.initialDate);
 
@@ -535,13 +543,18 @@ const Page = ({ params }: { params: { mode: string } }) => {
             <div>
               <p>
                 {typingReview.map((char, index) => (
-                  <span key={index}>{char}</span>
+                  <span key={index}>{char.value}</span>
                 ))}
               </p>
 
               <button onClick={startTypingReview}>start</button>
 
               <button onClick={pauseTypingReview}>pause</button>
+
+              <div>cpm: {typingReview[typingReview.length - 1]?.cpm}</div>
+              <div>
+                accuracy: {typingReview[typingReview.length - 1]?.accuracy}
+              </div>
             </div>
           </div>
         )}
