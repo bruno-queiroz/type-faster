@@ -7,6 +7,7 @@ import {
   BsPauseFill as PauseIcon,
   BsFillPlayFill as PlayIcon,
 } from "react-icons/bs";
+import { MdReplay as ReplayIcon } from "react-icons/md";
 
 import React, { useState } from "react";
 
@@ -54,6 +55,10 @@ const TypeReview = () => {
             className="bg-white text-neutral-900 p-1 rounded text-2xl"
           >
             {isPlaying ? <PauseIcon /> : <PlayIcon />}
+          </button>
+
+          <button className="bg-white text-neutral-900 p-1 rounded text-2xl">
+            <ReplayIcon />
           </button>
 
           <div className="bg-white text-neutral-900 p-1 rounded">
