@@ -23,8 +23,7 @@ import ConsecutiveMistakesModal from "@/components/ConsecutiveMistakesModal";
 import { getWord } from "@/utils/getWord";
 import TypedProgressBar from "@/components/TypedProgressBar";
 import { getTypedProgress } from "@/utils/getTypedProgress";
-import { playTypingReview } from "@/utils/playTypingReview";
-import { clearAllSetIntervals } from "@/utils/clearAllSetIntervals";
+import TypeReview from "@/components/TypeReview";
 
 const text =
   "Well, this is the end of a perfect day, near the end of a journey, too. But it leaves a thought that is big and strong, with a wish that is kind and true. For memory has painted this perfect day with colors that never fade, and we find at the end of a perfect day the soul of a friend we've made.";
@@ -57,8 +56,8 @@ export interface TypingReview {
 }
 
 let lettersTyped = 0;
-const wordsTypedWrong = new Set<string>();
-const typingHistory: TypingHistory[] = [];
+export const wordsTypedWrong = new Set<string>();
+export const typingHistory: TypingHistory[] = [];
 
 const Page = ({ params }: { params: { mode: string } }) => {
   const [input, setInput] = useState("");
@@ -80,8 +79,6 @@ const Page = ({ params }: { params: { mode: string } }) => {
   const [accuracy, setAccuracy] = useState("0");
   const [time, setTime] = useState("");
   const textElement = useRef<HTMLParagraphElement>(null);
-  const [typingReview, setTypingReview] = useState<TypingReview[]>([]);
-  const [typingReviewIndex, setTypingReviewIndex] = useState(0);
 
   const onType = (e: ChangeEvent<HTMLInputElement>) => {
     const nativeEvent = e.nativeEvent as NativeEventMissingTypes;
@@ -453,19 +450,6 @@ const Page = ({ params }: { params: { mode: string } }) => {
     }
   };
 
-  const startTypingReview = () => {
-    playTypingReview({
-      typingHistory,
-      setTypingReview,
-      setTypingReviewIndex,
-      typingReviewIndex,
-    });
-  };
-
-  const pauseTypingReview = () => {
-    clearAllSetIntervals(typingReviewIndex);
-  };
-
   return (
     <section className="p-4">
       <div className="flex flex-col gap-4 bg-gray-200 rounded-md p-4">
@@ -519,17 +503,19 @@ const Page = ({ params }: { params: { mode: string } }) => {
         </div>
 
         {isTypingFinished && (
-          <div>
+          <>
             <div>
-              <h2>Book name</h2>
-              <p>Author</p>
+              <div>
+                <h2>Book name</h2>
+                <p>Author</p>
+              </div>
+              <div className="flex flex-col gap-2">
+                <span>Speed: {cpm.cpm} CPM</span>
+                <span>Accuracy: {accuracy}%</span>
+                <span>Time: {time}</span>
+              </div>
+              <button>try iy again</button>
             </div>
-            <div className="flex flex-col gap-2">
-              <span>Speed: {cpm.cpm} CPM</span>
-              <span>Accuracy: {accuracy}%</span>
-              <span>Time: {time}</span>
-            </div>
-            <button>try iy again</button>
 
             <div>
               Mistakes
@@ -541,22 +527,9 @@ const Page = ({ params }: { params: { mode: string } }) => {
             </div>
 
             <div>
-              <p>
-                {typingReview.map((char, index) => (
-                  <span key={index}>{char.value}</span>
-                ))}
-              </p>
-
-              <button onClick={startTypingReview}>start</button>
-
-              <button onClick={pauseTypingReview}>pause</button>
-
-              <div>cpm: {typingReview[typingReview.length - 1]?.cpm}</div>
-              <div>
-                accuracy: {typingReview[typingReview.length - 1]?.accuracy}
-              </div>
+              <TypeReview />
             </div>
-          </div>
+          </>
         )}
       </div>
     </section>
