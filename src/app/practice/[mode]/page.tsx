@@ -24,9 +24,10 @@ import { getWord } from "@/utils/getWord";
 import TypedProgressBar from "@/components/TypedProgressBar";
 import { getTypedProgress } from "@/utils/getTypedProgress";
 import TypeReview from "@/components/TypeReview";
+import Mistakes from "@/components/Mistakes";
 
 const text =
-  "Well, this is the end of a perfect day, near the end of a journey, too.";
+  "I'll dive in the sky. Oh, the waters alive! I'll float down to soak in the stars. Swim away from the night. I am swallowed by light. Suddenly, love doesn't seem very far.";
 const textArray: string[] = [];
 
 for (let i = 0; i < text.length; i++) {
@@ -524,18 +525,9 @@ const Page = ({ params }: { params: { mode: string } }) => {
               </button>
             </div>
 
-            <div>
-              Mistakes
-              <div className="flex flex-col">
-                {[...wordsTypedWrong].map((word, i) => (
-                  <span key={i}>{word}</span>
-                ))}
-              </div>
-            </div>
+            <Mistakes />
 
-            <div>
-              <TypeReview />
-            </div>
+            <TypeReview />
           </>
         )}
       </div>
