@@ -6,11 +6,13 @@ export const playTypingReview = ({
   setTypingReview,
   setTypingReviewIndex,
   typingReviewIndex,
+  reviewFinishedCallBack,
 }: {
   typingHistory: TypingHistory[];
   setTypingReview: Dispatch<SetStateAction<TypingReview[]>>;
   typingReviewIndex: number;
   setTypingReviewIndex: Dispatch<SetStateAction<number>>;
+  reviewFinishedCallBack: () => void;
 }) => {
   let initialDate = typingHistory[0].time;
 
@@ -29,6 +31,12 @@ export const playTypingReview = ({
 
     setTimeout(() => {
       setTypingReviewIndex((prev) => prev + 1);
+
+      const isLastReviewItem = i === typingHistory.length - 1;
+      if (isLastReviewItem) {
+        reviewFinishedCallBack();
+      }
+
       if (type.isDeleteContent) {
         setTypingReview((prev) => {
           const updatedHistory = [...prev];
