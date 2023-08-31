@@ -61,14 +61,18 @@ const TypeReview = () => {
             <ReplayIcon />
           </button>
 
-          <div className="bg-white text-neutral-900 p-1 rounded">
-            <span className="font-semibold">cpm:</span>{" "}
-            {typingReview[typingReview.length - 1]?.cpm}
-          </div>
-          <div className="bg-white text-neutral-900 p-1 rounded">
-            <span className="font-semibold">accuracy:</span>{" "}
-            {typingReview[typingReview.length - 1]?.accuracy}%
-          </div>
+          {typingReview.length > 0 && (
+            <>
+              <div className="bg-white text-neutral-900 p-1 rounded">
+                <span className="font-semibold">cpm:</span>{" "}
+                {typingReview[typingReview.length - 1]?.cpm}
+              </div>
+              <div className="bg-white text-neutral-900 p-1 rounded">
+                <span className="font-semibold">accuracy:</span>{" "}
+                {typingReview[typingReview.length - 1]?.accuracy}%
+              </div>
+            </>
+          )}
         </div>
       </div>
     </article>
