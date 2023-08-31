@@ -16,20 +16,9 @@ const TypeReview = () => {
   const [typingReviewIndex, setTypingReviewIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const startTypingReview = () => {
-    playTypingReview({
-      typingHistory,
-      setTypingReview,
-      setTypingReviewIndex,
-      typingReviewIndex,
-    });
-  };
-
-  const pauseTypingReview = () => {
-    clearAllSetIntervals(typingReviewIndex);
-  };
-
   const handlePlayReview = () => {
+    if (typingHistory.length === typingReviewIndex) return;
+
     if (!isPlaying) {
       startTypingReview();
     } else {
@@ -37,6 +26,38 @@ const TypeReview = () => {
     }
 
     setIsPlaying((prev) => !prev);
+  };
+
+  const reviewFinishedCallBack = () => {
+    setIsPlaying(false);
+  };
+
+  const startTypingReview = () => {
+    playTypingReview({
+      typingHistory,
+      setTypingReview,
+      setTypingReviewIndex,
+      typingReviewIndex,
+      reviewFinishedCallBack,
+    });
+  };
+
+  const restartTypingReview = () => {
+    setTypingReviewIndex(0);
+    setTypingReview([]);
+    setIsPlaying(true);
+
+    playTypingReview({
+      typingHistory,
+      setTypingReview,
+      setTypingReviewIndex,
+      typingReviewIndex: 0,
+      reviewFinishedCallBack,
+    });
+  };
+
+  const pauseTypingReview = () => {
+    clearAllSetIntervals(typingReviewIndex);
   };
 
   return (
@@ -57,7 +78,10 @@ const TypeReview = () => {
             {isPlaying ? <PauseIcon /> : <PlayIcon />}
           </button>
 
-          <button className="bg-white text-neutral-900 p-1 rounded text-2xl">
+          <button
+            onClick={restartTypingReview}
+            className="bg-white text-neutral-900 p-1 rounded text-2xl"
+          >
             <ReplayIcon />
           </button>
 
