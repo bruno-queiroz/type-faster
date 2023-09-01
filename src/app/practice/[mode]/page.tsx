@@ -25,9 +25,10 @@ import TypedProgressBar from "@/components/TypedProgressBar";
 import { getTypedProgress } from "@/utils/getTypedProgress";
 import TypeReview from "@/components/TypeReview";
 import Mistakes from "@/components/Mistakes";
+import { customSet } from "@/utils/customSet";
 
 const text =
-  "I'll dive in the sky. Oh, the waters alive! I'll float down to soak in the stars. Swim away from the night. I am swallowed by light. Suddenly, love doesn't seem very far.";
+  "I'll dive in the sky. Oh, the waters alive! I'll float down to soak in the stars.";
 const textArray: string[] = [];
 
 for (let i = 0; i < text.length; i++) {
@@ -57,8 +58,8 @@ export interface TypingReview {
 }
 
 let lettersTyped = 0;
-export const wordsTypedWrong = new Set<string>();
 export const typingHistory: TypingHistory[] = [];
+export const [typos, addTypo] = customSet();
 
 const Page = ({ params }: { params: { mode: string } }) => {
   const [input, setInput] = useState("");
@@ -300,7 +301,11 @@ const Page = ({ params }: { params: { mode: string } }) => {
         );
         removeCursor(inputIndex - 1, textElement.current.children);
       } else {
-        wordsTypedWrong.add(getWord(currentWordBeginningIndex, textArray));
+        addTypo({
+          word: getWord(currentWordBeginningIndex, textArray),
+          typingHistoryIndex: typingHistory.length,
+        });
+
         if (consecutiveMistakesCount > 5) {
           const word = getWord(currentWordBeginningIndex, textArray);
 
@@ -347,7 +352,6 @@ const Page = ({ params }: { params: { mode: string } }) => {
   const endMatch = () => {
     clearInterval(intervalId);
     setIsTypingFinished(true);
-    console.log(typingHistory);
 
     const typeAccuracy = getAccuracy(mistakeCount, lettersTyped);
     const typedTime = getTypingElapsedTime(cpm.initialDate);
