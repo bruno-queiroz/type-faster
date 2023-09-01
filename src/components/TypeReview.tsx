@@ -10,55 +10,11 @@ import {
 import { MdReplay as ReplayIcon } from "react-icons/md";
 
 import React, { useState } from "react";
+import { useTypeReview } from "@/hooks/useTypeReview";
 
 const TypeReview = () => {
-  const [typingReview, setTypingReview] = useState<TypingReview[]>([]);
-  const [typingReviewIndex, setTypingReviewIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  const handlePlayReview = () => {
-    if (typingHistory.length === typingReviewIndex) return;
-
-    if (!isPlaying) {
-      startTypingReview();
-    } else {
-      pauseTypingReview();
-    }
-
-    setIsPlaying((prev) => !prev);
-  };
-
-  const reviewFinishedCallBack = () => {
-    setIsPlaying(false);
-  };
-
-  const startTypingReview = () => {
-    playTypingReview({
-      typingHistory,
-      setTypingReview,
-      setTypingReviewIndex,
-      typingReviewIndex,
-      reviewFinishedCallBack,
-    });
-  };
-
-  const restartTypingReview = () => {
-    setTypingReviewIndex(0);
-    setTypingReview([]);
-    setIsPlaying(true);
-
-    playTypingReview({
-      typingHistory,
-      setTypingReview,
-      setTypingReviewIndex,
-      typingReviewIndex: 0,
-      reviewFinishedCallBack,
-    });
-  };
-
-  const pauseTypingReview = () => {
-    clearAllSetIntervals(typingReviewIndex);
-  };
+  const { handlePlayReview, isPlaying, restartTypingReview, typingReview } =
+    useTypeReview();
 
   return (
     <article>
