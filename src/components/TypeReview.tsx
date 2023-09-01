@@ -1,15 +1,9 @@
-import { TypingReview } from "@/app/practice/[mode]/page";
-import { clearAllSetIntervals } from "@/utils/clearAllSetIntervals";
-import { playTypingReview } from "@/utils/playTypingReview";
-import { typingHistory } from "@/app/practice/[mode]/page";
-
 import {
   BsPauseFill as PauseIcon,
   BsFillPlayFill as PlayIcon,
 } from "react-icons/bs";
 import { MdReplay as ReplayIcon } from "react-icons/md";
 
-import React, { useState } from "react";
 import { useTypeReview } from "@/hooks/useTypeReview";
 
 const TypeReview = () => {
