@@ -1,6 +1,6 @@
 import { TypingHistory } from "@/app/practice/[mode]/page";
 
-export const getInitialWordIndex = (
+export const getStartOfWordIndex = (
   index: number,
   typingHistory: TypingHistory[]
 ) => {
