@@ -1,6 +1,6 @@
 import { TypingHistory } from "@/app/practice/[mode]/page";
 
-export const getFinalWordIndex = (
+export const getEndOfWordIndex = (
   index: number,
   typingHistory: TypingHistory[]
 ) => {
