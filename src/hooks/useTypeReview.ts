@@ -38,6 +38,7 @@ export const useTypeReview = () => {
     setTypingReviewIndex(0);
     setTypingReview([]);
     setIsPlaying(true);
+    clearAllSetIntervals(typingReviewIndex);
 
     playTypingReview({
       typingHistory,
