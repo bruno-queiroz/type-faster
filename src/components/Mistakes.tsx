@@ -1,6 +1,5 @@
-import React from "react";
-
 import { typos } from "@/app/practice/[mode]/page";
+import MistakeItem from "./MistakeItem";
 
 const Mistakes = () => {
   return (
@@ -11,12 +10,7 @@ const Mistakes = () => {
           {typos.length === 0
             ? "No mistakes this time! Good Job 🤠"
             : typos.map(({ word }, i) => (
-                <span
-                  key={i}
-                  className="bg-white p-2 rounded w-[max-content] border-b-[1px] border-b-red-500"
-                >
-                  {word}
-                </span>
+                <MistakeItem key={i} {...{ i, word }} />
               ))}
         </div>
       </div>
