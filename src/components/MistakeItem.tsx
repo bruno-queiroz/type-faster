@@ -7,6 +7,7 @@ import React, { useState } from "react";
 
 const MistakeItem = ({ i, word }: { i: number; word: string }) => {
   const [typoReview, setTypoReview] = useState<TypingReview[]>([]);
+  const [isCursorShowing, setIsCursorShowing] = useState(false);
 
   const showTypoReplay = (index: number) => {
     setTypoReview([]);
@@ -22,9 +23,11 @@ const MistakeItem = ({ i, word }: { i: number; word: string }) => {
 
     const replaySlice = typingHistory.slice(wordInitialIndex, wordFinalIndex);
 
+    setIsCursorShowing(true);
+
     playTypingReview({
       typingHistory: replaySlice,
-      reviewFinishedCallBack: () => console.log("finished"),
+      reviewFinishedCallBack: () => setIsCursorShowing(false),
       typingReviewIndex: 0,
       setTypingReview: setTypoReview,
     });
@@ -45,6 +48,9 @@ const MistakeItem = ({ i, word }: { i: number; word: string }) => {
             <span key={i}>{typo.value}</span>
           </>
         ))}
+        <span
+          className={`w-[2px] h-[24px] ${isCursorShowing && "cursor-white"}`}
+        />
       </div>
 
       {word}
