@@ -28,7 +28,7 @@ import Mistakes from "@/components/Mistakes";
 import { customSet } from "@/utils/customSet";
 
 const text =
-  "I'll dive in the sky. Oh, the waters alive! I'll float down to soak in the stars.";
+  "What could there be about a shadow that was so terrible that she knew that there had never been before or ever would be again, anything that would chill her with a fear that was beyond shuddering, beyond crying or screaming, beyond the possibility of comfort?";
 const textArray: string[] = [];
 
 for (let i = 0; i < text.length; i++) {
@@ -49,6 +49,7 @@ export interface TypingHistory {
   deletedAmount: number;
   cpm: number;
   accuracy: string;
+  isCorrect: boolean;
 }
 
 export interface TypingReview {
@@ -131,6 +132,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
           deletedAmount: 0,
           cpm: cpm.cpm,
           accuracy: getAccuracy(mistakeCount, lettersTyped),
+          isCorrect: true,
         });
 
         const isFinished = inputIndex === textArray.length - 1;
@@ -204,6 +206,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
           deletedAmount: input.length - currentText.length,
           cpm: cpm.cpm,
           accuracy: getAccuracy(mistakeCount, lettersTyped),
+          isCorrect: true,
         });
 
         if (wasMoreThanOneLetterDeletedAtOnce) {
@@ -277,6 +280,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
           deletedAmount: input.length - currentText.length,
           cpm: cpm.cpm,
           accuracy: getAccuracy(mistakeCount, lettersTyped),
+          isCorrect: true,
         });
 
         setConsecutiveMistakesModal({
@@ -326,6 +330,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
           deletedAmount: 0,
           cpm: cpm.cpm,
           accuracy: getAccuracy(mistakeCount, lettersTyped),
+          isCorrect: false,
         });
 
         if (!isMisspelled.is) {
