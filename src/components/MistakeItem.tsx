@@ -35,13 +35,15 @@ const MistakeItem = ({ i, word }: { i: number; word: string }) => {
   };
   return (
     <div
-      className="relative group bg-white p-2 rounded w-[max-content] hover:cursor-pointer border-b-[1px] border-b-red-500"
+      className="group bg-white p-2 rounded w-[max-content] hover:cursor-pointer border-b-[1px] border-b-red-500"
       onMouseOver={() => showTypoReplay(i)}
       onMouseLeave={clearReplay}
     >
-      <div className="hidden group-hover:flex break-all justify-center font-mono text-lg absolute top-[-250%] bg-gray-400 text-white p-2 rounded w-[150px] aspect-video">
+      <div className="hidden group-hover:flex break-all justify-center font-mono text-lg absolute right-[50%] translate-x-[50%] top-[-100px] bg-gray-400 text-white p-2 rounded w-[200px] aspect-video">
         {typoReview.map((typo, i) => (
-          <span key={i}>{typo.value}</span>
+          <>
+            <span key={i}>{typo.value}</span>
+          </>
         ))}
       </div>
 
