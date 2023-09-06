@@ -42,7 +42,7 @@ const MistakeItem = ({ i, word }: { i: number; word: string }) => {
       onMouseOver={() => showTypoReplay(i)}
       onMouseLeave={clearReplay}
     >
-      <div className="hidden group-hover:flex break-all justify-center font-mono text-lg absolute right-[50%] translate-x-[50%] top-[-100px] bg-gray-400 text-white p-2 rounded w-[200px] aspect-video">
+      <div className="hidden group-hover:flex break-all justify-center font-mono text-lg absolute right-[50%] translate-x-[50%] top-[-8px] bg-gray-400 text-white p-2 rounded min-w-[200px] h-[45px]">
         {typoReview.map((typo, i) => (
           <>
             <span key={i}>{typo.value}</span>
