@@ -28,7 +28,7 @@ import Mistakes from "@/components/Mistakes";
 import { customSet } from "@/utils/customSet";
 
 const text =
-  "What could there be about a shadow that was so terrible that she knew that there had never been before or ever would be again, anything that would chill her with a fear that was beyond shuddering, beyond crying or screaming, beyond the possibility of comfort?";
+  "At three in the morning the blood runs slow and thick, and slumber is heavy. The soul either sleeps in blessed ignorance of such an hour or gazes about itself in utter despair. There is no middle ground.";
 const textArray: string[] = [];
 
 for (let i = 0; i < text.length; i++) {
@@ -70,10 +70,8 @@ const Page = ({ params }: { params: { mode: string } }) => {
     is: false,
     index: 0,
   });
-  const [cpm, setCpm] = useState({ cpm: 0, initialDate: 0 });
   const [intervalId, setIntervalId] = useState<NodeJS.Timer>();
   const [isTypingFinished, setIsTypingFinished] = useState(false);
-  const [mistakeCount, setMistakeCount] = useState(0);
   const [consecutiveMistakesCount, setConsecutiveMistakesCount] = useState(0);
   const [consecutiveMistakesModal, setConsecutiveMistakesModal] = useState({
     isOpen: false,
@@ -81,6 +79,9 @@ const Page = ({ params }: { params: { mode: string } }) => {
   });
   const [accuracy, setAccuracy] = useState("0");
   const [time, setTime] = useState("");
+  const [cpm, setCpm] = useState(0);
+  const [mistakeCount, setMistakeCount] = useState(0);
+
   const textElement = useRef<HTMLParagraphElement>(null);
 
   const onType = (e: ChangeEvent<HTMLInputElement>) => {
@@ -130,7 +131,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
           isDeleteContent: false,
           startPoint: currentText.length - selectionStart,
           deletedAmount: 0,
-          cpm: cpm.cpm,
+          cpm,
           accuracy: getAccuracy(mistakeCount, lettersTyped),
           isCorrect: true,
         });
@@ -204,7 +205,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
           isDeleteContent: true,
           startPoint: currentText.length - selectionStart,
           deletedAmount: input.length - currentText.length,
-          cpm: cpm.cpm,
+          cpm,
           accuracy: getAccuracy(mistakeCount, lettersTyped),
           isCorrect: true,
         });
@@ -278,7 +279,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
           isDeleteContent: true,
           startPoint: currentText.length - selectionStart,
           deletedAmount: input.length - currentText.length,
-          cpm: cpm.cpm,
+          cpm,
           accuracy: getAccuracy(mistakeCount, lettersTyped),
           isCorrect: true,
         });
@@ -328,7 +329,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
           isDeleteContent: false,
           startPoint: currentText.length - selectionStart,
           deletedAmount: 0,
-          cpm: cpm.cpm,
+          cpm,
           accuracy: getAccuracy(mistakeCount, lettersTyped),
           isCorrect: false,
         });
@@ -359,7 +360,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
     setIsTypingFinished(true);
 
     const typeAccuracy = getAccuracy(mistakeCount, lettersTyped);
-    const typedTime = getTypingElapsedTime(cpm.initialDate);
+    const typedTime = getTypingElapsedTime(typingHistory[0].time);
 
     setAccuracy(typeAccuracy);
     setTime(typedTime);
@@ -465,13 +466,13 @@ const Page = ({ params }: { params: { mode: string } }) => {
       <div>
         <div
           className="flex flex-col gap-4 bg-gray-200 p-4 pb-0"
-          style={{ display: isTypingFinished ? "none" : "flex" }}
+          style={{ display: false ? "none" : "flex" }}
         >
           <ConsecutiveMistakesModal modalData={consecutiveMistakesModal} />
 
           <div>
             <div className="border-[2px] border-black w-[max-content] py-1 rounded px-4 ml-auto">
-              {cpm.cpm}
+              {cpm}
             </div>
             <div className="mt-4">
               <TypedProgressBar
@@ -519,23 +520,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
 
         {isTypingFinished && (
           <>
-            <div className="flex flex-col gap-2 bg-gray-200 p-4">
-              <div>
-                <h2>Book name</h2>
-                <p>Author</p>
-              </div>
-              <div className="flex flex-col gap-2">
-                <span>Speed: {cpm.cpm} CPM</span>
-                <span>Accuracy: {accuracy}%</span>
-                <span>Time: {time}</span>
-              </div>
-              <button className="py-2 px-4 mt-2 rounded bg-neutral-900 text-white">
-                Try it again
-              </button>
-            </div>
-
             <Mistakes />
-
             <TypeReview />
           </>
         )}
