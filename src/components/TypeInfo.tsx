@@ -1,7 +1,7 @@
 import React from "react";
 
 interface TypeInfoProps {
-  cpm: number;
+  cpm: string;
   accuracy: string;
   time: string;
 }

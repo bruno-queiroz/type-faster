@@ -47,7 +47,7 @@ export interface TypingHistory {
   isDeleteContent: boolean;
   startPoint: number;
   deletedAmount: number;
-  cpm: number;
+  cpm: string;
   accuracy: string;
   isCorrect: boolean;
 }
@@ -78,8 +78,8 @@ const Page = ({ params }: { params: { mode: string } }) => {
     word: "",
   });
   const [accuracy, setAccuracy] = useState("0");
-  const [time, setTime] = useState("");
-  const [cpm, setCpm] = useState(0);
+  const [time, setTime] = useState("0");
+  const [cpm, setCpm] = useState("0");
   const [mistakeCount, setMistakeCount] = useState(0);
 
   const textElement = useRef<HTMLParagraphElement>(null);
