@@ -1,41 +1,9 @@
-import { TypingReview, typingHistory, typos } from "@/app/practice/[mode]/page";
-import { clearAllSetIntervals } from "@/utils/clearAllSetIntervals";
-import { getEndOfWordIndex } from "@/utils/getEndOfWordIndex";
-import { getStartOfWordIndex } from "@/utils/getStartOfWordIndex";
-import { playTypingReview } from "@/utils/playTypingReview";
-import React, { useState } from "react";
+import { useTypoReview } from "@/hooks/useTypoReview";
 
 const MistakeItem = ({ i, word }: { i: number; word: string }) => {
-  const [typoReview, setTypoReview] = useState<TypingReview[]>([]);
-  const [isCursorShowing, setIsCursorShowing] = useState(false);
+  const { typoReview, showTypoReplay, isCursorShowing, clearReplay } =
+    useTypoReview();
 
-  const showTypoReplay = (index: number) => {
-    setTypoReview([]);
-    const wordInitialIndex = getStartOfWordIndex(
-      typos[index].typingHistoryIndex,
-      typingHistory
-    );
-
-    const wordFinalIndex = getEndOfWordIndex(
-      typos[index].typingHistoryIndex,
-      typingHistory
-    );
-
-    const replaySlice = typingHistory.slice(wordInitialIndex, wordFinalIndex);
-
-    setIsCursorShowing(true);
-
-    playTypingReview({
-      typingHistory: replaySlice,
-      reviewFinishedCallBack: () => setIsCursorShowing(false),
-      typingReviewIndex: 0,
-      setTypingReview: setTypoReview,
-    });
-  };
-
-  const clearReplay = () => {
-    clearAllSetIntervals(0);
-  };
   return (
     <div
       className="group bg-white p-2 rounded w-[max-content] hover:cursor-pointer border-b-[1px] border-b-red-500"
@@ -49,7 +17,7 @@ const MistakeItem = ({ i, word }: { i: number; word: string }) => {
           </>
         ))}
         <span
-          className={`w-[2px] h-[24px] ${isCursorShowing && "cursor-white"}`}
+          className={`w-[1px] h-[24px] ${isCursorShowing && "cursor-white"}`}
         />
       </div>
 
