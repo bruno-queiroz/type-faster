@@ -7,6 +7,7 @@ export const useTypeReview = () => {
   const [typingReview, setTypingReview] = useState<TypingReview[]>([]);
   const [typingReviewIndex, setTypingReviewIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isCursorShowing, setIsCursorShowing] = useState(false);
 
   const handlePlayReview = () => {
     if (typingHistory.length === typingReviewIndex) return;
@@ -22,9 +23,12 @@ export const useTypeReview = () => {
 
   const reviewFinishedCallBack = () => {
     setIsPlaying(false);
+    setIsCursorShowing(false);
   };
 
   const startTypingReview = () => {
+    setIsCursorShowing(true);
+
     playTypingReview({
       typingHistory,
       setTypingReview,
@@ -38,6 +42,7 @@ export const useTypeReview = () => {
     setTypingReviewIndex(0);
     setTypingReview([]);
     setIsPlaying(true);
+    setIsCursorShowing(true);
     clearAllSetIntervals(typingReviewIndex);
 
     playTypingReview({
@@ -50,6 +55,7 @@ export const useTypeReview = () => {
   };
 
   const pauseTypingReview = () => {
+    setIsCursorShowing(false);
     clearAllSetIntervals(typingReviewIndex);
   };
 
@@ -58,5 +64,6 @@ export const useTypeReview = () => {
     handlePlayReview,
     typingReview,
     isPlaying,
+    isCursorShowing,
   };
 };
