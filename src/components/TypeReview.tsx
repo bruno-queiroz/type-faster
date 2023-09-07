@@ -20,7 +20,7 @@ const TypeReview = () => {
       <h2 className="text-xl my-4">Type Review</h2>
 
       <div className="flex flex-col gap-4 bg-gray-200 p-4">
-        <p className="w-full h-[100px] flex-wrap bg-gray-300 rounded p-2">
+        <p className="w-full h-[100px] bg-gray-300 rounded p-2">
           {typingReview.map((char, index) => (
             <span key={index}>{char.value}</span>
           ))}
