@@ -54,12 +54,6 @@ export interface TypingHistory {
   isCorrect: boolean;
 }
 
-export interface TypingReview {
-  value: string;
-  cpm: number;
-  accuracy: string;
-}
-
 let lettersTyped = 0;
 export let typingHistory: TypingHistory[] = [];
 export const [typos, addTypo, clearSet] = customSet();
