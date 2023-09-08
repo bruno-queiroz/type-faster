@@ -459,14 +459,17 @@ const Page = ({ params }: { params: { mode: string } }) => {
     setMistakeCount(0);
   };
 
-  const restartTyping = () => {
-    if (!textElement.current) return;
-
-    resetTypingStates();
-
+  const resetTypingHistory = () => {
     typingHistory = [];
     clearSet();
     lettersTyped = 0;
+  };
+
+  const restartTyping = () => {
+    if (!textElement.current) return;
+
+    resetTypingHistory();
+    resetTypingStates();
 
     clearTextStyles(textElement.current.children, "black", "#D1D5DB");
   };
