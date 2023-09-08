@@ -4,9 +4,10 @@ interface TypeInfoProps {
   cpm: string;
   accuracy: string;
   time: string;
+  restartTyping: () => void;
 }
 
-const TypeInfo = ({ cpm, accuracy, time }: TypeInfoProps) => {
+const TypeInfo = ({ cpm, accuracy, time, restartTyping }: TypeInfoProps) => {
   return (
     <div className="flex flex-col gap-2 bg-gray-200 p-4">
       <div>
@@ -18,7 +19,10 @@ const TypeInfo = ({ cpm, accuracy, time }: TypeInfoProps) => {
         <span>Accuracy: {accuracy}%</span>
         <span>Time: {time}s</span>
       </div>
-      <button className="py-2 px-4 mt-2 rounded bg-neutral-900 text-white">
+      <button
+        className="py-2 px-4 mt-2 rounded bg-neutral-900 text-white"
+        onClick={restartTyping}
+      >
         Try it again
       </button>
     </div>
