@@ -29,7 +29,7 @@ import { customSet } from "@/utils/customSet";
 import TypeInfo from "@/components/TypeInfo";
 
 const text =
-  "At three in the morning the blood runs slow and thick, and slumber is heavy. The soul either sleeps in blessed ignorance of such an hour or gazes about itself in utter despair. There is no middle ground.";
+  "At three in the morning the blood runs slow and thick, and slumber is heavy.";
 const textArray: string[] = [];
 
 for (let i = 0; i < text.length; i++) {
@@ -60,8 +60,8 @@ export interface TypingReview {
 }
 
 let lettersTyped = 0;
-export const typingHistory: TypingHistory[] = [];
-export const [typos, addTypo] = customSet();
+export let typingHistory: TypingHistory[] = [];
+export const [typos, addTypo, clearSet] = customSet();
 
 const Page = ({ params }: { params: { mode: string } }) => {
   const [input, setInput] = useState("");
