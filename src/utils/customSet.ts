@@ -3,9 +3,14 @@ export interface Typo {
   typingHistoryIndex: number;
 }
 
-export const customSet = (): [Typo[], (typo: Typo) => void] => {
+export const customSet = (): [Typo[], (typo: Typo) => void, () => void] => {
   const set = new Set<string>();
-  const typos: Typo[] = [];
+  let typos: Typo[] = [];
+
+  const clearSet = () => {
+    typos = [];
+    set.clear();
+  };
 
   return [
     typos,
@@ -15,5 +20,6 @@ export const customSet = (): [Typo[], (typo: Typo) => void] => {
         set.add(typo.word);
       }
     },
+    clearSet,
   ];
 };
