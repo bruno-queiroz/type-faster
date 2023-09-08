@@ -445,11 +445,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
     }
   };
 
-  const restartTyping = () => {
-    typingHistory = [];
-    clearSet();
-    lettersTyped = 0;
-
+  const resetTypingStates = () => {
     setCurrentWordBeginningIndex(0);
     setIsMisspelled({ index: 0, is: false });
     setIsTypingFinished(false);
@@ -460,6 +456,16 @@ const Page = ({ params }: { params: { mode: string } }) => {
     setAccuracy("0");
     setTime("0");
     setMistakeCount(0);
+  };
+
+  const restartTyping = () => {
+    if (!textElement.current) return;
+
+    resetTypingStates();
+
+    typingHistory = [];
+    clearSet();
+    lettersTyped = 0;
   };
 
   const onClick = (e: MouseEvent<HTMLInputElement, globalThis.MouseEvent>) => {
