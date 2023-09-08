@@ -27,6 +27,7 @@ import TypeReview from "@/components/TypeReview";
 import Mistakes from "@/components/Mistakes";
 import { customSet } from "@/utils/customSet";
 import TypeInfo from "@/components/TypeInfo";
+import { clearTextStyles } from "@/utils/clearTextStyles";
 
 const text =
   "At three in the morning the blood runs slow and thick, and slumber is heavy.";
@@ -466,6 +467,8 @@ const Page = ({ params }: { params: { mode: string } }) => {
     typingHistory = [];
     clearSet();
     lettersTyped = 0;
+
+    clearTextStyles(textElement.current.children, "black", "#D1D5DB");
   };
 
   const onClick = (e: MouseEvent<HTMLInputElement, globalThis.MouseEvent>) => {
