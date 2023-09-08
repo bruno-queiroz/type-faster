@@ -445,6 +445,23 @@ const Page = ({ params }: { params: { mode: string } }) => {
     }
   };
 
+  const restartTyping = () => {
+    typingHistory = [];
+    clearSet();
+    lettersTyped = 0;
+
+    setCurrentWordBeginningIndex(0);
+    setIsMisspelled({ index: 0, is: false });
+    setIsTypingFinished(false);
+    setInputIndex(0);
+    setInput("");
+
+    setCpm("0");
+    setAccuracy("0");
+    setTime("0");
+    setMistakeCount(0);
+  };
+
   const onClick = (e: MouseEvent<HTMLInputElement, globalThis.MouseEvent>) => {
     if (textElement.current) {
       const textElementChildren = textElement.current.children;
@@ -467,7 +484,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
       <div>
         <div
           className="flex flex-col gap-4 bg-gray-200 p-4 pb-0"
-          style={{ display: false ? "none" : "flex" }}
+          style={{ display: isTypingFinished ? "none" : "flex" }}
         >
           <ConsecutiveMistakesModal modalData={consecutiveMistakesModal} />
 
@@ -521,7 +538,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
 
         {isTypingFinished && (
           <>
-            <TypeInfo {...{ cpm, accuracy, time }} />
+            <TypeInfo {...{ cpm, accuracy, time, restartTyping }} />
             <Mistakes />
             <TypeReview />
           </>
