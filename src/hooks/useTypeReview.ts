@@ -1,7 +1,13 @@
-import { TypingReview, typingHistory } from "@/app/practice/[mode]/page";
+import { typingHistory } from "@/app/practice/[mode]/page";
 import { clearAllSetIntervals } from "@/utils/clearAllSetIntervals";
 import { playTypingReview } from "@/utils/playTypingReview";
 import { useState } from "react";
+
+export interface TypingReview {
+  value: string;
+  cpm: string;
+  accuracy: string;
+}
 
 export const useTypeReview = () => {
   const [typingReview, setTypingReview] = useState<TypingReview[]>([]);
