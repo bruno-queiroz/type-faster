@@ -79,6 +79,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
   const [mistakeCount, setMistakeCount] = useState(0);
 
   const textElement = useRef<HTMLParagraphElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const onType = (e: ChangeEvent<HTMLInputElement>) => {
     const nativeEvent = e.nativeEvent as NativeEventMissingTypes;
@@ -475,6 +476,10 @@ const Page = ({ params }: { params: { mode: string } }) => {
       textArray,
       elements
     );
+
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 0);
   };
 
   const onClick = (e: MouseEvent<HTMLInputElement, globalThis.MouseEvent>) => {
@@ -533,6 +538,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
               onKeyDown={onKeyDownChangeCursor}
               onClick={onClick}
               onPaste={(e) => e.preventDefault()}
+              ref={inputRef}
             />
           </div>
         </div>
