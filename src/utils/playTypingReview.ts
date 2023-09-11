@@ -1,4 +1,5 @@
-import { TypingHistory, TypingReview } from "@/app/practice/[mode]/page";
+import { TypingHistory } from "@/app/practice/[mode]/page";
+import { TypingReview } from "@/hooks/useTypeReview";
 import { Dispatch, SetStateAction } from "react";
 
 export const playTypingReview = ({
