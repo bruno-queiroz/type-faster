@@ -461,11 +461,20 @@ const Page = ({ params }: { params: { mode: string } }) => {
 
   const restartTyping = () => {
     if (!textElement.current) return;
+    const elements = textElement.current.children;
 
     resetTypingHistory();
     resetTypingStates();
 
-    clearTextStyles(textElement.current.children, "black", "#D1D5DB");
+    clearTextStyles(elements, "black", "#D1D5DB");
+
+    removeCursor(textArray.length - 1, elements);
+
+    removeUnderlineOfThePreviousWord(
+      currentWordBeginningIndex,
+      textArray,
+      elements
+    );
   };
 
   const onClick = (e: MouseEvent<HTMLInputElement, globalThis.MouseEvent>) => {
