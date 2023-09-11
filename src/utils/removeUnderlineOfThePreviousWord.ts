@@ -3,8 +3,10 @@ export const removeUnderlineOfThePreviousWord = (
   textArray: string[],
   elements: HTMLCollection
 ) => {
-  while (textArray[startIndex] !== " ") {
-    (elements[startIndex] as HTMLSpanElement).style.textDecoration = "none";
+  while (textArray[startIndex] !== " " && startIndex <= elements.length - 1) {
+    const element = elements[startIndex] as HTMLSpanElement;
+    element.style.textDecoration = "none";
+
     startIndex++;
   }
 };
