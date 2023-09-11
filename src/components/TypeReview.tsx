@@ -24,13 +24,13 @@ const TypeReview = () => {
           {typingReview.map((char, index) => (
             <span key={index}>{char.value}</span>
           ))}
-          <div className="inline-block relative w-[1px] h-[20px]">
+          <span className="inline-block relative w-[1px] h-[20px]">
             <span
               className={`absolute bottom-[-3px] inline-block w-[1px] h-[20px] ${
                 isCursorShowing && "cursor-on-right"
               }`}
             />
-          </div>
+          </span>
         </p>
         <div className="flex gap-4">
           <button
