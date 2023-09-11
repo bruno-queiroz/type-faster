@@ -2,13 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-.cursor-on-right {
+.right-cursor {
   box-shadow: 1px 0px 0px rgba(0, 0, 0, 1);
   animation: blink-right-cursor 1s steps(2) infinite;
   position: relative;
 }
 
-.cursor-on-left {
+.left-cursor {
   box-shadow: inset 1px 0px 0px rgba(0, 0, 0, 1);
   animation: blink-left-cursor 1s steps(2) infinite;
   position: relative;
