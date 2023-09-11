@@ -551,7 +551,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
           </Link>
           <button
             type="button"
-            className="py-2 px-4 rounded bg-neutral-900 text-white"
+            className="py-2 px-4 rounded bg-neutral-900 text-white outline-green-400"
           >
             New Text
           </button>

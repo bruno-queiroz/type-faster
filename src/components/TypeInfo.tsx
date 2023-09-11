@@ -20,7 +20,7 @@ const TypeInfo = ({ cpm, accuracy, time, restartTyping }: TypeInfoProps) => {
         <span>Time: {time}s</span>
       </div>
       <button
-        className="py-2 px-4 mt-2 rounded bg-neutral-900 text-white"
+        className="py-2 px-4 mt-2 rounded bg-neutral-900 text-white outline-green-400"
         onClick={restartTyping}
       >
         Try it again
