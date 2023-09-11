@@ -1,3 +1,6 @@
+export const RIGHT_CURSOR_CLASSNAME = "right-cursor";
+export const LEFT_CURSOR_CLASSNAME = "left-cursor";
+
 export const addCursor = (inputIndex: number, elements: HTMLCollection) => {
   const currentCharElement = elements[inputIndex] as HTMLSpanElement;
   const nextElement = elements[inputIndex + 1] as HTMLSpanElement;
