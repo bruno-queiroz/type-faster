@@ -1,3 +1,5 @@
+import { LEFT_CURSOR_CLASSNAME, RIGHT_CURSOR_CLASSNAME } from "./addCursor";
+
 export const removeCursorFromWord = (
   currentWordBeginningIndex: number,
   elements: HTMLCollection,
@@ -12,8 +14,8 @@ export const removeCursorFromWord = (
       currentWordBeginningIndex + index
     ] as HTMLSpanElement;
 
-    element.classList.remove("cursor-on-left");
-    element.classList.remove("cursor-on-right");
+    element.classList.remove(LEFT_CURSOR_CLASSNAME);
+    element.classList.remove(RIGHT_CURSOR_CLASSNAME);
 
     index++;
   }

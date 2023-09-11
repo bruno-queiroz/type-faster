@@ -5,6 +5,7 @@ import {
 import { MdReplay as ReplayIcon } from "react-icons/md";
 
 import { useTypeReview } from "@/hooks/useTypeReview";
+import { RIGHT_CURSOR_CLASSNAME } from "@/utils/addCursor";
 
 const TypeReview = () => {
   const {
@@ -27,7 +28,7 @@ const TypeReview = () => {
           <span className="inline-block relative w-[1px] h-[20px]">
             <span
               className={`absolute bottom-[-3px] inline-block w-[1px] h-[20px] ${
-                isCursorShowing && "cursor-on-right"
+                isCursorShowing && RIGHT_CURSOR_CLASSNAME
               }`}
             />
           </span>

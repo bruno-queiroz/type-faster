@@ -8,15 +8,15 @@ export const addCursor = (inputIndex: number, elements: HTMLCollection) => {
 
   const isFirstChar = inputIndex === -1;
   if (isFirstChar) {
-    firstCharElement.classList.add("cursor-on-left");
+    firstCharElement.classList.add(LEFT_CURSOR_CLASSNAME);
     return;
   }
 
   if (currentCharElement) {
     if (currentCharElement.textContent === " " && nextElement) {
-      nextElement.classList.add("cursor-on-left");
+      nextElement.classList.add(LEFT_CURSOR_CLASSNAME);
     } else {
-      currentCharElement.classList.add("cursor-on-right");
+      currentCharElement.classList.add(RIGHT_CURSOR_CLASSNAME);
     }
   }
 };
