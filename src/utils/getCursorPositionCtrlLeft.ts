@@ -1,14 +1,25 @@
+import { checkCharacter } from "./checkCharacter";
+
 export const getCursorPositionCtrlLeft = (
   input: string,
   cursorIndex: number
 ) => {
-  const isWordChar = /\w|'/;
+  const isChar = checkCharacter(input, cursorIndex, "left").isChar;
 
-  if (!isWordChar.test(input[cursorIndex])) {
+  if (!isChar) {
     return cursorIndex - 1;
   }
 
-  while (isWordChar.test(input[cursorIndex]) && cursorIndex >= 0) {
+  while (
+    checkCharacter(input, cursorIndex, "left").isChar &&
+    cursorIndex >= 0
+  ) {
+    const character = checkCharacter(input, cursorIndex, "left");
+
+    if (character.isEllipsis) {
+      cursorIndex -= character.jumpCharAmount;
+      break;
+    }
     cursorIndex--;
   }
 
