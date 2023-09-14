@@ -1,17 +1,13 @@
-import { checkCharacter } from "./checkCharacter";
+import { WORD_CHARACTER_REGEX, checkCharacter } from "./checkCharacter";
 import { checkEllipsisCtrlLeft } from "./checkEllipsisCtrlLeft";
 
 export const getCursorPositionCtrlLeft = (
   input: string,
   cursorIndex: number
 ) => {
-  const isChar = checkCharacter(
-    input,
-    cursorIndex,
-    checkEllipsisCtrlLeft
-  ).isChar;
+  const isCurrentItemWordChar = WORD_CHARACTER_REGEX.test(input[cursorIndex]);
 
-  if (!isChar) {
+  if (!isCurrentItemWordChar) {
     return cursorIndex - 1;
   }
 
