@@ -1,24 +1,37 @@
-import { checkCharacter } from "./checkCharacter";
+import { WORD_CHARACTER_REGEX, checkCharacter } from "./checkCharacter";
+import { checkEllipsisCtrlRight } from "./checkEllipsisCtrlRight";
 
 export const getCursorPositionCtrlRight = (
   input: string,
   cursorIndex: number
 ) => {
-  const isChar = checkCharacter(input, cursorIndex, "right").isChar;
+  const initialIndex = cursorIndex;
 
-  if (!isChar) {
+  const isCurrentItemWordChar = WORD_CHARACTER_REGEX.test(input[cursorIndex]);
+  const isNextItemWordChar = WORD_CHARACTER_REGEX.test(input[cursorIndex + 1]);
+
+  if (!isNextItemWordChar) {
+    return cursorIndex + 1;
+  }
+
+  if (!isCurrentItemWordChar) {
     cursorIndex++;
   }
 
-  const initialIndex = cursorIndex;
   while (
-    checkCharacter(input, cursorIndex, "right", initialIndex).isChar &&
+    checkCharacter(input, cursorIndex, checkEllipsisCtrlRight, initialIndex)
+      .isChar &&
     cursorIndex <= input.length - 1
   ) {
-    const character = checkCharacter(input, cursorIndex, "right", initialIndex);
+    const character = checkCharacter(
+      input,
+      cursorIndex,
+      checkEllipsisCtrlRight,
+      initialIndex
+    );
 
     if (character.isEllipsis) {
-      cursorIndex += character.jumpCharAmount;
+      cursorIndex += character.jumpCharAmount + 1;
       break;
     }
     cursorIndex++;
