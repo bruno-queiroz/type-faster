@@ -8,30 +8,22 @@ export const getCursorPositionCtrlRight = (
   const initialIndex = cursorIndex;
 
   const isCurrentItemWordChar = WORD_CHARACTER_REGEX.test(input[cursorIndex]);
-  const isNextItemWordChar = WORD_CHARACTER_REGEX.test(input[cursorIndex + 1]);
-
-  if (!isNextItemWordChar) {
-    return cursorIndex + 1;
-  }
 
   if (!isCurrentItemWordChar) {
     cursorIndex++;
   }
 
-  while (
-    checkCharacter(input, cursorIndex, checkEllipsisCtrlRight, initialIndex)
-      .isChar &&
-    cursorIndex <= input.length - 1
-  ) {
+  while (cursorIndex <= input.length - 1) {
     const character = checkCharacter(
       input,
       cursorIndex,
       checkEllipsisCtrlRight,
-      initialIndex
+      initialIndex + 1
     );
 
-    if (character.isEllipsis) {
-      cursorIndex += character.jumpCharAmount + 1;
+    if (!character.isWordChar) {
+      cursorIndex += character.jumpCharAmount;
+      if (character.isInitialWordNotAWordChar) cursorIndex++;
       break;
     }
     cursorIndex++;
