@@ -11,19 +11,25 @@ export const checkCharacter = (
     isEllipsis: boolean;
     jumpCharAmount: number;
   },
-  initialIndex?: number
+  initialIndex: number
 ) => {
+  const isWordChar = WORD_CHARACTER_REGEX.test(input[cursorIndex]);
+  const isInitialWordAWordChar = WORD_CHARACTER_REGEX.test(input[initialIndex]);
+
   const { isEllipsis, jumpCharAmount } = checkEllipsisStrategy(
     input,
     cursorIndex,
     initialIndex
   );
-
   if (isEllipsis) {
-    return { isChar: true, isEllipsis, jumpCharAmount };
+    return { isWordChar: false, jumpCharAmount };
+  } else if (!isInitialWordAWordChar) {
+    return {
+      isWordChar: false,
+      jumpCharAmount: 1,
+      isInitialWordNotAWordChar: true,
+    };
   }
 
-  const isChar = WORD_CHARACTER_REGEX.test(input[cursorIndex]);
-
-  return { isChar, isEllipsis: false, jumpCharAmount: 0 };
+  return { isWordChar, jumpCharAmount: 0 };
 };
