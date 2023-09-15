@@ -6,10 +6,8 @@ export const checkEllipsisCtrlRight = (
   let jumpCharAmount = 0;
   let isEllipsis = false;
 
-  if (!initialIndex || input[initialIndex + 1] !== ".")
+  if (!initialIndex || input[initialIndex] !== ".")
     return { isEllipsis, jumpCharAmount };
-  initialIndex++;
-  console.log(initialIndex, input[initialIndex]);
 
   const isCompleteEllipsis =
     input[initialIndex] + input[initialIndex + 1] + input[initialIndex + 2] ===
