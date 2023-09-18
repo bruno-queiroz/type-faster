@@ -1,4 +1,4 @@
-import { typos } from "@/app/practice/[mode]/page";
+import { typos } from "@/hooks/useTyping";
 import MistakeItem from "./MistakeItem";
 
 const Mistakes = () => {

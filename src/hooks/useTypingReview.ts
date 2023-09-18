@@ -1,4 +1,5 @@
-import { typingHistory } from "@/app/practice/[mode]/page";
+import { typingHistory } from "./useTyping";
+
 import { clearAllSetIntervals } from "@/utils/clearAllSetIntervals";
 import { playTypingReview } from "@/utils/playTypingReview";
 import { useState } from "react";

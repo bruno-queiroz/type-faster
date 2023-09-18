@@ -1,4 +1,4 @@
-import { TypingHistory } from "@/app/practice/[mode]/page";
+import { TypingHistory } from "@/hooks/useTyping";
 
 export const getEndOfWordIndex = (
   index: number,
