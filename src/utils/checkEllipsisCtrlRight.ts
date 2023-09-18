@@ -16,7 +16,7 @@ export const checkEllipsisCtrlRight = (
   const isSemiEllipsis = input[initialIndex] + input[initialIndex + 1] === "..";
 
   if (isCompleteEllipsis) {
-    jumpCharAmount = 3;
+    jumpCharAmount = 4;
     isEllipsis = true;
   } else if (isSemiEllipsis) {
     jumpCharAmount = 2;
