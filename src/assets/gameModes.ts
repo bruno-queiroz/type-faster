@@ -6,8 +6,7 @@ export const gameModes = [
   },
   {
     mode: "Repeated Words",
-    description:
-      "Get better at writting specific words, repetition is the key.",
+    description: "Get better at writing specific words, repetition is the key.",
     slug: "repeated-words",
   },
   {
