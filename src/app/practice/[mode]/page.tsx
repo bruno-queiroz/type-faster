@@ -30,7 +30,7 @@ import TypeInfo from "@/components/TypeInfo";
 import { clearTextStyles } from "@/utils/clearTextStyles";
 
 const text =
-  "At three in the morning the blood runs slow and thick, and slumber is heavy.";
+  "At th-ree in the morning... the blood runs slow and thick, and slumber is heavy.";
 const textArray: string[] = [];
 
 for (let i = 0; i < text.length; i++) {
@@ -374,33 +374,20 @@ const Page = ({ params }: { params: { mode: string } }) => {
       const blackText = "rgb(0, 0, 0)";
 
       if ((isCtrl && key === "ArrowLeft") || key === "ArrowUp") {
-        const newCursorPosition = getCursorPositionCtrlLeft(
-          inputValue,
-          cursorStart - 1
-        );
-
         removeCursor(
           currentWordBeginningIndex + cursorStart - 1,
           textElementChildren
         );
 
-        addCursor(
-          currentWordBeginningIndex + newCursorPosition,
-          textElementChildren
-        );
+        addCursor(currentWordBeginningIndex - 1, textElementChildren);
       } else if ((isCtrl && key === "ArrowRight") || key === "ArrowDown") {
-        const newCursorPosition = getCursorPositionCtrlRight(
-          inputValue,
-          cursorStart - 1
-        );
-
         removeCursor(
           currentWordBeginningIndex + cursorStart - 1,
           textElementChildren
         );
 
         addCursor(
-          currentWordBeginningIndex + newCursorPosition,
+          currentWordBeginningIndex + inputValue.length - 1,
           textElementChildren
         );
       } else if (key === "ArrowLeft") {
