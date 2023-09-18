@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-import { TypingReview, typingHistory, typos } from "@/app/practice/[mode]/page";
+import { typingHistory, typos } from "@/app/practice/[mode]/page";
+import { TypingReview } from "./useTypingReview";
 
 import { clearAllSetIntervals } from "@/utils/clearAllSetIntervals";
 import { getEndOfWordIndex } from "@/utils/getEndOfWordIndex";

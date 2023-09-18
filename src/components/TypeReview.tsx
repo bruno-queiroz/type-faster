@@ -4,7 +4,7 @@ import {
 } from "react-icons/bs";
 import { MdReplay as ReplayIcon } from "react-icons/md";
 
-import { useTypeReview } from "@/hooks/useTypeReview";
+import { useTypingReview } from "@/hooks/useTypingReview";
 import { RIGHT_CURSOR_CLASSNAME } from "@/utils/addCursor";
 
 const TypeReview = () => {
@@ -14,7 +14,7 @@ const TypeReview = () => {
     restartTypingReview,
     typingReview,
     isCursorShowing,
-  } = useTypeReview();
+  } = useTypingReview();
 
   return (
     <article>

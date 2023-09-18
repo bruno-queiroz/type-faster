@@ -9,7 +9,7 @@ export interface TypingReview {
   accuracy: string;
 }
 
-export const useTypeReview = () => {
+export const useTypingReview = () => {
   const [typingReview, setTypingReview] = useState<TypingReview[]>([]);
   const [typingReviewIndex, setTypingReviewIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
