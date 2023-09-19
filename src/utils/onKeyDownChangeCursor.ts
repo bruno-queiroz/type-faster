@@ -5,6 +5,8 @@ import { removeCursor } from "@/utils/removeCursor";
 import { getCursorPositionCtrlRight } from "./getCursorPositionCtrlRight";
 import { getCursorPositionCtrlLeft } from "./getCursorPositionCtrlLeft";
 
+const allowedKeys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
+
 export const onKeyDownChangeCursor = (
   e: KeyboardEvent<HTMLInputElement>,
   textElement: RefObject<HTMLParagraphElement>,
@@ -19,66 +21,47 @@ export const onKeyDownChangeCursor = (
 
   const textElementChildren = textElement.current.children;
 
-  if (key === "ArrowUp") {
-    removeCursor(
-      currentWordBeginningIndex + cursorStart - 1,
-      textElementChildren
-    );
+  if (!allowedKeys.includes(key)) return;
 
-    addCursor(currentWordBeginningIndex - 1, textElementChildren);
-  } else if (key === "ArrowDown") {
-    removeCursor(
-      currentWordBeginningIndex + cursorStart - 1,
-      textElementChildren
-    );
+  let cursorIndex = -100;
 
-    addCursor(
-      currentWordBeginningIndex + inputValue.length - 1,
-      textElementChildren
-    );
-  } else if (isCtrl && key === "ArrowRight") {
-    removeCursor(
-      currentWordBeginningIndex + cursorStart - 1,
-      textElementChildren
-    );
+  switch (key) {
+    case "ArrowUp":
+      cursorIndex = currentWordBeginningIndex - 1;
+      break;
+    case "ArrowDown":
+      cursorIndex = inputValue.length - 1;
+      break;
+    case "ArrowRight":
+      if (isCtrl) {
+        cursorIndex = getCursorPositionCtrlRight(inputValue, cursorStart - 1);
+        break;
+      }
+      if (!textElementChildren[currentWordBeginningIndex + cursorStart]) break;
 
-    const cursorPosition = getCursorPositionCtrlRight(
-      inputValue,
-      cursorStart - 1
-    );
+      if (cursorStart >= inputValue.length) break;
 
-    addCursor(currentWordBeginningIndex + cursorPosition, textElementChildren);
-  } else if (isCtrl && key === "ArrowLeft") {
-    removeCursor(
-      currentWordBeginningIndex + cursorStart - 1,
-      textElementChildren
-    );
+      cursorIndex = cursorStart;
+      break;
+    case "ArrowLeft":
+      if (isCtrl) {
+        cursorIndex = getCursorPositionCtrlLeft(inputValue, cursorStart - 1);
+        break;
+      }
+      const safeCursorStart = cursorStart - 2 < -1 ? -1 : cursorStart - 2;
 
-    const cursorPosition = getCursorPositionCtrlLeft(
-      inputValue,
-      cursorStart - 1
-    );
-
-    addCursor(currentWordBeginningIndex + cursorPosition, textElementChildren);
-  } else if (key === "ArrowLeft") {
-    const safeCursorStart = cursorStart - 2 < -1 ? -1 : cursorStart - 2;
-
-    removeCursor(
-      currentWordBeginningIndex + cursorStart - 1,
-      textElementChildren
-    );
-
-    addCursor(currentWordBeginningIndex + safeCursorStart, textElementChildren);
-  } else if (key === "ArrowRight") {
-    if (!textElementChildren[currentWordBeginningIndex + cursorStart]) return;
-
-    if (cursorStart >= inputValue.length) return;
-
-    removeCursor(
-      currentWordBeginningIndex + cursorStart - 1,
-      textElementChildren
-    );
-
-    addCursor(currentWordBeginningIndex + cursorStart, textElementChildren);
+      cursorIndex = safeCursorStart;
+      break;
   }
+
+  const isCursorIndexTheSame = cursorIndex === -100;
+
+  if (isCursorIndexTheSame) return;
+
+  removeCursor(
+    currentWordBeginningIndex + cursorStart - 1,
+    textElementChildren
+  );
+
+  addCursor(currentWordBeginningIndex + cursorIndex, textElementChildren);
 };
