@@ -10,6 +10,7 @@ import { useTyping } from "@/hooks/useTyping";
 
 import { getTypedProgress } from "@/utils/getTypedProgress";
 import { onKeyDownChangeCursor } from "@/utils/onKeyDownChangeCursor";
+import { onClickChangeCursor } from "@/utils/onClickChangeCursor";
 
 const text =
   "At th-ree in the morning... the blood runs slow and thick, and slumber is heavy.";
@@ -34,7 +35,6 @@ const Page = ({ params }: { params: { mode: string } }) => {
     time,
     inputIndex,
     currentWordBeginningIndex,
-    onClick,
     onType,
     restartTyping,
   } = useTyping(
@@ -81,7 +81,14 @@ const Page = ({ params }: { params: { mode: string } }) => {
               onKeyDown={(e) =>
                 onKeyDownChangeCursor(e, textElement, currentWordBeginningIndex)
               }
-              onClick={onClick}
+              onClick={(e) =>
+                onClickChangeCursor(
+                  e,
+                  textElement,
+                  currentWordBeginningIndex,
+                  textArray.length
+                )
+              }
               onPaste={(e) => e.preventDefault()}
               ref={inputElement}
             />
