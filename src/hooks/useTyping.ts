@@ -1,10 +1,4 @@
-import {
-  ChangeEvent,
-  KeyboardEvent,
-  MouseEvent,
-  RefObject,
-  useState,
-} from "react";
+import { ChangeEvent, RefObject, useState } from "react";
 
 import { addCursor } from "@/utils/addCursor";
 import { addUnderlineToTheNewWord } from "@/utils/addUnderlineToTheNewWord";
@@ -12,7 +6,6 @@ import { checkWord } from "@/utils/checkWord";
 import { clearLetterStyles } from "@/utils/clearLetterStyles";
 import { removeCursor } from "@/utils/removeCursor";
 import { removeUnderlineOfThePreviousWord } from "@/utils/removeUnderlineOfThePreviousWord";
-import { removeCursorFromWord } from "@/utils/removeCursorFromWord";
 import { getCPMContext } from "@/utils/getCPM";
 import { getAccuracy } from "@/utils/getAccuracy";
 import { getTypingElapsedTime } from "@/utils/getTypingElapsedTime";
@@ -392,24 +385,6 @@ export const useTyping = (
     }, 0);
   };
 
-  const onClick = (e: MouseEvent<HTMLInputElement, globalThis.MouseEvent>) => {
-    const textElement = getTextElement();
-    if (textElement.current) {
-      const textElementChildren = textElement.current.children;
-      const selectionStart = (e.target as HTMLInputElement).selectionStart || 0;
-
-      removeCursorFromWord(
-        currentWordBeginningIndex,
-        textElementChildren,
-        textArray.length - 1
-      );
-      addCursor(
-        currentWordBeginningIndex + selectionStart - 1 || 1,
-        textElementChildren
-      );
-    }
-  };
-
   return {
     input,
     isTypingFinished,
@@ -421,7 +396,6 @@ export const useTyping = (
     inputIndex,
     currentWordBeginningIndex,
     onType,
-    onClick,
     restartTyping,
   };
 };
