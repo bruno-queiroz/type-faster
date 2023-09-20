@@ -9,6 +9,7 @@ import TypeInfo from "@/components/TypeInfo";
 import { useTyping } from "@/hooks/useTyping";
 
 import { getTypedProgress } from "@/utils/getTypedProgress";
+import { onKeyDownChangeCursor } from "@/utils/onKeyDownChangeCursor";
 
 const text =
   "At th-ree in the morning... the blood runs slow and thick, and slumber is heavy.";
@@ -32,8 +33,8 @@ const Page = ({ params }: { params: { mode: string } }) => {
     accuracy,
     time,
     inputIndex,
+    currentWordBeginningIndex,
     onClick,
-    onKeyDownChangeCursor,
     onType,
     restartTyping,
   } = useTyping(
@@ -77,7 +78,9 @@ const Page = ({ params }: { params: { mode: string } }) => {
               style={{ backgroundColor: isMisspelled.is ? "#F87171" : "" }}
               value={input}
               onChange={onType}
-              onKeyDown={onKeyDownChangeCursor}
+              onKeyDown={(e) =>
+                onKeyDownChangeCursor(e, textElement, currentWordBeginningIndex)
+              }
               onClick={onClick}
               onPaste={(e) => e.preventDefault()}
               ref={inputElement}
