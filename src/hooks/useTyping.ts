@@ -97,6 +97,7 @@ export const useTyping = (
 
     let isCorrect = true;
     let isCheckWordNeeded = true;
+
     if (isCorrectInput) {
       if (inputIndex + 1 > lettersTyped) {
         lettersTyped++;
@@ -117,19 +118,14 @@ export const useTyping = (
         }, 2000);
         setIntervalId(intervalId);
       }
+
+      isCheckWordNeeded = false;
+
       const isInputHappeningBetweenLetters =
         input.length - 2 >= selectionStart!;
 
       if (isInputHappeningBetweenLetters) {
-        const isMisspelledData = checkWord(
-          e.target.value,
-          textElement.current?.children,
-          textArray,
-          currentWordBeginningIndex,
-          endMatch
-        );
-
-        setIsMisspelled(isMisspelledData);
+        isCheckWordNeeded = true;
       }
 
       if (keyPressed === " ") {
@@ -174,15 +170,6 @@ export const useTyping = (
           inputIndex
         );
 
-        const isMisspelledData = checkWord(
-          e.target.value,
-          textElement.current?.children,
-          textArray,
-          currentWordBeginningIndex,
-          endMatch
-        );
-
-        setIsMisspelled(isMisspelledData);
         setInputIndex(e.target.value.length + currentWordBeginningIndex);
 
         addCursor(
@@ -190,39 +177,28 @@ export const useTyping = (
           textElement.current.children
         );
         removeCursor(inputIndex - 1, textElement.current.children);
-        return;
+      } else {
+        if (currentCharElement) {
+          currentCharElement.style.color = "black";
+          currentCharElement.style.backgroundColor = "transparent";
+        }
+
+        if (consecutiveMistakesCount > 0) {
+          setConsecutiveMistakesCount((prev) => prev - 1);
+        }
+
+        if (consecutiveMistakesCount === 1) {
+          setConsecutiveMistakesModal({
+            isOpen: false,
+            word: "",
+          });
+        }
+
+        setInputIndex(inputIndex - 1);
+
+        addCursor(currentCursorSafeIndex - 1, textElement.current.children);
+        removeCursor(currentCursorSafeIndex, textElement.current.children);
       }
-
-      if (currentCharElement) {
-        currentCharElement.style.color = "black";
-        currentCharElement.style.backgroundColor = "transparent";
-      }
-
-      if (consecutiveMistakesCount > 0) {
-        setConsecutiveMistakesCount((prev) => prev - 1);
-      }
-
-      if (consecutiveMistakesCount === 1) {
-        setConsecutiveMistakesModal({
-          isOpen: false,
-          word: "",
-        });
-      }
-
-      setInputIndex(inputIndex - 1);
-
-      const isMisspelledData = checkWord(
-        e.target.value,
-        textElement.current?.children,
-        textArray,
-        currentWordBeginningIndex,
-        endMatch
-      );
-
-      setIsMisspelled(isMisspelledData);
-
-      addCursor(currentCursorSafeIndex - 1, textElement.current.children);
-      removeCursor(currentCursorSafeIndex, textElement.current.children);
     } else if (isDeleteWordBackward) {
       clearLetterStyles(
         input.length,
@@ -235,15 +211,6 @@ export const useTyping = (
         word: "",
       });
 
-      const isMisspelledData = checkWord(
-        e.target.value,
-        textElement.current?.children,
-        textArray,
-        currentWordBeginningIndex,
-        endMatch
-      );
-
-      setIsMisspelled(isMisspelledData);
       setInputIndex(inputIndex - (input.length - e.target.value.length));
 
       addCursor(
@@ -275,15 +242,6 @@ export const useTyping = (
         setIsMisspelled({ is: true, index: inputIndex });
       }
 
-      const isMisspelledData = checkWord(
-        e.target.value,
-        textElement.current?.children,
-        textArray,
-        currentWordBeginningIndex,
-        endMatch
-      );
-      setIsMisspelled(isMisspelledData);
-
       addCursor(currentCursorSafeIndex - 1, textElement.current.children);
       removeCursor(currentCursorSafeIndex - 2, textElement.current.children);
 
@@ -302,6 +260,18 @@ export const useTyping = (
       accuracy: getAccuracy(mistakeCount, lettersTyped),
       isCorrect,
     });
+
+    if (isCheckWordNeeded) {
+      const isMisspelledData = checkWord(
+        e.target.value,
+        textElement.current?.children,
+        textArray,
+        currentWordBeginningIndex,
+        endMatch
+      );
+
+      setIsMisspelled(isMisspelledData);
+    }
   };
 
   const endMatch = () => {
