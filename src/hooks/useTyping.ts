@@ -32,7 +32,7 @@ export interface TypingHistory {
 
 let lettersTyped = 0;
 export let typingHistory: TypingHistory[] = [];
-export const [typos, addTypo, clearSet] = typosSet();
+export const [typos, addTypo, clearTypos] = typosSet();
 
 export const useTyping = (
   getTextElement: () => RefObject<HTMLParagraphElement>,
@@ -294,7 +294,7 @@ export const useTyping = (
 
   const resetTypingHistory = () => {
     typingHistory = [];
-    clearSet();
+    clearTypos();
     lettersTyped = 0;
   };
 
