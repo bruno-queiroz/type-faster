@@ -125,8 +125,10 @@ export const useTyping = (
           }, 2000);
           setIntervalId(intervalId);
         }
+        const isInputHappeningBetweenLetters =
+          input.length - 2 >= selectionStart!;
 
-        if (input.length - 2 >= selectionStart!) {
+        if (isInputHappeningBetweenLetters) {
           const isMisspelledData = checkWord(
             e.target.value,
             textElement.current?.children,
