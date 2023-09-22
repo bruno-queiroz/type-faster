@@ -73,7 +73,8 @@ export const useTyping = (
     const selectionStart = e.target.selectionStart || 0;
     const currentCursorSafeIndex = selectionStart + currentWordBeginningIndex;
 
-    const currentCharElement = textElement.current?.children[
+    const textElementChildren = textElement.current?.children;
+    const currentCharElement = textElementChildren[
       inputIndex
     ] as HTMLSpanElement;
 
@@ -137,23 +138,19 @@ export const useTyping = (
         addUnderlineToTheNewWord(
           inputIndex + 1,
           textArray,
-          textElement.current?.children
+          textElementChildren
         );
         removeUnderlineOfThePreviousWord(
           currentWordBeginningIndex,
           textArray,
-          textElement.current?.children
+          textElementChildren
         );
 
         setInput("");
         setCurrentWordBeginningIndex(inputIndex + 1);
       }
       if (currentWordBeginningIndex === 0) {
-        addUnderlineToTheNewWord(
-          inputIndex,
-          textArray,
-          textElement.current?.children
-        );
+        addUnderlineToTheNewWord(inputIndex, textArray, textElementChildren);
       }
       setInputIndex(inputIndex + 1);
       currentCharElement.style.color = "green";
@@ -161,7 +158,7 @@ export const useTyping = (
       removeCursor(inputIndex - 1, textElement.current.children);
       addCursor(inputIndex, textElement.current.children);
     } else if (isDeleteContentBackward) {
-      const currentCharElement = textElement.current?.children[
+      const currentCharElement = textElementChildren[
         inputIndex - 1
       ] as HTMLSpanElement;
 
@@ -169,11 +166,7 @@ export const useTyping = (
         inputIndex - 1 !== e.target.value.length + currentWordBeginningIndex;
 
       if (wasMoreThanOneLetterDeletedAtOnce) {
-        clearLetterStyles(
-          input.length,
-          textElement.current?.children,
-          inputIndex
-        );
+        clearLetterStyles(input.length, textElementChildren, inputIndex);
 
         setInputIndex(e.target.value.length + currentWordBeginningIndex);
 
@@ -205,11 +198,7 @@ export const useTyping = (
         removeCursor(currentCursorSafeIndex, textElement.current.children);
       }
     } else if (isDeleteWordBackward) {
-      clearLetterStyles(
-        input.length,
-        textElement.current?.children,
-        inputIndex
-      );
+      clearLetterStyles(input.length, textElementChildren, inputIndex);
 
       setConsecutiveMistakesModal({
         isOpen: false,
@@ -269,7 +258,7 @@ export const useTyping = (
     if (isCheckWordNeeded) {
       const isMisspelledData = checkWord(
         e.target.value,
-        textElement.current?.children,
+        textElementChildren,
         textArray,
         currentWordBeginningIndex,
         endMatch
