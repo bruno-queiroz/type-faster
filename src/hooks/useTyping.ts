@@ -95,21 +95,12 @@ export const useTyping = (
       !isMisspelled.is &&
       !isDeleteContentBackward;
 
+    let isCorrect = true;
+    let isCheckWordNeeded = true;
     if (isCorrectInput) {
       if (inputIndex + 1 > lettersTyped) {
         lettersTyped++;
       }
-
-      typingHistory.push({
-        value: nativeEvent.data!,
-        time: new Date().getTime(),
-        isDeleteContent: false,
-        startPoint: currentText.length - selectionStart,
-        deletedAmount: 0,
-        cpm,
-        accuracy: getAccuracy(mistakeCount, lettersTyped),
-        isCorrect: true,
-      });
 
       const isFinished = inputIndex === textArray.length - 1;
       if (isFinished) {
@@ -176,17 +167,6 @@ export const useTyping = (
       const wasMoreThanOneLetterDeletedAtOnce =
         inputIndex - 1 !== e.target.value.length + currentWordBeginningIndex;
 
-      typingHistory.push({
-        value: "Backspace",
-        time: new Date().getTime(),
-        isDeleteContent: true,
-        startPoint: currentText.length - selectionStart,
-        deletedAmount: input.length - currentText.length,
-        cpm,
-        accuracy: getAccuracy(mistakeCount, lettersTyped),
-        isCorrect: true,
-      });
-
       if (wasMoreThanOneLetterDeletedAtOnce) {
         clearLetterStyles(
           input.length,
@@ -250,17 +230,6 @@ export const useTyping = (
         inputIndex
       );
 
-      typingHistory.push({
-        value: "Backspace",
-        time: new Date().getTime(),
-        isDeleteContent: true,
-        startPoint: currentText.length - selectionStart,
-        deletedAmount: input.length - currentText.length,
-        cpm,
-        accuracy: getAccuracy(mistakeCount, lettersTyped),
-        isCorrect: true,
-      });
-
       setConsecutiveMistakesModal({
         isOpen: false,
         word: "",
@@ -300,16 +269,7 @@ export const useTyping = (
       setConsecutiveMistakesCount((prev) => prev + 1);
       setMistakeCount(mistakeCount + 1);
 
-      typingHistory.push({
-        value: nativeEvent.data!,
-        time: new Date().getTime(),
-        isDeleteContent: false,
-        startPoint: currentText.length - selectionStart,
-        deletedAmount: 0,
-        cpm,
-        accuracy: getAccuracy(mistakeCount, lettersTyped),
-        isCorrect: false,
-      });
+      isCorrect = false;
 
       if (!isMisspelled.is) {
         setIsMisspelled({ is: true, index: inputIndex });
@@ -329,12 +289,25 @@ export const useTyping = (
 
       setInputIndex(inputIndex + 1);
     }
+
+    const isDeleteContent = isDeleteContentBackward || isDeleteWordBackward;
+
+    typingHistory.push({
+      value: nativeEvent.data || "Backspace",
+      time: new Date().getTime(),
+      isDeleteContent: isDeleteContent,
+      startPoint: currentText.length - selectionStart,
+      deletedAmount: input.length - currentText.length,
+      cpm,
+      accuracy: getAccuracy(mistakeCount, lettersTyped),
+      isCorrect,
+    });
   };
 
   const endMatch = () => {
     clearInterval(intervalId);
     setIsTypingFinished(true);
-
+    console.log(typingHistory);
     const typeAccuracy = getAccuracy(mistakeCount, lettersTyped);
     const typedTime = getTypingElapsedTime(typingHistory[0].time);
 
