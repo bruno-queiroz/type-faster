@@ -10,7 +10,7 @@ import { getCPMContext } from "@/utils/getCPM";
 import { getAccuracy } from "@/utils/getAccuracy";
 import { getTypingElapsedTime } from "@/utils/getTypingElapsedTime";
 import { getWord } from "@/utils/getWord";
-import { customSet } from "@/utils/customSet";
+import { typosSet } from "@/utils/typosSet";
 import { clearTextStyles } from "@/utils/clearTextStyles";
 import { textArray } from "@/app/practice/[mode]/page";
 
@@ -32,7 +32,7 @@ export interface TypingHistory {
 
 let lettersTyped = 0;
 export let typingHistory: TypingHistory[] = [];
-export const [typos, addTypo, clearSet] = customSet();
+export const [typos, addTypo, clearSet] = typosSet();
 
 export const useTyping = (
   getTextElement: () => RefObject<HTMLParagraphElement>,
@@ -271,7 +271,7 @@ export const useTyping = (
   const endMatch = () => {
     clearInterval(intervalId);
     setIsTypingFinished(true);
-    console.log(typingHistory);
+
     const typeAccuracy = getAccuracy(mistakeCount, lettersTyped);
     const typedTime = getTypingElapsedTime(typingHistory[0].time);
 
