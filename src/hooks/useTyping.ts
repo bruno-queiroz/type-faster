@@ -59,20 +59,17 @@ export const useTyping = (
 
   const onType = (e: ChangeEvent<HTMLInputElement>) => {
     const textElement = getTextElement();
-    const nativeEvent = e.nativeEvent as NativeEventMissingTypes;
-    const isDeleteContentBackward =
-      nativeEvent.inputType === "deleteContentBackward";
-    const keyPressed = nativeEvent.data;
-    const isDeleteWordBackward = nativeEvent.inputType === "deleteWordBackward";
-
-    if (!isMisspelled.is && consecutiveMistakesCount > 0) {
-      setConsecutiveMistakesCount(0);
-    }
 
     if (!textElement.current) return;
 
+    const nativeEvent = e.nativeEvent as NativeEventMissingTypes;
+
+    const isDeleteContentBackward =
+      nativeEvent.inputType === "deleteContentBackward";
+    const isDeleteWordBackward = nativeEvent.inputType === "deleteWordBackward";
+
     const currentText = e.target.value;
-    const currentChar = currentText[currentText.length - 1];
+
     const selectionStart = e.target.selectionStart || 0;
     const currentCursorSafeIndex = selectionStart + currentWordBeginningIndex;
 
@@ -80,8 +77,12 @@ export const useTyping = (
       inputIndex
     ] as HTMLSpanElement;
 
+    if (!isMisspelled.is && consecutiveMistakesCount > 0) {
+      setConsecutiveMistakesCount(0);
+    }
     const isMoreThanFiveConsecutiveMistakes =
       isMisspelled.is && consecutiveMistakesCount > 5;
+
     if (isMoreThanFiveConsecutiveMistakes) {
       if (isDeleteContentBackward || isDeleteWordBackward) {
         setInput(e.target.value);
@@ -89,6 +90,8 @@ export const useTyping = (
     } else {
       setInput(e.target.value);
     }
+
+    const currentChar = currentText[currentText.length - 1];
 
     const isCorrectInput =
       textArray[inputIndex] === currentChar &&
@@ -99,6 +102,8 @@ export const useTyping = (
     let isCheckWordNeeded = true;
 
     if (isCorrectInput) {
+      const keyPressed = nativeEvent.data;
+
       if (inputIndex + 1 > lettersTyped) {
         lettersTyped++;
       }
