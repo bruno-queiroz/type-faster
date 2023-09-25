@@ -13,26 +13,17 @@ import { getWord } from "@/utils/getWord";
 import { typosSet } from "@/utils/typosSet";
 import { clearTextStyles } from "@/utils/clearTextStyles";
 import { textArray } from "@/app/practice/[mode]/page";
+import { createTypingHistory } from "@/utils/createTypingHistory";
 
 interface NativeEventMissingTypes extends Event {
   inputType: string;
   data: string | null;
 }
 
-export interface TypingHistory {
-  value: string;
-  time: number;
-  isDeleteContent: boolean;
-  startPoint: number;
-  deletedAmount: number;
-  cpm: string;
-  accuracy: string;
-  isCorrect: boolean;
-}
-
 let lettersTyped = 0;
-export let typingHistory: TypingHistory[] = [];
-export const [typos, addTypo, clearTypos] = typosSet();
+export const [getTypingHistory, pushToHistory, clearTypingHistory] =
+  createTypingHistory();
+export const [getTypos, addTypo, clearTypos] = typosSet();
 
 export const useTyping = (
   getTextElement: () => RefObject<HTMLParagraphElement>,
@@ -213,6 +204,8 @@ export const useTyping = (
       );
       removeCursor(inputIndex - 1, textElement.current.children);
     } else {
+      const typingHistory = getTypingHistory();
+
       addTypo({
         word: getWord(currentWordBeginningIndex, textArray),
         typingHistoryIndex: typingHistory.length,
@@ -244,9 +237,8 @@ export const useTyping = (
 
     const isDeleteContent = isDeleteContentBackward || isDeleteWordBackward;
 
-    typingHistory.push({
-      value: nativeEvent.data || "Backspace",
-      time: new Date().getTime(),
+    pushToHistory({
+      value: nativeEvent.data,
       isDeleteContent: isDeleteContent,
       startPoint: currentText.length - selectionStart,
       deletedAmount: input.length - currentText.length,
@@ -269,6 +261,8 @@ export const useTyping = (
   };
 
   const endMatch = () => {
+    const typingHistory = getTypingHistory();
+
     clearInterval(intervalId);
     setIsTypingFinished(true);
 
@@ -293,7 +287,7 @@ export const useTyping = (
   };
 
   const resetTypingHistory = () => {
-    typingHistory = [];
+    clearTypingHistory();
     clearTypos();
     lettersTyped = 0;
   };
