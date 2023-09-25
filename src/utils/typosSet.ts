@@ -3,23 +3,25 @@ export interface Typo {
   typingHistoryIndex: number;
 }
 
-export const typosSet = (): [Typo[], (typo: Typo) => void, () => void] => {
+export const typosSet = (): [
+  () => Typo[],
+  (typo: Typo) => void,
+  () => void
+] => {
   const set = new Set<string>();
   let typos: Typo[] = [];
+
+  const addTypo = (typo: Typo) => {
+    if (!set.has(typo.word)) {
+      typos.push(typo);
+      set.add(typo.word);
+    }
+  };
 
   const clearTypos = () => {
     typos = [];
     set.clear();
   };
 
-  return [
-    typos,
-    (typo: Typo) => {
-      if (!set.has(typo.word)) {
-        typos.push(typo);
-        set.add(typo.word);
-      }
-    },
-    clearTypos,
-  ];
+  return [() => typos, addTypo, clearTypos];
 };
