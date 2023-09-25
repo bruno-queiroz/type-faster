@@ -1,4 +1,4 @@
-import { TypingHistory } from "@/hooks/useTyping";
+import { TypingHistory } from "./createTypingHistory";
 import { TypingReview } from "@/hooks/useTypingReview";
 import { Dispatch, SetStateAction } from "react";
 
