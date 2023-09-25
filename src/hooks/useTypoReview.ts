@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { typingHistory, typos } from "./useTyping";
+import { getTypingHistory, getTypos } from "./useTyping";
 import { TypingReview } from "./useTypingReview";
 
 import { clearAllSetIntervals } from "@/utils/clearAllSetIntervals";
@@ -13,6 +13,9 @@ export const useTypoReview = () => {
   const [isCursorShowing, setIsCursorShowing] = useState(false);
 
   const showTypoReplay = (index: number) => {
+    const typos = getTypos();
+    const typingHistory = getTypingHistory();
+
     setTypoReview([]);
     const wordInitialIndex = getStartOfWordIndex(
       typos[index].typingHistoryIndex,
