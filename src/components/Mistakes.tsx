@@ -1,7 +1,9 @@
-import { typos } from "@/hooks/useTyping";
+import { getTypos } from "@/hooks/useTyping";
 import MistakeItem from "./MistakeItem";
 
 const Mistakes = () => {
+  const typos = getTypos()
+  
   return (
     <article className="relative">
       <h2 className="text-xl my-4">Mistakes</h2>
