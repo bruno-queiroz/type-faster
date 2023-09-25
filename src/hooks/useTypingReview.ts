@@ -1,4 +1,4 @@
-import { typingHistory } from "./useTyping";
+import { getTypingHistory } from "./useTyping";
 
 import { clearAllSetIntervals } from "@/utils/clearAllSetIntervals";
 import { playTypingReview } from "@/utils/playTypingReview";
@@ -17,6 +17,8 @@ export const useTypingReview = () => {
   const [isCursorShowing, setIsCursorShowing] = useState(false);
 
   const handlePlayReview = () => {
+    const typingHistory = getTypingHistory();
+
     if (typingHistory.length === typingReviewIndex) return;
 
     if (!isPlaying) {
@@ -34,6 +36,8 @@ export const useTypingReview = () => {
   };
 
   const startTypingReview = () => {
+    const typingHistory = getTypingHistory();
+
     setIsCursorShowing(true);
 
     playTypingReview({
@@ -46,6 +50,8 @@ export const useTypingReview = () => {
   };
 
   const restartTypingReview = () => {
+    const typingHistory = getTypingHistory();
+
     setTypingReviewIndex(0);
     setTypingReview([]);
     setIsPlaying(true);
