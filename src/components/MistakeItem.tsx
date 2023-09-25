@@ -12,9 +12,7 @@ const MistakeItem = ({ i, word }: { i: number; word: string }) => {
     >
       <div className="hidden group-hover:flex break-all justify-center font-mono text-lg absolute right-[50%] translate-x-[50%] top-[-8px] bg-gray-400 text-white p-2 rounded min-w-[200px] h-[45px]">
         {typoReview.map((typo, i) => (
-          <>
-            <span key={i}>{typo.value}</span>
-          </>
+          <span key={i}>{typo.value}</span>
         ))}
         <span
           className={`w-[1px] h-[24px] ${isCursorShowing && "cursor-white"}`}
