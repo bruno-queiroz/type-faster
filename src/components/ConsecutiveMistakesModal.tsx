@@ -11,7 +11,7 @@ const ConsecutiveMistakesModal = ({
   modalData: { isOpen, word },
 }: ConsecutiveMistakesModalProps) => {
   return (
-    <dialog open={isOpen} className="rounded p-4">
+    <dialog open={isOpen} className="rounded p-4 z-10">
       <h3 className="text-xl font-semibold mb-4">Typo Alert</h3>
       <div className="flex flex-col gap-1">
         <p>
