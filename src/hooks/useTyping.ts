@@ -1,4 +1,4 @@
-import { ChangeEvent, RefObject, useState } from "react";
+import { ChangeEvent, RefObject, useEffect, useRef, useState } from "react";
 
 import { addCursor } from "@/utils/addCursor";
 import { addUnderlineToTheNewWord } from "@/utils/addUnderlineToTheNewWord";
@@ -14,6 +14,7 @@ import { typosSet } from "@/utils/typosSet";
 import { clearTextStyles } from "@/utils/clearTextStyles";
 import { textArray } from "@/app/practice/[mode]/page";
 import { createTypingHistory } from "@/utils/createTypingHistory";
+import { clearAllSetIntervals } from "@/utils/clearAllSetIntervals";
 
 interface NativeEventMissingTypes extends Event {
   inputType: string;
@@ -36,7 +37,6 @@ export const useTyping = (
     is: false,
     index: 0,
   });
-  const [intervalId, setIntervalId] = useState<NodeJS.Timer>();
   const [isTypingFinished, setIsTypingFinished] = useState(false);
   const [consecutiveMistakesCount, setConsecutiveMistakesCount] = useState(0);
   const [consecutiveMistakesModal, setConsecutiveMistakesModal] = useState({
@@ -47,6 +47,20 @@ export const useTyping = (
   const [time, setTime] = useState("0");
   const [cpm, setCpm] = useState("0");
   const [mistakeCount, setMistakeCount] = useState(0);
+
+  const intervalId = useRef<NodeJS.Timer>();
+
+  useEffect(() => {
+    const clearTimeoutsAndIntervals = () => {
+      clearInterval(intervalId.current);
+      clearAllSetIntervals(0);
+
+      resetTypingHistory();
+      resetTypingStates();
+    };
+
+    return clearTimeoutsAndIntervals;
+  }, []);
 
   const onType = (e: ChangeEvent<HTMLInputElement>) => {
     const textElement = getTextElement();
@@ -109,11 +123,10 @@ export const useTyping = (
       if (isFirstInput) {
         const getCPM = getCPMContext();
 
-        const intervalId = setInterval(() => {
+        intervalId.current = setInterval(() => {
           const newCpm = getCPM(lettersTyped);
           setCpm(newCpm);
         }, 2000);
-        setIntervalId(intervalId);
       }
 
       isCheckWordNeeded = false;
@@ -263,7 +276,7 @@ export const useTyping = (
   const endMatch = () => {
     const typingHistory = getTypingHistory();
 
-    clearInterval(intervalId);
+    clearInterval(intervalId.current);
     setIsTypingFinished(true);
 
     const typeAccuracy = getAccuracy(mistakeCount, lettersTyped);
