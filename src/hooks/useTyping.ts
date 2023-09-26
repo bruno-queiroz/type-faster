@@ -121,6 +121,9 @@ export const useTyping = (
 
       const isFirstInput = lettersTyped === 1;
       if (isFirstInput) {
+        setMistakeCount(0);
+        clearTypos();
+
         const getCPM = getCPMContext();
 
         intervalId.current = setInterval(() => {
@@ -250,15 +253,19 @@ export const useTyping = (
 
     const isDeleteContent = isDeleteContentBackward || isDeleteWordBackward;
 
-    pushToHistory({
-      value: nativeEvent.data,
-      isDeleteContent: isDeleteContent,
-      startPoint: currentText.length - selectionStart,
-      deletedAmount: input.length - currentText.length,
-      cpm,
-      accuracy: getAccuracy(mistakeCount, lettersTyped),
-      isCorrect,
-    });
+    const userGotAtLeastOneLetterRight = lettersTyped > 0;
+
+    if (userGotAtLeastOneLetterRight) {
+      pushToHistory({
+        value: nativeEvent.data,
+        isDeleteContent: isDeleteContent,
+        startPoint: currentText.length - selectionStart,
+        deletedAmount: input.length - currentText.length,
+        cpm,
+        accuracy: getAccuracy(mistakeCount, lettersTyped),
+        isCorrect,
+      });
+    }
 
     if (isCheckWordNeeded) {
       const isMisspelledData = checkWord(
