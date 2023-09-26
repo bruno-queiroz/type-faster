@@ -83,9 +83,6 @@ export const useTyping = (
       inputIndex
     ] as HTMLSpanElement;
 
-    if (!isMisspelled.is && consecutiveMistakesCount > 0) {
-      setConsecutiveMistakesCount(0);
-    }
     const isMoreThanFiveConsecutiveMistakes =
       isMisspelled.is && consecutiveMistakesCount > 5;
 
@@ -175,6 +172,13 @@ export const useTyping = (
       if (wasMoreThanOneLetterDeletedAtOnce) {
         clearLetterStyles(input.length, textElementChildren, inputIndex);
 
+        setConsecutiveMistakesModal({
+          isOpen: false,
+          word: "",
+        });
+
+        setConsecutiveMistakesCount(0);
+
         setInputIndex(e.target.value.length + currentWordBeginningIndex);
 
         addCursor(
@@ -211,6 +215,8 @@ export const useTyping = (
         isOpen: false,
         word: "",
       });
+
+      setConsecutiveMistakesCount(0);
 
       setInputIndex(inputIndex - (input.length - e.target.value.length));
 
