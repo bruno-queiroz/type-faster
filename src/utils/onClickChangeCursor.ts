@@ -13,13 +13,18 @@ export const onClickChangeCursor = (
   const textElementChildren = textElement.current.children;
   const selectionStart = (e.target as HTMLInputElement).selectionStart || 0;
 
+  const selection = document.getSelection()?.toString();
+
   removeCursorFromWord(
     currentWordBeginningIndex,
     textElementChildren,
     textLength - 1
   );
-  addCursor(
-    currentWordBeginningIndex + selectionStart - 1 || 1,
-    textElementChildren
-  );
+
+  if (!selection) {
+    addCursor(
+      currentWordBeginningIndex + selectionStart - 1 || 1,
+      textElementChildren
+    );
+  }
 };
