@@ -182,7 +182,7 @@ export const useTyping = (
         setInputIndex(e.target.value.length + currentWordBeginningIndex);
 
         addCursor(
-          e.target.value.length + currentWordBeginningIndex - 1,
+          currentWordBeginningIndex - 1 + selectionStart,
           textElement.current.children
         );
         removeCursor(inputIndex - 1, textElement.current.children);
