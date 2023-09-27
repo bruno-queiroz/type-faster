@@ -16,8 +16,10 @@ export const onKeyDownChangeCursor = (
 
   const key = e.key;
   const isCtrl = e.ctrlKey;
-  const cursorStart = (e.target as HTMLInputElement).selectionStart || 0;
   const inputValue = (e.target as HTMLInputElement).value;
+
+  const selectionStart = (e.target as HTMLInputElement).selectionStart || 0;
+  const selectionEnd = (e.target as HTMLInputElement).selectionEnd;
 
   const textElementChildren = textElement.current.children;
 
@@ -27,28 +29,32 @@ export const onKeyDownChangeCursor = (
 
   switch (key) {
     case "ArrowUp":
-      cursorIndex = currentWordBeginningIndex - 1;
+      cursorIndex = -1;
       break;
     case "ArrowDown":
       cursorIndex = inputValue.length - 1;
       break;
     case "ArrowRight":
       if (isCtrl) {
-        cursorIndex = getCursorPositionCtrlRight(inputValue, cursorStart - 1);
+        cursorIndex = getCursorPositionCtrlRight(
+          inputValue,
+          selectionStart - 1
+        );
         break;
       }
-      if (!textElementChildren[currentWordBeginningIndex + cursorStart]) break;
+      if (!textElementChildren[currentWordBeginningIndex + selectionStart])
+        break;
 
-      if (cursorStart >= inputValue.length) break;
+      if (selectionStart >= inputValue.length) break;
 
-      cursorIndex = cursorStart;
+      cursorIndex = selectionStart;
       break;
     case "ArrowLeft":
       if (isCtrl) {
-        cursorIndex = getCursorPositionCtrlLeft(inputValue, cursorStart - 1);
+        cursorIndex = getCursorPositionCtrlLeft(inputValue, selectionStart - 1);
         break;
       }
-      const safeCursorStart = cursorStart - 2 < -1 ? -1 : cursorStart - 2;
+      const safeCursorStart = selectionStart - 2 < -1 ? -1 : selectionStart - 2;
 
       cursorIndex = safeCursorStart;
       break;
@@ -59,7 +65,7 @@ export const onKeyDownChangeCursor = (
   if (isCursorIndexTheSame) return;
 
   removeCursor(
-    currentWordBeginningIndex + cursorStart - 1,
+    currentWordBeginningIndex + selectionStart - 1,
     textElementChildren
   );
 
