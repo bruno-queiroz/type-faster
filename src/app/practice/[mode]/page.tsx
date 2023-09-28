@@ -11,6 +11,7 @@ import { useTyping } from "@/hooks/useTyping";
 import { getTypedProgress } from "@/utils/getTypedProgress";
 import { onKeyDownChangeCursor } from "@/utils/onKeyDownChangeCursor";
 import { onClickChangeCursor } from "@/utils/onClickChangeCursor";
+import Button from "@/components/Button";
 
 const text =
   "At th-ree in the morning... the blood runs slow and thick, and slumber is heavy.";
@@ -101,12 +102,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
           >
             Back Home
           </Link>
-          <button
-            type="button"
-            className="py-2 px-4 rounded bg-neutral-900 text-white outline-green-400"
-          >
-            New Text
-          </button>
+          <Button type="button">New Text</Button>
         </div>
 
         {isTypingFinished && (
