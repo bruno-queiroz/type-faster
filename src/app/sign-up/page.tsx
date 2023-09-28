@@ -1,6 +1,7 @@
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Title from "@/components/Title";
+import Link from "next/link";
 import { FcGoogle as GoogleIcon } from "react-icons/fc";
 import { SiGithub as GithubIcon } from "react-icons/si";
 
@@ -31,9 +32,12 @@ const page = () => {
         <div className="flex flex-col items-center mt-4 gap-2 text-neutral-700">
           <span>Already have an account?</span>
 
-          <button className="py-2 px-4 rounded font-bold text-neutral-700 border-neutral-900 border-[2px] w-full">
+          <Link
+            href="/sign-in"
+            className="flex justify-center py-2 px-4 rounded font-bold text-neutral-700 border-neutral-900 border-[2px] w-full"
+          >
             Sign In
-          </button>
+          </Link>
         </div>
       </div>
     </section>
