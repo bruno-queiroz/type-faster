@@ -1,13 +1,13 @@
-import React, { ReactNode } from "react";
+import React, { ButtonHTMLAttributes, ReactNode } from "react";
 
-interface ButtonProps {
+type ButtonProps = {
   py?: string;
   bg?: string;
   text?: string;
   children: ReactNode;
-}
+} & ButtonHTMLAttributes<HTMLButtonElement>;
 
-const Button = ({ bg, py, text, children }: ButtonProps) => {
+const Button = ({ bg, py, text, children, ...rest }: ButtonProps) => {
   const styles = {
     backgroundColor: bg || "#171717",
     paddingTop: py || "8px",
@@ -16,7 +16,7 @@ const Button = ({ bg, py, text, children }: ButtonProps) => {
   };
 
   return (
-    <button className="rounded outline-green-400" style={styles}>
+    <button className="rounded px-4 outline-green-400" style={styles} {...rest}>
       {children}
     </button>
   );
