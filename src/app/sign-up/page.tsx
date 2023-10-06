@@ -30,7 +30,7 @@ const page = () => {
             <GithubIcon className="text-xl" />
           </SignWith>
         </div>
-        <div className="flex flex-col items-center mt-4 gap-2 text-neutral-700">
+        <div className="flex flex-col items-center gap-2 text-neutral-700 mt-12">
           <span>Already have an account?</span>
 
           <Link
