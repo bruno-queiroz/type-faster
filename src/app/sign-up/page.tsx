@@ -1,7 +1,10 @@
+"use client";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import SignWith from "@/components/SignWith";
 import Title from "@/components/Title";
+
+import { signIn } from "next-auth/react";
 
 import Link from "next/link";
 
@@ -26,7 +29,11 @@ const page = () => {
           <SignWith labelText="Sign up with Google">
             <GoogleIcon className="text-xl" />
           </SignWith>
-          <SignWith labelText="Sign up with Github">
+
+          <SignWith
+            labelText="Sign up with Github"
+            onClick={() => signIn("github")}
+          >
             <GithubIcon className="text-xl" />
           </SignWith>
         </div>
