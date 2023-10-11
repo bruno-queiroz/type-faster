@@ -5,16 +5,25 @@ import Title from "@/components/Title";
 import useSubmitText from "@/hooks/useSubmitText";
 
 const Page = () => {
-  const { handleSubmitText, setAuthor, setImage, setText, setTitle } =
-    useSubmitText();
+  const {
+    handleSubmitText,
+    setAuthor,
+    setImage,
+    setText,
+    setTitle,
+    setImageURL,
+  } = useSubmitText();
 
   return (
-    <section className="p-4">
+    <section className="flex flex-col items-center p-4">
       <h1>
         <Title>Create text</Title>
       </h1>
 
-      <form className="flex flex-col gap-4" onSubmit={handleSubmitText}>
+      <form
+        className="flex flex-col gap-4 max-w-[400px] w-full"
+        onSubmit={handleSubmitText}
+      >
         <label>
           Text
           <textarea
@@ -23,6 +32,7 @@ const Page = () => {
             required
           ></textarea>
         </label>
+
         <Input
           labelText="Title"
           type="text"
@@ -36,15 +46,23 @@ const Page = () => {
           required
           onChange={(e) => setAuthor(e.target.value)}
         />
+        <div className="flex flex-col mt-4">
+          <Input
+            labelText="Choose image"
+            type="file"
+            name="text-image"
+            accept="image/*"
+            onChange={(e) => setImage(e.target.files)}
+          />
 
-        <Input
-          labelText="Choose image"
-          type="file"
-          required
-          name="text-image"
-          accept="image/*"
-          onChange={(e) => setImage(e.target.files)}
-        />
+          <span className="text-center mt-4">OR</span>
+
+          <Input
+            labelText="Image URL"
+            type="text"
+            onChange={(e) => setImageURL(e.target.value)}
+          />
+        </div>
 
         <Button>Upload</Button>
       </form>
