@@ -24,10 +24,12 @@ const Page = () => {
         className="flex flex-col gap-4 max-w-[400px] w-full"
         onSubmit={handleSubmitText}
       >
-        <label>
+        <label className="flex flex-col gap-1">
           Text
           <textarea
             onChange={(e) => setText(e.target.value)}
+            className="border-[2px] border-neutral-900 rounded p-2"
+            rows={5}
             spellCheck="false"
             required
           ></textarea>
