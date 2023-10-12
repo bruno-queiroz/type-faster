@@ -1,3 +1,4 @@
+import { createUser } from "@/services/api/createUser";
 import NextAuth, { NextAuthOptions } from "next-auth";
 
 import GithubProvider from "next-auth/providers/github";
@@ -16,6 +17,8 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token }) {
+      await createUser(token);
+
       return token;
     },
   },
