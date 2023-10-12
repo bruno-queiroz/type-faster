@@ -1,5 +1,5 @@
 import { createText } from "@/services/api/createText";
-import { uploadToImgbb } from "@/services/api/uploadToImgbb";
+import { ImageResponse, uploadToImgbb } from "@/services/api/uploadToImgbb";
 import React, { useState } from "react";
 
 const useSubmitText = () => {
@@ -7,23 +7,28 @@ const useSubmitText = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [image, setImage] = useState<FileList | null>(null);
+  const [imageURL, setImageURL] = useState("");
 
   const handleSubmitText = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const form = new FormData();
-    form.append("image", image?.[0] || "");
+    let imgbbUrl: ImageResponse | null = null;
+    if (image || imageURL !== "") {
+      const form = new FormData();
+      form.append("image", image?.[0] || imageURL);
 
-    const imageUrl = await uploadToImgbb(form);
+      imgbbUrl = await uploadToImgbb(form);
+    }
 
     const textData = {
       text,
       title,
       author,
-      image: imageUrl?.data?.url,
+      image: imgbbUrl?.data?.url || null,
     };
 
-    await createText(textData);
+    const response = await createText(textData);
+    console.log(response);
   };
 
   return {
@@ -31,6 +36,7 @@ const useSubmitText = () => {
     setTitle,
     setAuthor,
     setImage,
+    setImageURL,
     handleSubmitText,
   };
 };
