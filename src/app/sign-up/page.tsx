@@ -26,7 +26,10 @@ const page = () => {
           <Button py="0.75rem">Create Account</Button>
         </form>
         <div className="flex flex-col gap-2 mt-4">
-          <SignWith labelText="Sign up with Google">
+          <SignWith
+            labelText="Sign up with Google"
+            onClick={() => signIn("google")}
+          >
             <GoogleIcon className="text-xl" />
           </SignWith>
 
