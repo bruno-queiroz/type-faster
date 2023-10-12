@@ -2,7 +2,7 @@ interface Text {
   text: string;
   title: string;
   author: string;
-  image: string;
+  image: string | null;
 }
 
 export const createText = async (text: Text) => {
