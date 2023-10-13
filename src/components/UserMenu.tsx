@@ -9,14 +9,14 @@ const UserMenu = ({ children }: { children: ReactNode }) => {
     setIsMenuOpen(!isMenuOpen);
   };
   return (
-    <div className="min-w-[250px]">
+    <div>
       <div
         className="absolute w-full h-full top-0 cursor-pointer"
         onClick={handleMenu}
       />
 
       <div
-        className="absolute right-0 top-[55px] bg-neutral-800 rounded text-white pb-4"
+        className="w-full min-w-[max-content] absolute right-0 top-[55px] bg-neutral-800 rounded text-white pb-4"
         style={{ display: isMenuOpen ? "block" : "none" }}
       >
         {children}
