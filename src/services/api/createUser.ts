@@ -1,7 +1,7 @@
-import { JWT } from "next-auth/jwt";
+import { User } from "next-auth";
 
-export const createUser = async (user: JWT) => {
-  const response = await fetch("http://localhost:3333/api/sign-up", {
+export const createUser = async (user: User) => {
+  const response = await fetch("http://localhost:3333/api/user/sign-up", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -10,6 +10,5 @@ export const createUser = async (user: JWT) => {
   });
 
   const data = await response.json();
-
   return data;
 };
