@@ -10,7 +10,7 @@ export interface User {
 
 const UserButton = () => {
   return (
-    <div className="w-[45px] h-[45px] rounded-full bg-green-500 relative">
+    <div className="w-[45px] h-[45px] rounded-full relative">
       <UserPicture />
       <UserMenu>
         <UserMenuHeader />
