@@ -16,10 +16,9 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token }) {
-      await createUser(token);
-
-      return token;
+    async signIn({ user }) {
+      await createUser(user);
+      return true;
     },
   },
 };
