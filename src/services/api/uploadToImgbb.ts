@@ -48,6 +48,5 @@ export const uploadToImgbb = async (text: FormData) => {
     }
   );
   const data: ImageResponse = await response.json();
-  console.log(data);
   return data;
 };
