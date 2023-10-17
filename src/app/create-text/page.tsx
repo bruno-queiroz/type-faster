@@ -8,10 +8,15 @@ const Page = () => {
   const {
     handleSubmitText,
     setAuthor,
+    author,
     setImage,
+    image,
     setText,
+    text,
     setTitle,
+    title,
     setImageURL,
+    imageURL,
   } = useSubmitText();
 
   return (
@@ -32,6 +37,7 @@ const Page = () => {
             rows={5}
             spellCheck="false"
             required
+            value={text}
           ></textarea>
         </label>
 
@@ -39,6 +45,7 @@ const Page = () => {
           labelText="Title"
           type="text"
           required
+          value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
 
@@ -46,6 +53,7 @@ const Page = () => {
           labelText="Author"
           type="text"
           required
+          value={author}
           onChange={(e) => setAuthor(e.target.value)}
         />
         <div className="flex flex-col mt-4">
@@ -54,7 +62,8 @@ const Page = () => {
             type="file"
             name="text-image"
             accept="image/*"
-            onChange={(e) => setImage(e.target.files)}
+            value={image as any}
+            onChange={(e) => setImage(e.target.value)}
           />
 
           <span className="text-center mt-4">OR</span>
@@ -62,6 +71,7 @@ const Page = () => {
           <Input
             labelText="Image URL"
             type="text"
+            value={imageURL}
             onChange={(e) => setImageURL(e.target.value)}
           />
         </div>
