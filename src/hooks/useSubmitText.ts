@@ -6,7 +6,7 @@ const useSubmitText = () => {
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
-  const [image, setImage] = useState<FileList | null>(null);
+  const [image, setImage] = useState<FileList | string>("");
   const [imageURL, setImageURL] = useState("");
 
   const handleSubmitText = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -28,15 +28,30 @@ const useSubmitText = () => {
     };
 
     const response = await createText(textData);
-    console.log(response);
+    if (response.isOk) {
+      clearFields();
+    }
+  };
+
+  const clearFields = () => {
+    setTitle("");
+    setImageURL("");
+    setAuthor("");
+    setText("");
+    setImage("");
   };
 
   return {
     setText,
+    text,
     setTitle,
+    title,
     setAuthor,
+    author,
     setImage,
+    image,
     setImageURL,
+    imageURL,
     handleSubmitText,
   };
 };
