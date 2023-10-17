@@ -1,3 +1,5 @@
+import { ServerDefaultResponse } from "./config";
+
 interface Text {
   text: string;
   title: string;
@@ -14,7 +16,7 @@ export const createText = async (text: Text) => {
     body: JSON.stringify(text),
   });
 
-  const data = await response.json();
+  const data: ServerDefaultResponse<Text> = await response.json();
 
   return data;
 };
