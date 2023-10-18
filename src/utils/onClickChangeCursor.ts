@@ -6,9 +6,10 @@ export const onClickChangeCursor = (
   e: MouseEvent<HTMLInputElement, globalThis.MouseEvent>,
   textElement: RefObject<HTMLParagraphElement>,
   currentWordBeginningIndex: number,
-  textLength: number
+  textLength: number | undefined
 ) => {
   if (!textElement.current) return;
+  if (!textLength) return;
 
   const textElementChildren = textElement.current.children;
   const selectionStart = (e.target as HTMLInputElement).selectionStart || 0;
