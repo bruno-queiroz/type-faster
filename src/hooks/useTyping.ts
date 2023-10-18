@@ -12,9 +12,10 @@ import { getTypingElapsedTime } from "@/utils/getTypingElapsedTime";
 import { getWord } from "@/utils/getWord";
 import { typosSet } from "@/utils/typosSet";
 import { clearTextStyles } from "@/utils/clearTextStyles";
-import { textArray } from "@/app/practice/[mode]/page";
 import { createTypingHistory } from "@/utils/createTypingHistory";
 import { clearAllSetIntervals } from "@/utils/clearAllSetIntervals";
+import { getText } from "@/services/api/getText";
+import { useQuery } from "react-query";
 
 interface NativeEventMissingTypes extends Event {
   inputType: string;
@@ -50,6 +51,10 @@ export const useTyping = (
 
   const intervalId = useRef<NodeJS.Timer>();
 
+  const { data, refetch } = useQuery("text", getText, {
+    onSuccess: () => restartTyping(),
+  });
+
   useEffect(() => {
     const clearTimeoutsAndIntervals = () => {
       clearInterval(intervalId.current);
@@ -64,6 +69,7 @@ export const useTyping = (
 
   const onType = (e: ChangeEvent<HTMLInputElement>) => {
     const textElement = getTextElement();
+    const textArray = data?.text || [];
 
     if (!textElement.current) return;
 
@@ -320,6 +326,7 @@ export const useTyping = (
 
   const restartTyping = () => {
     const textElement = getTextElement();
+    const textArray = data?.text || [];
 
     if (!textElement.current) return;
     const elements = textElement.current.children;
@@ -344,6 +351,11 @@ export const useTyping = (
     }, 0);
   };
 
+  const getNewText = () => {
+    restartTyping();
+    refetch();
+  };
+
   return {
     input,
     isTypingFinished,
@@ -355,6 +367,7 @@ export const useTyping = (
     inputIndex,
     currentWordBeginningIndex,
     onType,
+    getNewText,
     restartTyping,
   };
 };
