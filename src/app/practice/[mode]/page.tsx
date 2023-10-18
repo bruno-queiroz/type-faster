@@ -12,15 +12,8 @@ import { getTypedProgress } from "@/utils/getTypedProgress";
 import { onKeyDownChangeCursor } from "@/utils/onKeyDownChangeCursor";
 import { onClickChangeCursor } from "@/utils/onClickChangeCursor";
 import Button from "@/components/Button";
-
-const text =
-  "At th-ree in the morning... the blood runs slow and thick, and slumber is heavy.";
-export const textArray: string[] = [];
-
-for (let i = 0; i < text.length; i++) {
-  const char = text[i];
-  textArray.push(char);
-}
+import { getText } from "@/services/api/getText";
+import { useQuery } from "react-query";
 
 const Page = ({ params }: { params: { mode: string } }) => {
   const textElement = useRef<HTMLParagraphElement>(null);
@@ -37,11 +30,14 @@ const Page = ({ params }: { params: { mode: string } }) => {
     inputIndex,
     currentWordBeginningIndex,
     onType,
+    getNewText,
     restartTyping,
   } = useTyping(
     () => textElement,
     () => inputElement
   );
+
+  const { data, isLoading } = useQuery("text", getText);
 
   return (
     <section className="p-4">
@@ -58,7 +54,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
             </div>
             <div className="mt-4">
               <TypedProgressBar
-                progress={getTypedProgress(textArray.length, inputIndex)}
+                progress={getTypedProgress(data?.text.length, inputIndex)}
               />
             </div>
           </div>
@@ -67,7 +63,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
               ref={textElement}
               className="font-mono whitespace-pre-wrap select-none"
             >
-              {textArray.map((char, index) => (
+              {data?.text?.map((char, index) => (
                 <span key={index}>{char}</span>
               ))}
             </p>
@@ -87,7 +83,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
                   e,
                   textElement,
                   currentWordBeginningIndex,
-                  textArray.length
+                  data?.text.length
                 )
               }
               onPaste={(e) => e.preventDefault()}
@@ -102,7 +98,9 @@ const Page = ({ params }: { params: { mode: string } }) => {
           >
             Back Home
           </Link>
-          <Button type="button">New Text</Button>
+          <Button type="button" onClick={getNewText}>
+            New Text
+          </Button>
         </div>
 
         {isTypingFinished && (
