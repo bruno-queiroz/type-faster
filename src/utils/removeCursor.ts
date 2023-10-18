@@ -7,15 +7,15 @@ export const removeCursor = (inputIndex: number, elements: HTMLCollection) => {
 
   const isFirstChar = inputIndex === -1;
   if (isFirstChar) {
-    firstCharElement.classList.remove(LEFT_CURSOR_CLASSNAME);
+    firstCharElement?.classList.remove(LEFT_CURSOR_CLASSNAME);
     return;
   }
 
   if (!currentCharElement) return;
 
   if (currentCharElement?.textContent === " ") {
-    nextCharElement.classList.remove(LEFT_CURSOR_CLASSNAME);
+    nextCharElement?.classList.remove(LEFT_CURSOR_CLASSNAME);
   } else {
-    currentCharElement.classList.remove(RIGHT_CURSOR_CLASSNAME);
+    currentCharElement?.classList.remove(RIGHT_CURSOR_CLASSNAME);
   }
 };
