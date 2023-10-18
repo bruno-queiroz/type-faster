@@ -331,12 +331,12 @@ export const useTyping = (
     if (!textElement.current) return;
     const elements = textElement.current.children;
 
+    removeCursor(currentWordBeginningIndex + input.length - 1, elements);
+
     resetTypingHistory();
     resetTypingStates();
 
     clearTextStyles(elements, "black", "#D1D5DB");
-
-    removeCursor(textArray.length - 1, elements);
 
     removeUnderlineOfThePreviousWord(
       currentWordBeginningIndex,
