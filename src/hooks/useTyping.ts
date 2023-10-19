@@ -336,7 +336,7 @@ export const useTyping = (
     resetTypingHistory();
     resetTypingStates();
 
-    clearTextStyles(elements, "black", "#D1D5DB");
+    clearTextStyles(elements, "black", "#E5E7EB");
 
     removeUnderlineOfThePreviousWord(
       currentWordBeginningIndex,

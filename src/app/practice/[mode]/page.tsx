@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useRef } from "react";
+import { MouseEvent, useRef } from "react";
 import ConsecutiveMistakesModal from "@/components/ConsecutiveMistakesModal";
 import TypedProgressBar from "@/components/TypedProgressBar";
 import TypeReview from "@/components/TypeReview";
@@ -43,7 +43,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
     <section className="p-4">
       <div>
         <div
-          className="flex flex-col gap-4 bg-gray-200 p-4 pb-0"
+          className="flex flex-col gap-4 bg-gray-100 p-4 pb-0"
           style={{ display: isTypingFinished ? "none" : "flex" }}
         >
           <ConsecutiveMistakesModal modalData={consecutiveMistakesModal} />
@@ -58,7 +58,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
               />
             </div>
           </div>
-          <div className="flex flex-col gap-4 p-4 bg-gray-300 rounded">
+          <div className="flex flex-col gap-4 p-4 bg-gray-200 rounded">
             <p
               ref={textElement}
               className="font-mono whitespace-pre-wrap select-none"
@@ -71,7 +71,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
             <input
               type="text"
               spellCheck="false"
-              className="p-2 bg-gray-200"
+              className="p-2 bg-gray-100"
               style={{ backgroundColor: isMisspelled.is ? "#F87171" : "" }}
               value={input}
               onChange={onType}
@@ -91,7 +91,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
             />
           </div>
         </div>
-        <div className="flex justify-between bg-gray-200 p-4">
+        <div className="flex justify-between bg-gray-100 p-4">
           <Link
             href={"/"}
             className="py-2 px-4 rounded bg-white text-neutral-900"
