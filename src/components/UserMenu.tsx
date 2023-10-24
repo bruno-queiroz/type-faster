@@ -12,6 +12,7 @@ const UserMenu = ({ children }: { children: ReactNode }) => {
   };
 
   const handleSignOut = () => {
+    handleMenu();
     signOut();
   };
   return (
@@ -34,6 +35,7 @@ const UserMenu = ({ children }: { children: ReactNode }) => {
                 <Link
                   href={"/progress"}
                   className="hover:bg-neutral-700 px-4 py-2 w-full text-center"
+                  onClick={handleMenu}
                 >
                   Progress
                 </Link>
@@ -53,6 +55,7 @@ const UserMenu = ({ children }: { children: ReactNode }) => {
                 <Link
                   href={"/sign-up"}
                   className="hover:bg-neutral-700 px-4 py-2 w-full text-center"
+                  onClick={handleMenu}
                 >
                   Sign up
                 </Link>
