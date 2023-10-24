@@ -16,6 +16,8 @@ import { createTypingHistory } from "@/utils/createTypingHistory";
 import { clearAllSetIntervals } from "@/utils/clearAllSetIntervals";
 import { getText } from "@/services/api/getText";
 import { useQuery } from "react-query";
+import { addProgress } from "@/services/api/addProgress";
+import { useSession } from "next-auth/react";
 
 interface NativeEventMissingTypes extends Event {
   inputType: string;
@@ -50,6 +52,8 @@ export const useTyping = (
   const [mistakeCount, setMistakeCount] = useState(0);
 
   const intervalId = useRef<NodeJS.Timer>();
+
+  const { data: session, status } = useSession();
 
   const { data, refetch } = useQuery("text", getText, {
     onSuccess: () => restartTyping(),
@@ -292,7 +296,7 @@ export const useTyping = (
     }
   };
 
-  const endMatch = () => {
+  const endMatch = async () => {
     const typingHistory = getTypingHistory();
 
     clearInterval(intervalId.current);
@@ -303,6 +307,16 @@ export const useTyping = (
 
     setAccuracy(typeAccuracy);
     setTime(typedTime);
+
+    if (!data?.id || !session?.user?.email) return;
+
+    const typingData = {
+      textId: data?.id,
+      cpm,
+      email: session?.user?.email || "",
+    };
+
+    await addProgress(typingData);
   };
 
   const resetTypingStates = () => {
