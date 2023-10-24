@@ -23,7 +23,7 @@ const UserMenu = ({ children }: { children: ReactNode }) => {
       />
 
       <div
-        className="w-full min-w-[180px] absolute right-0 top-[55px] bg-neutral-800 rounded text-white pb-4"
+        className="w-[max-content] min-w-[180px] absolute right-0 top-[55px] bg-neutral-800 rounded text-white pb-4"
         style={{ display: isMenuOpen ? "block" : "none" }}
       >
         {children}
