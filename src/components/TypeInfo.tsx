@@ -51,8 +51,7 @@ const TypeInfo = ({ cpm, accuracy, time, restartTyping }: TypeInfoProps) => {
               <div className="p-1 rounded bg-neutral-900 w-[max-content] text-white">
                 <TimeIcon />
               </div>
-              Time:
-              {time}s
+              Time: {time}s
             </div>
           </div>
         </div>
