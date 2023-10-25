@@ -14,6 +14,9 @@ import { onClickChangeCursor } from "@/utils/onClickChangeCursor";
 import Button from "@/components/Button";
 import { getText } from "@/services/api/getText";
 import { useQuery } from "react-query";
+import { SessionProvider } from "next-auth/react";
+import Modal from "@/components/Modal";
+import SignUpModal from "@/components/SignUpModal";
 
 const Page = ({ params }: { params: { mode: string } }) => {
   const textElement = useRef<HTMLParagraphElement>(null);
@@ -29,6 +32,8 @@ const Page = ({ params }: { params: { mode: string } }) => {
     time,
     inputIndex,
     currentWordBeginningIndex,
+    isSignUpModalOpen,
+    setIsSignUpModalOpen,
     onType,
     getNewText,
     restartTyping,
@@ -41,6 +46,12 @@ const Page = ({ params }: { params: { mode: string } }) => {
 
   return (
     <section className="p-4">
+      <Modal
+        isModalOpen={isSignUpModalOpen}
+        setIsModalOpen={setIsSignUpModalOpen}
+      >
+        <SignUpModal />
+      </Modal>
       <div>
         <div
           className="flex flex-col gap-4 bg-gray-100 p-4 pb-0"
