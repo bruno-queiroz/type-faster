@@ -46,6 +46,7 @@ export const useTyping = (
     isOpen: false,
     word: "",
   });
+  const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [accuracy, setAccuracy] = useState("0");
   const [time, setTime] = useState("0");
   const [cpm, setCpm] = useState("0");
@@ -308,7 +309,12 @@ export const useTyping = (
     setAccuracy(typeAccuracy);
     setTime(typedTime);
 
-    if (!data?.id || !session?.user?.email) return;
+    if (!data?.id) return;
+
+    if (status === "unauthenticated") {
+      setIsSignUpModalOpen(true);
+      return;
+    }
 
     const typingData = {
       textId: data?.id,
@@ -380,6 +386,8 @@ export const useTyping = (
     isMisspelled,
     inputIndex,
     currentWordBeginningIndex,
+    isSignUpModalOpen,
+    setIsSignUpModalOpen,
     onType,
     getNewText,
     restartTyping,
