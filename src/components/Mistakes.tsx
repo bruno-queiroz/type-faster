@@ -1,12 +1,14 @@
 import { getTypos } from "@/hooks/useTyping";
 import MistakeItem from "./MistakeItem";
+import SubTitle from "./SubTitle";
 
 const Mistakes = () => {
   const typos = getTypos();
 
   return (
     <article className="relative">
-      <h2 className="text-xl my-4">Mistakes</h2>
+      <SubTitle>Mistakes</SubTitle>
+
       <div className="bg-gray-200 p-4">
         <div className="flex gap-2 flex-wrap">
           {typos.length === 0

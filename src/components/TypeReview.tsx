@@ -6,6 +6,7 @@ import { MdReplay as ReplayIcon } from "react-icons/md";
 
 import { useTypingReview } from "@/hooks/useTypingReview";
 import { RIGHT_CURSOR_CLASSNAME } from "@/utils/addCursor";
+import SubTitle from "./SubTitle";
 
 const TypeReview = () => {
   const {
@@ -18,7 +19,7 @@ const TypeReview = () => {
 
   return (
     <article>
-      <h2 className="text-xl my-4">Type Review</h2>
+      <SubTitle>Typing Review</SubTitle>
 
       <div className="flex flex-col gap-4 bg-gray-100 p-4">
         <p className="w-full h-[100px] bg-gray-200 rounded p-2">
