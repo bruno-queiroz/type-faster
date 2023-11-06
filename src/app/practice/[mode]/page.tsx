@@ -14,9 +14,9 @@ import { onClickChangeCursor } from "@/utils/onClickChangeCursor";
 import Button from "@/components/Button";
 import { getText } from "@/services/api/getText";
 import { useQuery } from "react-query";
-import { SessionProvider } from "next-auth/react";
 import Modal from "@/components/Modal";
 import SignUpModal from "@/components/SignUpModal";
+import Top10 from "@/components/Top10";
 
 const Page = ({ params }: { params: { mode: string } }) => {
   const textElement = useRef<HTMLParagraphElement>(null);
@@ -42,17 +42,17 @@ const Page = ({ params }: { params: { mode: string } }) => {
     () => inputElement
   );
 
-  const { data, isLoading } = useQuery("text", getText);
+  const { data } = useQuery("text", getText);
 
   return (
-    <section className="p-4">
+    <section className="flex flex-col flex-1 items-center p-4">
       <Modal
         isModalOpen={isSignUpModalOpen}
         setIsModalOpen={setIsSignUpModalOpen}
       >
         <SignUpModal />
       </Modal>
-      <div>
+      <div className="w-[85%] max-sm:w-full">
         <div
           className="flex flex-col gap-4 bg-gray-100 p-4 pb-0"
           style={{ display: isTypingFinished ? "none" : "flex" }}
@@ -119,6 +119,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
             <TypeInfo {...{ cpm, accuracy, time, restartTyping }} />
             <Mistakes />
             <TypeReview />
+            <Top10 />
           </>
         )}
       </div>
