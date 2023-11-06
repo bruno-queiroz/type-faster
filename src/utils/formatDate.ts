@@ -1,4 +1,6 @@
-export const formatDate = (date: string) => {
-  const [relevantDate] = date.split("T");
+export const formatDate = (date?: string) => {
+  if (!date) return "";
+
+  const [relevantDate] = date?.split("T");
   return relevantDate;
 };
