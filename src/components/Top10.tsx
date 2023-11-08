@@ -35,7 +35,7 @@ const Top10 = () => {
               <td className="font-semibold">{i + 1}</td>
               <td>{rank?.cpm} cpm</td>
               <td>{formatDate(rank?.createdAt)}</td>
-              <td>{rank?.user?.name}</td>
+              <td className="text-center">{rank?.user?.name}</td>
             </tr>
           ))}
         </tbody>
