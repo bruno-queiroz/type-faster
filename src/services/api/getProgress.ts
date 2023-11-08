@@ -2,6 +2,7 @@ import { ServerDefaultResponse } from "./config";
 
 export interface Progress {
   overallAverageCpm: number;
+  overallAverageTypos: number;
   progress: {
     createdAt: string;
     cpm: number;
