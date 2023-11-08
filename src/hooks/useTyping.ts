@@ -319,6 +319,7 @@ export const useTyping = (
     const typingData = {
       textId: data?.id,
       cpm,
+      typos: mistakeCount,
       email: session?.user?.email || "",
     };
 

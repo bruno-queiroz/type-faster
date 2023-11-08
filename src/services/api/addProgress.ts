@@ -1,6 +1,7 @@
 interface TypingData {
   textId: string;
   cpm: string;
+  typos: number;
   email: string;
 }
 
