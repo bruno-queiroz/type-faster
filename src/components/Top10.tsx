@@ -19,7 +19,7 @@ const Top10 = () => {
 
       <table className="w-full">
         <thead>
-          <tr className="grid grid-cols-table py-1 bg-neutral-900 text-white rounded-t-md">
+          <tr className="grid grid-cols-table py-1 bg-neutral-900 text-white rounded-t">
             <th>#</th>
             <th>Speed</th>
             <th>Date</th>
