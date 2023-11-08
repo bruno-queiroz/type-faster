@@ -8,7 +8,7 @@ module.exports = {
   theme: {
     extend: {
       gridTemplateColumns: {
-        table: "50px repeat(3, minmax(0, 1fr))",
+        table: "40px repeat(3, minmax(0, 1fr))",
       },
     },
   },
