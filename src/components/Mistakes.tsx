@@ -9,7 +9,7 @@ const Mistakes = () => {
     <article className="relative">
       <SubTitle>Mistakes</SubTitle>
 
-      <div className="bg-gray-200 p-4">
+      <div className="bg-gray-100 p-4">
         <div className="flex gap-2 flex-wrap">
           {typos.length === 0
             ? "No mistakes this time! Good Job 🤠"
