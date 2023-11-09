@@ -4,7 +4,7 @@ import Title from "@/components/Title";
 
 export default function Home() {
   return (
-    <main className="p-4 ">
+    <main className="p-4 w-[85%] max-sm:w-full mx-auto">
       <div className="flex justify-center">
         <div className="flex flex-col items-center">
           <h1>
