@@ -1,4 +1,11 @@
-import { ChangeEvent, RefObject, useEffect, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  MouseEvent,
+  RefObject,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import { addCursor } from "@/utils/addCursor";
 import { addUnderlineToTheNewWord } from "@/utils/addUnderlineToTheNewWord";
@@ -18,6 +25,7 @@ import { getText } from "@/services/api/getText";
 import { useQuery } from "react-query";
 import { addProgress } from "@/services/api/addProgress";
 import { useSession } from "next-auth/react";
+import { paintSelectedBackground } from "@/utils/paintSelectedBackground";
 
 interface NativeEventMissingTypes extends Event {
   inputType: string;
@@ -372,6 +380,29 @@ export const useTyping = (
     }, 0);
   };
 
+  const showSelectedText = (
+    e: MouseEvent<HTMLInputElement, globalThis.MouseEvent>
+  ) => {
+    const textElement = getTextElement();
+
+    if (!textElement.current) return;
+    if (!data?.text) return;
+
+    const selectionStart = (e.target as HTMLInputElement).selectionStart || 0;
+    const selectionEnd = (e.target as HTMLInputElement).selectionEnd || 0;
+
+    const textElementChildren = textElement.current?.children;
+
+    paintSelectedBackground(
+      textElementChildren,
+      currentWordBeginningIndex,
+      data.text.length,
+      selectionStart,
+      selectionEnd,
+      "white"
+    );
+  };
+
   const getNewText = () => {
     restartTyping();
     refetch();
@@ -391,6 +422,7 @@ export const useTyping = (
     setIsSignUpModalOpen,
     onType,
     getNewText,
+    showSelectedText,
     restartTyping,
   };
 };
