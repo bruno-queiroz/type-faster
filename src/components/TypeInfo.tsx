@@ -19,7 +19,7 @@ const TypeInfo = ({ cpm, accuracy, time, restartTyping }: TypeInfoProps) => {
   return (
     <div className="flex flex-col gap-2 bg-gray-100 p-4">
       <div className="flex justify-center items-center">
-        <div className="border-r-[2px] border-neutral-900 p-8">
+        <div className="border-r-[2px] border-neutral-900 p-8 max-sm:p-4">
           <Image
             src={data?.image || ""}
             width={80}
@@ -28,13 +28,13 @@ const TypeInfo = ({ cpm, accuracy, time, restartTyping }: TypeInfoProps) => {
           />
         </div>
         <div className="flex flex-col w-full">
-          <div className="p-2 pl-4">
+          <div className="p-2 pl-8 max-sm:pl-4">
             <h2 className="font-semibold">{data?.title}</h2>
             <p>
               By <span className="font-semibold">{data?.author}</span>
             </p>
           </div>
-          <div className="flex flex-col gap-2 p-2 pl-4">
+          <div className="flex flex-col gap-2 p-2 pl-8 max-sm:pl-4">
             <div className="flex gap-2">
               <div className="p-1 rounded bg-neutral-900 w-[max-content] text-white">
                 <LightIcon />
