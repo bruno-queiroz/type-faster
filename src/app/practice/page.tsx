@@ -18,7 +18,7 @@ import Modal from "@/components/Modal";
 import SignUpModal from "@/components/SignUpModal";
 import Top10 from "@/components/Top10";
 
-const Page = ({ params }: { params: { mode: string } }) => {
+const Page = () => {
   const textElement = useRef<HTMLParagraphElement>(null);
   const inputElement = useRef<HTMLInputElement>(null);
 
