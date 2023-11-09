@@ -22,14 +22,16 @@ const TypeReview = () => {
       <SubTitle>Typing Review</SubTitle>
 
       <div className="flex flex-col gap-4 bg-gray-100 p-4">
-        <p className="w-full h-[100px] bg-gray-200 rounded p-2">
+        <p className="w-full min-h-[100px] bg-gray-200 rounded p-2 font-mono">
           {typingReview.map((char, index) => (
             <span key={index}>{char.value}</span>
           ))}
           <span className="inline-block relative w-[1px] h-[20px]">
             <span
               className={`absolute bottom-[-3px] inline-block w-[1px] h-[20px] ${
-                isCursorShowing && RIGHT_CURSOR_CLASSNAME
+                isCursorShowing
+                  ? "right-cursor-no-animation"
+                  : RIGHT_CURSOR_CLASSNAME
               }`}
             />
           </span>
