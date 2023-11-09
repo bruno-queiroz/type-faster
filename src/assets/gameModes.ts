@@ -9,10 +9,4 @@ export const gameModes = [
     description: "Get better at writing specific words, repetition is the key.",
     slug: "repeated-words",
   },
-  {
-    mode: "Code",
-    description:
-      "This mode help you to code faster, you could even be your own prettier.",
-    slug: "code",
-  },
 ];
