@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { MouseEvent, useRef } from "react";
+import { useRef } from "react";
 import ConsecutiveMistakesModal from "@/components/ConsecutiveMistakesModal";
 import TypedProgressBar from "@/components/TypedProgressBar";
 import TypeReview from "@/components/TypeReview";
@@ -36,6 +36,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
     setIsSignUpModalOpen,
     onType,
     getNewText,
+    showSelectedText,
     restartTyping,
   } = useTyping(
     () => textElement,
@@ -97,6 +98,7 @@ const Page = ({ params }: { params: { mode: string } }) => {
                   data?.text.length
                 )
               }
+              onMouseMove={showSelectedText}
               onPaste={(e) => e.preventDefault()}
               ref={inputElement}
             />
