@@ -8,7 +8,7 @@ interface GameModeCardProps {
 
 const GameModeCard = ({ description, mode, slug }: GameModeCardProps) => {
   return (
-    <Link href={`/practice/${slug}`} className="bg-gray-300 p-4 rounded">
+    <Link href={`/practice?mode=${slug}`} className="bg-gray-300 p-4 rounded">
       <h3 className="text-xl font-semibold">{mode}</h3>
       <p>{description}</p>
     </Link>
