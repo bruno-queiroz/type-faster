@@ -1,9 +1,14 @@
 import { getTypos } from "@/hooks/useTyping";
 import MistakeItem from "./MistakeItem";
 import SubTitle from "./SubTitle";
+import { useQuery } from "react-query";
+import { getText } from "@/services/api/getText";
 
 const Mistakes = () => {
+  const { data: text } = useQuery("text", getText);
   const typos = getTypos();
+
+  if (text?.mode === "repeated-words") return "";
 
   return (
     <article className="relative">
