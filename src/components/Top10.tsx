@@ -13,6 +13,8 @@ const Top10 = () => {
     { refetchOnMount: true }
   );
 
+  if (text?.mode === "repeated-words") return "";
+
   return (
     <section className="flex flex-col gap-4 mt-4">
       <SubTitle>Ranking</SubTitle>
