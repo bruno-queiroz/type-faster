@@ -324,6 +324,8 @@ export const useTyping = (
       return;
     }
 
+    if (data.mode === "repeated-words") return;
+
     const typingData = {
       textId: data?.id,
       cpm,
