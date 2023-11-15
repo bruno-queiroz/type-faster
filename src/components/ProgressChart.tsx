@@ -12,12 +12,12 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const ProgressChart = ({ progress }: Progress) => {
+const ProgressChart = (data: Progress | undefined) => {
   return (
     <div className="p-4 rounded w-full aspect-video bg-gray-100">
       <ResponsiveContainer>
         <LineChart
-          data={progress}
+          data={data?.progress}
           margin={{
             top: 10,
             right: 30,
