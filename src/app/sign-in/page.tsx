@@ -24,12 +24,14 @@ const Page = () => {
             type="email"
             onChange={(e) => setEmail(e.target.value)}
             value={email}
+            required
           />
           <Input
             labelText="Password"
             type="password"
             onChange={(e) => setPassword(e.target.value)}
             value={password}
+            required
           />
 
           <Button py="0.75rem">Access account</Button>
