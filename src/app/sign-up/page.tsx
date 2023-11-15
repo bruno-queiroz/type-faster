@@ -3,6 +3,7 @@ import Button from "@/components/Button";
 import Input from "@/components/Input";
 import SignWith from "@/components/SignWith";
 import Title from "@/components/Title";
+import { useSignUp } from "@/hooks/useSignUp";
 
 import { signIn } from "next-auth/react";
 
@@ -11,17 +12,42 @@ import Link from "next/link";
 import { FcGoogle as GoogleIcon } from "react-icons/fc";
 import { SiGithub as GithubIcon } from "react-icons/si";
 
-const page = () => {
+const Page = () => {
+  const {
+    handleSignUp,
+    email,
+    setEmail,
+    name,
+    setName,
+    password,
+    setPassword,
+  } = useSignUp();
+
   return (
     <section className="flex flex-col items-center p-4">
       <h1 className="mb-4">
         <Title>Sign Up</Title>
       </h1>
       <div className="max-w-[400px] w-full">
-        <form className="flex flex-col gap-4">
-          <Input labelText="Nickname" type="text" />
-          <Input labelText="Email" type="email" />
-          <Input labelText="Password" type="password" />
+        <form className="flex flex-col gap-4" onSubmit={handleSignUp}>
+          <Input
+            labelText="Nickname"
+            type="text"
+            onChange={(e) => setName(e.target.value)}
+            value={name}
+          />
+          <Input
+            labelText="Email"
+            type="email"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+          />
+          <Input
+            labelText="Password"
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+          />
 
           <Button py="0.75rem">Create Account</Button>
         </form>
@@ -55,4 +81,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
