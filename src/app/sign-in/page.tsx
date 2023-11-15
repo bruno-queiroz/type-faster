@@ -4,6 +4,7 @@ import Input from "@/components/Input";
 import SignWith from "@/components/SignWith";
 import Title from "@/components/Title";
 import { useSignIn } from "@/hooks/useSignIn";
+import { signIn } from "next-auth/react";
 
 import Link from "next/link";
 
@@ -37,10 +38,16 @@ const Page = () => {
           <Button py="0.75rem">Access account</Button>
         </form>
         <div className="flex flex-col gap-2 mt-4">
-          <SignWith labelText="Sign in with Google">
+          <SignWith
+            labelText="Sign in with Google"
+            onClick={() => signIn("google")}
+          >
             <GoogleIcon className="text-xl" />
           </SignWith>
-          <SignWith labelText="Sign in with Github">
+          <SignWith
+            labelText="Sign in with Github"
+            onClick={() => signIn("github")}
+          >
             <GithubIcon className="text-xl" />
           </SignWith>
         </div>
