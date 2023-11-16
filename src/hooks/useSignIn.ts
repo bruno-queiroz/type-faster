@@ -1,11 +1,14 @@
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export const useSignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSignIn = (e: React.FormEvent<HTMLFormElement>) => {
+  const router = useRouter();
+
+  const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const body = {
@@ -13,11 +16,15 @@ export const useSignIn = () => {
       email,
     };
 
-    signIn("credentials", {
+    const response = await signIn("credentials", {
       ...body,
       redirect: false,
       action: "sign-in",
     });
+
+    if (response?.ok) {
+      router.push("/");
+    }
   };
 
   return {
