@@ -5,6 +5,8 @@ import { useState } from "react";
 export const useSignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isInvalidCredentialsOpen, setIsInvalidCredentialsOpen] =
+    useState(false);
 
   const router = useRouter();
 
@@ -24,7 +26,10 @@ export const useSignIn = () => {
 
     if (response?.ok) {
       router.push("/");
+      return;
     }
+
+    setIsInvalidCredentialsOpen(true);
   };
 
   return {
@@ -33,5 +38,7 @@ export const useSignIn = () => {
     setEmail,
     password,
     setPassword,
+    isInvalidCredentialsOpen,
+    setIsInvalidCredentialsOpen,
   };
 };
