@@ -1,12 +1,17 @@
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export const useSignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isInvalidCredentialsOpen, setIsInvalidCredentialsOpen] =
+    useState(false);
 
-  const handleSignUp = (e: React.FormEvent<HTMLFormElement>) => {
+  const router = useRouter();
+
+  const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const body = {
@@ -15,11 +20,18 @@ export const useSignUp = () => {
       password,
     };
 
-    signIn("credentials", {
+    const response = await signIn("credentials", {
       ...body,
       redirect: false,
       action: "sign-up",
     });
+
+    if (response?.ok) {
+      router.push("/");
+      return;
+    }
+
+    setIsInvalidCredentialsOpen(true);
   };
 
   return {
@@ -30,5 +42,7 @@ export const useSignUp = () => {
     setEmail,
     password,
     setPassword,
+    isInvalidCredentialsOpen,
+    setIsInvalidCredentialsOpen,
   };
 };
