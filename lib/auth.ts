@@ -16,8 +16,11 @@ interface ExtendedCredentials {
   callbackUrl: string;
   json: boolean;
 }
-
 export const authOptions: NextAuthOptions = {
+  pages: {
+    error: "/sign-in",
+    signIn: "/sign-in",
+  },
   providers: [
     CredentialsProvider({
       name: "Credentials",
