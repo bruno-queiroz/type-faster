@@ -1,6 +1,7 @@
 "use client";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
+import InvalidCredentials from "@/components/InvalidCredentials";
 import SignWith from "@/components/SignWith";
 import Title from "@/components/Title";
 import { useSignUp } from "@/hooks/useSignUp";
@@ -21,6 +22,8 @@ const Page = () => {
     setName,
     password,
     setPassword,
+    isInvalidCredentialsOpen,
+    setIsInvalidCredentialsOpen,
   } = useSignUp();
 
   return (
@@ -28,6 +31,11 @@ const Page = () => {
       <h1 className="mb-4">
         <Title>Sign Up</Title>
       </h1>
+
+      <InvalidCredentials
+        {...{ isInvalidCredentialsOpen, setIsInvalidCredentialsOpen }}
+      />
+
       <div className="max-w-[400px] w-full">
         <form className="flex flex-col gap-4" onSubmit={handleSignUp}>
           <Input
