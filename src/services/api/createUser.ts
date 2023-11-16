@@ -1,7 +1,7 @@
 import { ServerDefaultResponse } from "./config";
 import { User } from "./signInUser";
 
-interface CreateUser {
+export interface CreateUser {
   name: string;
   email: string;
   password?: string;
