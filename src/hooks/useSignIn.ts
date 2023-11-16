@@ -10,7 +10,9 @@ export const useSignIn = () => {
 
   const router = useRouter();
 
-  const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSignInWithCredentials = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
     e.preventDefault();
 
     const body = {
@@ -33,7 +35,7 @@ export const useSignIn = () => {
   };
 
   return {
-    handleSignIn,
+    handleSignInWithCredentials,
     email,
     setEmail,
     password,

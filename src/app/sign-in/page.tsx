@@ -14,7 +14,7 @@ import { SiGithub as GithubIcon } from "react-icons/si";
 
 const Page = () => {
   const {
-    handleSignIn,
+    handleSignInWithCredentials,
     email,
     setEmail,
     password,
@@ -34,7 +34,10 @@ const Page = () => {
       />
 
       <div className="max-w-[400px] w-full">
-        <form className="flex flex-col gap-4" onSubmit={handleSignIn}>
+        <form
+          className="flex flex-col gap-4"
+          onSubmit={handleSignInWithCredentials}
+        >
           <Input
             labelText="Email"
             type="email"
