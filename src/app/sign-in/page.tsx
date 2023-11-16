@@ -1,6 +1,7 @@
 "use client";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
+import InvalidCredentials from "@/components/InvalidCredentials";
 import SignWith from "@/components/SignWith";
 import Title from "@/components/Title";
 import { useSignIn } from "@/hooks/useSignIn";
@@ -12,12 +13,26 @@ import { FcGoogle as GoogleIcon } from "react-icons/fc";
 import { SiGithub as GithubIcon } from "react-icons/si";
 
 const Page = () => {
-  const { handleSignIn, email, setEmail, password, setPassword } = useSignIn();
+  const {
+    handleSignIn,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    isInvalidCredentialsOpen,
+    setIsInvalidCredentialsOpen,
+  } = useSignIn();
+
   return (
     <section className="flex flex-col items-center p-4">
       <h1 className="mb-4">
         <Title>Sign In</Title>
       </h1>
+
+      <InvalidCredentials
+        {...{ isInvalidCredentialsOpen, setIsInvalidCredentialsOpen }}
+      />
+
       <div className="max-w-[400px] w-full">
         <form className="flex flex-col gap-4" onSubmit={handleSignIn}>
           <Input
