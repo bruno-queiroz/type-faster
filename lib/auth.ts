@@ -1,4 +1,4 @@
-import { createUser } from "@/services/api/createUser";
+import { CreateUser, createUser } from "@/services/api/createUser";
 import NextAuth, { NextAuthOptions } from "next-auth";
 
 import GithubProvider from "next-auth/providers/github";
@@ -28,7 +28,6 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials, req) {
         const { name, email, password, action } =
           credentials as ExtendedCredentials;
-        console.log("credentials", credentials);
 
         let response: null | ServerDefaultResponse<User> = null;
         if (action === "sign-up" && name) {
@@ -54,10 +53,11 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async signIn({ user }) {
-      console.log("sign in cb", user);
+    async signIn({ user, credentials }) {
+      if (credentials) return true;
 
-      // await createUser(user);
+      await createUser(user as CreateUser);
+
       return true;
     },
   },
