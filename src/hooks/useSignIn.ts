@@ -1,12 +1,22 @@
-import { signIn } from "next-auth/react";
+import { BuiltInProviderType } from "next-auth/providers";
+import { LiteralUnion, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+
+interface LoggingState {
+  isLoading: boolean;
+  provider: LiteralUnion<BuiltInProviderType>;
+}
 
 export const useSignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isInvalidCredentialsOpen, setIsInvalidCredentialsOpen] =
     useState(false);
+  const [loggingState, setLoggingState] = useState<LoggingState>({
+    isLoading: false,
+    provider: "",
+  });
 
   const router = useRouter();
 
@@ -20,11 +30,13 @@ export const useSignIn = () => {
       email,
     };
 
+    setLoggingState({ isLoading: true, provider: "credentials" });
     const response = await signIn("credentials", {
       ...body,
       redirect: false,
       action: "sign-in",
     });
+    setLoggingState({ isLoading: false, provider: "credentials" });
 
     if (response?.ok) {
       router.push("/");
@@ -34,13 +46,25 @@ export const useSignIn = () => {
     setIsInvalidCredentialsOpen(true);
   };
 
+  const handleSignInWithProvider = async (
+    provider: LiteralUnion<BuiltInProviderType>
+  ) => {
+    setLoggingState({ isLoading: true, provider });
+    await signIn(provider, {
+      callbackUrl: "/",
+    });
+    setLoggingState({ isLoading: false, provider });
+  };
+
   return {
     handleSignInWithCredentials,
+    handleSignInWithProvider,
     email,
     setEmail,
     password,
     setPassword,
     isInvalidCredentialsOpen,
     setIsInvalidCredentialsOpen,
+    loggingState,
   };
 };
