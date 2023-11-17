@@ -1,4 +1,5 @@
-import { signIn } from "next-auth/react";
+import { BuiltInProviderType } from "next-auth/providers";
+import { LiteralUnion, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -11,7 +12,9 @@ export const useSignUp = () => {
 
   const router = useRouter();
 
-  const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSignUpWithCredentials = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
     e.preventDefault();
 
     const body = {
@@ -35,7 +38,7 @@ export const useSignUp = () => {
   };
 
   return {
-    handleSignUp,
+    handleSignUpWithCredentials,
     name,
     setName,
     email,
