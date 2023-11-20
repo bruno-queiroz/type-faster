@@ -6,8 +6,6 @@ import SignWith from "@/components/SignWith";
 import Title from "@/components/Title";
 import { useSignUp } from "@/hooks/useSignUp";
 
-import { signIn } from "next-auth/react";
-
 import Link from "next/link";
 
 import { FcGoogle as GoogleIcon } from "react-icons/fc";
@@ -16,6 +14,7 @@ import { SiGithub as GithubIcon } from "react-icons/si";
 const Page = () => {
   const {
     handleSignUpWithCredentials,
+    handleSignUpWithProvider,
     email,
     setEmail,
     name,
@@ -68,14 +67,14 @@ const Page = () => {
         <div className="flex flex-col gap-2 mt-4">
           <SignWith
             labelText="Sign up with Google"
-            onClick={() => signIn("google")}
+            onClick={() => handleSignUpWithProvider("google")}
           >
             <GoogleIcon className="text-xl" />
           </SignWith>
 
           <SignWith
             labelText="Sign up with Github"
-            onClick={() => signIn("github")}
+            onClick={() => handleSignUpWithProvider("github")}
           >
             <GithubIcon className="text-xl" />
           </SignWith>
