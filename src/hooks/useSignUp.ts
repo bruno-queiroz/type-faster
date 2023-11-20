@@ -37,8 +37,17 @@ export const useSignUp = () => {
     setIsInvalidCredentialsOpen(true);
   };
 
+  const handleSignUpWithProvider = async (
+    provider: LiteralUnion<BuiltInProviderType>
+  ) => {
+    await signIn(provider, {
+      callbackUrl: "/",
+    });
+  };
+
   return {
     handleSignUpWithCredentials,
+    handleSignUpWithProvider,
     name,
     setName,
     email,
