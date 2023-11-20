@@ -84,10 +84,18 @@ const Page = () => {
           </SignWith>
 
           <SignWith
-            labelText="Sign up with Github"
+            labelText={
+              checkIfProviderIsLoading(loggingState, "github")
+                ? ""
+                : "Sign up with Github"
+            }
             onClick={() => handleSignUpWithProvider("github")}
           >
-            <GithubIcon className="text-xl" />
+            {checkIfProviderIsLoading(loggingState, "github") ? (
+              <Spinner />
+            ) : (
+              <GithubIcon className="text-xl" />
+            )}
           </SignWith>
         </div>
         <div className="flex flex-col items-center gap-2 text-neutral-700 mt-12">
