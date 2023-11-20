@@ -3,8 +3,10 @@ import Button from "@/components/Button";
 import Input from "@/components/Input";
 import InvalidCredentials from "@/components/InvalidCredentials";
 import SignWith from "@/components/SignWith";
+import Spinner from "@/components/Spinner";
 import Title from "@/components/Title";
 import { useSignUp } from "@/hooks/useSignUp";
+import { checkIfProviderIsLoading } from "@/utils/checkIfProviderIsLoading";
 
 import Link from "next/link";
 
@@ -23,6 +25,7 @@ const Page = () => {
     setPassword,
     isInvalidCredentialsOpen,
     setIsInvalidCredentialsOpen,
+    loggingState,
   } = useSignUp();
 
   return (
@@ -66,10 +69,18 @@ const Page = () => {
         </form>
         <div className="flex flex-col gap-2 mt-4">
           <SignWith
-            labelText="Sign up with Google"
+            labelText={
+              checkIfProviderIsLoading(loggingState, "google")
+                ? ""
+                : "Sign up with Google"
+            }
             onClick={() => handleSignUpWithProvider("google")}
           >
-            <GoogleIcon className="text-xl" />
+            {checkIfProviderIsLoading(loggingState, "google") ? (
+              <Spinner />
+            ) : (
+              <GoogleIcon className="text-xl" />
+            )}
           </SignWith>
 
           <SignWith
