@@ -28,6 +28,13 @@ const Page = () => {
     loggingState,
   } = useSignUp();
 
+  const isGoogleLoading = checkIfProviderIsLoading(loggingState, "google");
+  const isGithubLoading = checkIfProviderIsLoading(loggingState, "github");
+  const isCredentialsLoading = checkIfProviderIsLoading(
+    loggingState,
+    "credentials"
+  );
+
   return (
     <section className="flex flex-col items-center p-4">
       <h1 className="mb-4">
@@ -66,7 +73,7 @@ const Page = () => {
           />
 
           <Button py="0.75rem">
-            {checkIfProviderIsLoading(loggingState, "credentials") ? (
+            {isCredentialsLoading ? (
               <Spinner color="white" />
             ) : (
               "Create Account"
@@ -75,33 +82,17 @@ const Page = () => {
         </form>
         <div className="flex flex-col gap-2 mt-4">
           <SignWith
-            labelText={
-              checkIfProviderIsLoading(loggingState, "google")
-                ? ""
-                : "Sign up with Google"
-            }
+            labelText={isGoogleLoading ? "" : "Sign up with Google"}
             onClick={() => handleSignUpWithProvider("google")}
           >
-            {checkIfProviderIsLoading(loggingState, "google") ? (
-              <Spinner />
-            ) : (
-              <GoogleIcon className="text-xl" />
-            )}
+            {isGoogleLoading ? <Spinner /> : <GoogleIcon className="text-xl" />}
           </SignWith>
 
           <SignWith
-            labelText={
-              checkIfProviderIsLoading(loggingState, "github")
-                ? ""
-                : "Sign up with Github"
-            }
+            labelText={isGithubLoading ? "" : "Sign up with Github"}
             onClick={() => handleSignUpWithProvider("github")}
           >
-            {checkIfProviderIsLoading(loggingState, "github") ? (
-              <Spinner />
-            ) : (
-              <GithubIcon className="text-xl" />
-            )}
+            {isGithubLoading ? <Spinner /> : <GithubIcon className="text-xl" />}
           </SignWith>
         </div>
         <div className="flex flex-col items-center gap-2 text-neutral-700 mt-12">
