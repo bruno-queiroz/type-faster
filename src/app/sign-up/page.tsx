@@ -65,7 +65,13 @@ const Page = () => {
             required
           />
 
-          <Button py="0.75rem">Create Account</Button>
+          <Button py="0.75rem">
+            {checkIfProviderIsLoading(loggingState, "credentials") ? (
+              <Spinner color="white" />
+            ) : (
+              "Create Account"
+            )}
+          </Button>
         </form>
         <div className="flex flex-col gap-2 mt-4">
           <SignWith
