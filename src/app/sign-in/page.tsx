@@ -6,6 +6,7 @@ import SignWith from "@/components/SignWith";
 import Spinner from "@/components/Spinner";
 import Title from "@/components/Title";
 import { useSignIn } from "@/hooks/useSignIn";
+import { checkIfProviderIsLoading } from "@/utils/checkIfProviderIsLoading";
 
 import Link from "next/link";
 
@@ -24,6 +25,13 @@ const Page = () => {
     setIsInvalidCredentialsOpen,
     loggingState,
   } = useSignIn();
+
+  const isCredentialsLoading = checkIfProviderIsLoading(
+    loggingState,
+    "credentials"
+  );
+  const isGoogleLoading = checkIfProviderIsLoading(loggingState, "google");
+  const isGithubLoading = checkIfProviderIsLoading(loggingState, "github");
 
   return (
     <section className="flex flex-col items-center p-4">
@@ -56,8 +64,7 @@ const Page = () => {
           />
 
           <Button py="0.75rem">
-            {loggingState.isLoading &&
-            loggingState.provider === "credentials" ? (
+            {isCredentialsLoading ? (
               <Spinner color="white" />
             ) : (
               "Access account"
@@ -66,32 +73,16 @@ const Page = () => {
         </form>
         <div className="flex flex-col gap-2 mt-4">
           <SignWith
-            labelText={
-              loggingState.isLoading && loggingState.provider === "google"
-                ? ""
-                : "Sign in with Google"
-            }
+            labelText={isGoogleLoading ? "" : "Sign in with Google"}
             onClick={() => handleSignInWithProvider("google")}
           >
-            {loggingState.isLoading && loggingState.provider === "google" ? (
-              <Spinner />
-            ) : (
-              <GoogleIcon className="text-xl" />
-            )}
+            {isGoogleLoading ? <Spinner /> : <GoogleIcon className="text-xl" />}
           </SignWith>
           <SignWith
-            labelText={
-              loggingState.isLoading && loggingState.provider === "github"
-                ? ""
-                : "Sign in with Github"
-            }
+            labelText={isGithubLoading ? "" : "Sign in with Github"}
             onClick={() => handleSignInWithProvider("github")}
           >
-            {loggingState.isLoading && loggingState.provider === "github" ? (
-              <Spinner />
-            ) : (
-              <GithubIcon className="text-xl" />
-            )}
+            {isGithubLoading ? <Spinner /> : <GithubIcon className="text-xl" />}
           </SignWith>
         </div>
         <div className="flex flex-col items-center gap-2 text-neutral-700 mt-12">
