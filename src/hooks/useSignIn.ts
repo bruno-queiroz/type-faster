@@ -3,7 +3,7 @@ import { LiteralUnion, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-interface LoggingState {
+export interface LoggingState {
   isLoading: boolean;
   provider: LiteralUnion<BuiltInProviderType>;
 }
