@@ -1,7 +1,8 @@
 import ProgressChart from "@/components/ProgressChart";
 import Title from "@/components/Title";
-import { Progress, getProgress } from "@/services/api/getProgress";
+import { getProgress } from "@/services/api/getProgress";
 import { getCurrentUser } from "../../../lib/session";
+import ProgressBarChart from "@/components/ProgressBarChart";
 
 const Page = async () => {
   const user = await getCurrentUser();
@@ -28,7 +29,8 @@ const Page = async () => {
         </tbody>
       </table>
 
-      <ProgressChart {...(progress?.data as Progress)} />
+      <ProgressChart {...progress?.data} />
+      <ProgressBarChart {...progress?.data} />
     </section>
   );
 };
