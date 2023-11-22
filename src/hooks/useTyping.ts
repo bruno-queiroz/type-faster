@@ -64,7 +64,7 @@ export const useTyping = (
 
   const { data: session, status } = useSession();
 
-  const { data, refetch } = useQuery("text", getText, {
+  const { data, isLoading, refetch } = useQuery("text", getText, {
     onSuccess: () => restartTyping(),
   });
 
@@ -85,6 +85,7 @@ export const useTyping = (
     const textArray = data?.text || [];
 
     if (!textElement.current) return;
+    if (isLoading) return e.preventDefault();
 
     const nativeEvent = e.nativeEvent as NativeEventMissingTypes;
 
