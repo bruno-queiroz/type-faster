@@ -17,6 +17,7 @@ import { useQuery } from "react-query";
 import Modal from "@/components/Modal";
 import SignUpModal from "@/components/SignUpModal";
 import Top10 from "@/components/Top10";
+import LoadingText from "@/components/LoadingText";
 
 const Page = () => {
   const textElement = useRef<HTMLParagraphElement>(null);
@@ -43,7 +44,7 @@ const Page = () => {
     () => inputElement
   );
 
-  const { data } = useQuery("text", getText);
+  const { data, isLoading } = useQuery("text", getText);
 
   return (
     <section className="flex flex-col flex-1 items-center p-4">
@@ -75,9 +76,13 @@ const Page = () => {
               ref={textElement}
               className="font-mono whitespace-pre-wrap select-none"
             >
-              {data?.text?.map((char, index) => (
-                <span key={index}>{char}</span>
-              ))}
+              {true ? (
+                <LoadingText />
+              ) : (
+                data?.text?.map((char, index) => (
+                  <span key={index}>{char}</span>
+                ))
+              )}
             </p>
 
             <input
@@ -85,6 +90,7 @@ const Page = () => {
               spellCheck="false"
               className="p-2 bg-gray-100"
               style={{ backgroundColor: isMisspelled.is ? "#F87171" : "" }}
+              disabled={isLoading}
               value={input}
               onChange={onType}
               onKeyDown={(e) =>
