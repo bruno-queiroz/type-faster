@@ -42,6 +42,11 @@ const Top10 = () => {
           ))}
         </tbody>
       </table>
+      {top10?.data.length === 0 && (
+        <div className="flex justify-center bg-gray-100 p-4 rounded">
+          Looks like no one has typed this text yet 🤨
+        </div>
+      )}
     </section>
   );
 };
