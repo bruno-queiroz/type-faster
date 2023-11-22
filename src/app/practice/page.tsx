@@ -1,19 +1,22 @@
 "use client";
 import Link from "next/link";
+import { useQuery } from "react-query";
 import { useRef } from "react";
+
+import { useTyping } from "@/hooks/useTyping";
+
+import { getText } from "@/services/api/getText";
+
+import { getTypedProgress } from "@/utils/getTypedProgress";
+import { onKeyDownChangeCursor } from "@/utils/onKeyDownChangeCursor";
+import { onClickChangeCursor } from "@/utils/onClickChangeCursor";
+
 import ConsecutiveMistakesModal from "@/components/ConsecutiveMistakesModal";
 import TypedProgressBar from "@/components/TypedProgressBar";
 import TypeReview from "@/components/TypeReview";
 import Mistakes from "@/components/Mistakes";
 import TypeInfo from "@/components/TypeInfo";
-import { useTyping } from "@/hooks/useTyping";
-
-import { getTypedProgress } from "@/utils/getTypedProgress";
-import { onKeyDownChangeCursor } from "@/utils/onKeyDownChangeCursor";
-import { onClickChangeCursor } from "@/utils/onClickChangeCursor";
 import Button from "@/components/Button";
-import { getText } from "@/services/api/getText";
-import { useQuery } from "react-query";
 import Modal from "@/components/Modal";
 import SignUpModal from "@/components/SignUpModal";
 import Top10 from "@/components/Top10";
