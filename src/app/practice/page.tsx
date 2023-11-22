@@ -47,7 +47,7 @@ const Page = () => {
     () => inputElement
   );
 
-  const { data, isLoading } = useQuery("text", getText);
+  const { data, isFetching } = useQuery("text", getText);
 
   return (
     <section className="flex flex-col flex-1 items-center p-4">
@@ -79,7 +79,7 @@ const Page = () => {
               ref={textElement}
               className="font-mono whitespace-pre-wrap select-none"
             >
-              {isLoading ? (
+              {isFetching ? (
                 <LoadingText />
               ) : (
                 data?.text?.map((char, index) => (
@@ -93,7 +93,7 @@ const Page = () => {
               spellCheck="false"
               className="p-2 bg-gray-100"
               style={{ backgroundColor: isMisspelled.is ? "#F87171" : "" }}
-              disabled={isLoading}
+              disabled={isFetching}
               value={input}
               onChange={onType}
               onKeyDown={(e) =>

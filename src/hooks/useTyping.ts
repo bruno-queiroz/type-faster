@@ -64,7 +64,7 @@ export const useTyping = (
 
   const { data: session, status } = useSession();
 
-  const { data, isLoading, refetch } = useQuery("text", getText, {
+  const { data, refetch, isFetching } = useQuery("text", getText, {
     onSuccess: () => restartTyping(),
   });
 
@@ -85,7 +85,7 @@ export const useTyping = (
     const textArray = data?.text || [];
 
     if (!textElement.current) return;
-    if (isLoading) return e.preventDefault();
+    if (isFetching) return e.preventDefault();
 
     const nativeEvent = e.nativeEvent as NativeEventMissingTypes;
 
@@ -390,7 +390,7 @@ export const useTyping = (
 
     if (!textElement.current) return;
     if (!data?.text) return;
-    if (isLoading) return e.preventDefault();
+    if (isFetching) return e.preventDefault();
 
     const selectionStart = (e.target as HTMLInputElement).selectionStart || 0;
     const selectionEnd = (e.target as HTMLInputElement).selectionEnd || 0;
