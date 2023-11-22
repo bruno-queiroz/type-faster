@@ -24,6 +24,36 @@
   animation: blink 1s steps(2) infinite;
 }
 
+.skeleton-animation,
+.skeleton-animation-2,
+.skeleton-animation-3 {
+  background-color: #d1d5db;
+  background: linear-gradient(
+      100deg,
+      rgba(255, 255, 255, 0) 40%,
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(255, 255, 255, 0) 60%
+    )
+    #d1d5db;
+  background-size: 200% 100%;
+  background-position-x: 180%;
+  animation: 1300ms loading ease-in-out infinite;
+}
+
+.skeleton-animation-2 {
+  animation: 1300ms loading 300ms ease-in-out infinite;
+}
+
+.skeleton-animation-3 {
+  animation: 1300ms loading 600ms ease-in-out infinite;
+}
+
+@keyframes loading {
+  to {
+    background-position-x: -20%;
+  }
+}
+
 @keyframes blink-left-cursor {
   to {
     box-shadow: 0px 0px 0px transparent;
