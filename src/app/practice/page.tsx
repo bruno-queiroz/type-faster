@@ -79,7 +79,7 @@ const Page = () => {
               ref={textElement}
               className="font-mono whitespace-pre-wrap select-none"
             >
-              {true ? (
+              {isLoading ? (
                 <LoadingText />
               ) : (
                 data?.text?.map((char, index) => (
