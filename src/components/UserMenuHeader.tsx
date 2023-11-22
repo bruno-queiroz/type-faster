@@ -1,12 +1,15 @@
-import { getCurrentUser } from "../../lib/session";
+"use client";
+import { useSession } from "next-auth/react";
 
-const UserMenuHeader = async () => {
-  const user = await getCurrentUser();
+const UserMenuHeader = () => {
+  const { data } = useSession();
 
   return (
     <div className="flex flex-col p-4 pb-0">
-      <span className="text-lg font-semibold">{user?.name || "Guest"}</span>
-      <span className="text-sm text-neutral-400">{user?.email}</span>
+      <span className="text-lg font-semibold">
+        {data?.user?.name || "Guest"}
+      </span>
+      <span className="text-sm text-neutral-400">{data?.user?.email}</span>
     </div>
   );
 };
