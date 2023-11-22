@@ -1,4 +1,4 @@
-import { TypingHistory } from "@/hooks/useTyping";
+import { TypingHistory } from "./createTypingHistory";
 
 export const getStartOfWordIndex = (
   index: number,
