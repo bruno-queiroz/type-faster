@@ -390,6 +390,7 @@ export const useTyping = (
 
     if (!textElement.current) return;
     if (!data?.text) return;
+    if (isLoading) return e.preventDefault();
 
     const selectionStart = (e.target as HTMLInputElement).selectionStart || 0;
     const selectionEnd = (e.target as HTMLInputElement).selectionEnd || 0;
