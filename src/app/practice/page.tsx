@@ -120,7 +120,7 @@ const Page = () => {
           >
             Back Home
           </Link>
-          <Button type="button" onClick={getNewText}>
+          <Button type="button" onClick={getNewText} disabled={isFetching}>
             New Text
           </Button>
         </div>
