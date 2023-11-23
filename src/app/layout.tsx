@@ -10,6 +10,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "TypeFaster",
   description: "Increase your typing speed with TypeFaster",
+  icons: {
+    icon: "/logo.svg",
+  },
 };
 
 export default function RootLayout({
