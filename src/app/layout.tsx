@@ -8,8 +8,9 @@ import { NextAuthProvider } from "../../lib/SessionProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "TypeFaster",
-  description: "Increase your typing speed with TypeFaster",
+  title: "TypeFaster - Get better at typing while having fun",
+  description:
+    "Increase your typing speed with TypeFaster typing random texts of books, movies etc...",
   icons: {
     icon: "/logo.svg",
   },
