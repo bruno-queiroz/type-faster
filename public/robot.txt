@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /add-word
+Disallow: /create-text
+Disallow: /progress
+Allow: /sign-up
+Allow: /sign-in
+Allow: /practice?
