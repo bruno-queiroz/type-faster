@@ -1,4 +1,5 @@
 "use client";
+import { ServerDefaultResponse } from "@/services/api/config";
 import { Progress } from "@/services/api/getProgress";
 import React from "react";
 import {
@@ -13,7 +14,11 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const ProgressBarChart = (data: Progress | undefined) => {
+const ProgressBarChart = ({
+  data,
+  isOk,
+}: ServerDefaultResponse<Progress> | ServerDefaultResponse<null>) => {
+  if (!isOk) return;
   return (
     <div className="p-4 rounded w-full aspect-video bg-gray-100">
       <ResponsiveContainer>
