@@ -4,6 +4,7 @@ import { getProgress } from "@/services/api/getProgress";
 import { getCurrentUser } from "../../../lib/session";
 import ProgressBarChart from "@/components/ProgressBarChart";
 import { Metadata } from "next";
+import ProgressTable from "@/components/ProgressTable";
 
 export const metadata: Metadata = {
   title: "Progress - see your progress | TypeFaster",
@@ -21,23 +22,9 @@ const Page = async () => {
         <Title>Progress</Title>
       </h1>
 
-      <table className="w-full">
-        <thead>
-          <tr className="grid w-full rounded-t p-1 grid-cols-2 bg-neutral-900 text-white">
-            <th>Overall Average CPM</th>
-            <th>Overall Average Typos</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr className="grid grid-cols-2 place-items-center p-1 bg-gray-100">
-            <td>{progress?.data?.overallAverageCpm}</td>
-            <td>{progress?.data?.overallAverageTypos}</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <ProgressChart {...progress?.data} />
-      <ProgressBarChart {...progress?.data} />
+      <ProgressTable {...progress} />
+      <ProgressChart {...progress} />
+      <ProgressBarChart {...progress} />
     </section>
   );
 };
