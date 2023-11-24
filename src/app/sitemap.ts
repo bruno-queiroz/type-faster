@@ -15,6 +15,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: "http://localhost:3000/practice?mode=traditional",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: "http://localhost:3000/practice?mode=repeated-words",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: "http://localhost:3000/sign-up",
       lastModified: new Date(),
       changeFrequency: "yearly",
