@@ -47,7 +47,7 @@ const Page = () => {
     () => inputElement
   );
 
-  const { data, isFetching, isError } = useQuery("text", getText);
+  const { data, isFetching, isError, error } = useQuery("text", getText);
   return (
     <section className="flex flex-col flex-1 items-center p-4">
       <Modal
@@ -75,7 +75,7 @@ const Page = () => {
           </div>
           <div className="flex flex-col gap-4 p-4 bg-gray-200 rounded">
             {!isFetching && isError ? (
-              <div>{}</div>
+              <div className="text-center">{(error as Error).message}</div>
             ) : (
               <>
                 <p
