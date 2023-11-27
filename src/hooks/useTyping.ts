@@ -378,9 +378,8 @@ export const useTyping = (
 
     setTimeout(() => {
       const inputElement = getInputElement();
-
       inputElement.current?.focus();
-    }, 0);
+    }, 10);
   };
 
   const showSelectedText = (
