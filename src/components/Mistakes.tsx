@@ -8,7 +8,7 @@ const Mistakes = () => {
   const { data: text } = useQuery("text", getText);
   const typos = getTypos();
 
-  if (text?.mode === "repeated-words") return "";
+  if (text?.data.mode === "repeated-words") return "";
 
   return (
     <article className="relative">

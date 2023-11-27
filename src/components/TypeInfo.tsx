@@ -21,7 +21,7 @@ const TypeInfo = ({ cpm, accuracy, time, restartTyping }: TypeInfoProps) => {
       <div className="flex justify-center items-center">
         <div className="border-r-[2px] border-neutral-900 p-8 max-sm:p-4">
           <Image
-            src={data?.image || ""}
+            src={data?.data?.image || ""}
             width={80}
             height={120}
             alt="book cover image"
@@ -29,9 +29,9 @@ const TypeInfo = ({ cpm, accuracy, time, restartTyping }: TypeInfoProps) => {
         </div>
         <div className="flex flex-col w-full">
           <div className="p-2 pl-8 max-sm:pl-4">
-            <h2 className="font-semibold">{data?.title}</h2>
+            <h2 className="font-semibold">{data?.data?.title}</h2>
             <p>
-              By <span className="font-semibold">{data?.author}</span>
+              By <span className="font-semibold">{data?.data?.author}</span>
             </p>
           </div>
           <div className="flex flex-col gap-2 p-2 pl-8 max-sm:pl-4">

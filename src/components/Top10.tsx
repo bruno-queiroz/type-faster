@@ -8,12 +8,12 @@ const Top10 = () => {
   const { data: text } = useQuery("text", getText);
 
   const { data: top10 } = useQuery(
-    ["ranking", text?.id],
-    () => getRanking(text?.id || ""),
+    ["ranking", text?.data?.id],
+    () => getRanking(text?.data?.id || ""),
     { refetchOnMount: true }
   );
 
-  if (text?.mode === "repeated-words") return "";
+  if (text?.data?.mode === "repeated-words") return "";
 
   return (
     <section className="flex flex-col gap-4 mt-4">

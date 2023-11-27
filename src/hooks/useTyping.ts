@@ -82,7 +82,7 @@ export const useTyping = (
 
   const onType = (e: ChangeEvent<HTMLInputElement>) => {
     const textElement = getTextElement();
-    const textArray = data?.text || [];
+    const textArray = data?.data?.text || [];
 
     if (!textElement.current) return;
     if (isFetching) return e.preventDefault();
@@ -318,17 +318,17 @@ export const useTyping = (
     setAccuracy(typeAccuracy);
     setTime(typedTime);
 
-    if (!data?.id) return;
+    if (!data?.data?.id) return;
 
     if (status === "unauthenticated") {
       setIsSignUpModalOpen(true);
       return;
     }
 
-    if (data.mode === "repeated-words") return;
+    if (data.data.mode === "repeated-words") return;
 
     const typingData = {
-      textId: data?.id,
+      textId: data?.data.id,
       cpm,
       typos: mistakeCount,
       email: session?.user?.email || "",
@@ -358,7 +358,7 @@ export const useTyping = (
 
   const restartTyping = () => {
     const textElement = getTextElement();
-    const textArray = data?.text || [];
+    const textArray = data?.data?.text || [];
 
     if (!textElement.current) return;
     const elements = textElement.current.children;
@@ -389,7 +389,7 @@ export const useTyping = (
     const textElement = getTextElement();
 
     if (!textElement.current) return;
-    if (!data?.text) return;
+    if (!data?.data?.text) return;
     if (isFetching) return e.preventDefault();
 
     const selectionStart = (e.target as HTMLInputElement).selectionStart || 0;
@@ -400,7 +400,7 @@ export const useTyping = (
     paintSelectedBackground(
       textElementChildren,
       currentWordBeginningIndex,
-      data.text.length,
+      data.data.text.length,
       selectionStart,
       selectionEnd,
       "white"

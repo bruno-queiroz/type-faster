@@ -47,8 +47,7 @@ const Page = () => {
     () => inputElement
   );
 
-  const { data, isFetching } = useQuery("text", getText);
-
+  const { data, isFetching, isError } = useQuery("text", getText);
   return (
     <section className="flex flex-col flex-1 items-center p-4">
       <Modal
@@ -70,47 +69,57 @@ const Page = () => {
             </div>
             <div className="mt-4">
               <TypedProgressBar
-                progress={getTypedProgress(data?.text.length, inputIndex)}
+                progress={getTypedProgress(data?.data?.text.length, inputIndex)}
               />
             </div>
           </div>
           <div className="flex flex-col gap-4 p-4 bg-gray-200 rounded">
-            <p
-              ref={textElement}
-              className="font-mono whitespace-pre-wrap select-none"
-            >
-              {isFetching ? (
-                <LoadingText />
-              ) : (
-                data?.text?.map((char, index) => (
-                  <span key={index}>{char}</span>
-                ))
-              )}
-            </p>
+            {!isFetching && isError ? (
+              <div>{}</div>
+            ) : (
+              <>
+                <p
+                  ref={textElement}
+                  className="font-mono whitespace-pre-wrap select-none"
+                >
+                  {isFetching ? (
+                    <LoadingText />
+                  ) : (
+                    data?.data?.text?.map((char, index) => (
+                      <span key={index}>{char}</span>
+                    ))
+                  )}
+                </p>
 
-            <input
-              type="text"
-              spellCheck="false"
-              className="p-2 bg-gray-100"
-              style={{ backgroundColor: isMisspelled.is ? "#F87171" : "" }}
-              disabled={isFetching}
-              value={input}
-              onChange={onType}
-              onKeyDown={(e) =>
-                onKeyDownChangeCursor(e, textElement, currentWordBeginningIndex)
-              }
-              onClick={(e) =>
-                onClickChangeCursor(
-                  e,
-                  textElement,
-                  currentWordBeginningIndex,
-                  data?.text.length
-                )
-              }
-              onMouseMove={showSelectedText}
-              onPaste={(e) => e.preventDefault()}
-              ref={inputElement}
-            />
+                <input
+                  type="text"
+                  spellCheck="false"
+                  className="p-2 bg-gray-100"
+                  style={{ backgroundColor: isMisspelled.is ? "#F87171" : "" }}
+                  disabled={isFetching}
+                  value={input}
+                  onChange={onType}
+                  onKeyDown={(e) =>
+                    onKeyDownChangeCursor(
+                      e,
+                      textElement,
+                      currentWordBeginningIndex
+                    )
+                  }
+                  onClick={(e) =>
+                    onClickChangeCursor(
+                      e,
+                      textElement,
+                      currentWordBeginningIndex,
+                      data?.data?.text.length
+                    )
+                  }
+                  onMouseMove={showSelectedText}
+                  onPaste={(e) => e.preventDefault()}
+                  ref={inputElement}
+                />
+              </>
+            )}
           </div>
         </div>
         <div className="flex justify-between bg-gray-100 p-4">
