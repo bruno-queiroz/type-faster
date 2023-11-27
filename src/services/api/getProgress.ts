@@ -15,6 +15,10 @@ export const getProgress = async (email: string) => {
     const response = await fetch(`http://localhost:3333/api/progress/${email}`);
     const data: ServerDefaultResponse<Progress> = await response.json();
 
+    if (!data?.isOk) {
+      throw new Error(data.message);
+    }
+
     return data;
   } catch (err) {
     console.log("Error getting progress", err);
