@@ -1,7 +1,7 @@
 import { getURLParam } from "@/utils/getURLParam";
 import { ServerDefaultResponse } from "./config";
 
-interface Text {
+export interface Text {
   mode: "traditional" | "repeated-words";
   author: string;
   id: string;
@@ -11,9 +11,20 @@ interface Text {
 }
 
 export const getText = async () => {
-  const mode = getURLParam("mode");
-  const response = await fetch(`http://localhost:3333/api/text?mode=${mode}`);
-  const data: ServerDefaultResponse<Text> = await response.json();
+  try {
+    const mode = getURLParam("mode");
+    const response = await fetch(`http://localhost:3333/api/text?mode=${mode}`);
+    const data: ServerDefaultResponse<Text> = await response.json();
 
-  return data?.data;
+    if (!data?.isOk) {
+      throw new Error(data.message);
+    }
+
+    return data;
+  } catch (err) {
+    console.log("Error getting text", err);
+    const errorMessage = (err as Error).message;
+
+    throw new Error(errorMessage);
+  }
 };
