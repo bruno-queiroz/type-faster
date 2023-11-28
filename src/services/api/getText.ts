@@ -1,5 +1,5 @@
 import { getURLParam } from "@/utils/getURLParam";
-import { ServerDefaultResponse } from "./config";
+import { ServerDefaultResponse, baseApiUrl } from "./config";
 
 export interface Text {
   mode: "traditional" | "repeated-words";
@@ -13,7 +13,7 @@ export interface Text {
 export const getText = async () => {
   try {
     const mode = getURLParam("mode");
-    const response = await fetch(`http://localhost:3333/api/text?mode=${mode}`);
+    const response = await fetch(`${baseApiUrl}/api/text?mode=${mode}`);
     const data: ServerDefaultResponse<Text> = await response.json();
 
     if (!data?.isOk) {
