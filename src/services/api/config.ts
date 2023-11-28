@@ -4,4 +4,4 @@ export interface ServerDefaultResponse<T> {
   message: string;
 }
 
-export const baseApiUrl = process.env.NEXT_API_URL;
+export const baseApiUrl = process.env.NEXT_PUBLIC_API_URL;
