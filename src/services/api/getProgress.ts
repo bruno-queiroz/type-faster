@@ -1,4 +1,4 @@
-import { ServerDefaultResponse } from "./config";
+import { ServerDefaultResponse, baseApiUrl } from "./config";
 
 export interface Progress {
   overallAverageCpm?: number;
@@ -12,7 +12,7 @@ export interface Progress {
 
 export const getProgress = async (email: string) => {
   try {
-    const response = await fetch(`http://localhost:3333/api/progress/${email}`);
+    const response = await fetch(`${baseApiUrl}/api/progress/${email}`);
     const data: ServerDefaultResponse<Progress> = await response.json();
 
     if (!data?.isOk) {
