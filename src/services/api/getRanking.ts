@@ -1,4 +1,4 @@
-import { ServerDefaultResponse } from "./config";
+import { ServerDefaultResponse, baseApiUrl } from "./config";
 
 interface Ranking {
   cpm: number;
@@ -9,7 +9,7 @@ interface Ranking {
 }
 
 export const getRanking = async (textId: string) => {
-  const response = await fetch(`http://localhost:3333/api/ranking/${textId}`, {
+  const response = await fetch(`${baseApiUrl}/api/ranking/${textId}`, {
     cache: "no-cache",
   });
   const data: ServerDefaultResponse<Ranking[]> = await response.json();
