@@ -1,4 +1,4 @@
-import { ServerDefaultResponse } from "./config";
+import { ServerDefaultResponse, baseApiUrl } from "./config";
 import { User } from "./signInUser";
 
 export interface CreateUser {
@@ -9,7 +9,7 @@ export interface CreateUser {
 }
 
 export const createUser = async (user: CreateUser) => {
-  const response = await fetch("http://localhost:3333/api/user/sign-up", {
+  const response = await fetch(`${baseApiUrl}/api/user/sign-up`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
