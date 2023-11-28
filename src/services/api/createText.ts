@@ -1,4 +1,4 @@
-import { ServerDefaultResponse } from "./config";
+import { ServerDefaultResponse, baseApiUrl } from "./config";
 
 interface Text {
   text: string;
@@ -8,7 +8,7 @@ interface Text {
 }
 
 export const createText = async (text: Text) => {
-  const response = await fetch("http://localhost:3333/api/text", {
+  const response = await fetch(`${baseApiUrl}/api/text`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
