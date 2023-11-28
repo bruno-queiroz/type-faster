@@ -1,3 +1,5 @@
+import { baseApiUrl } from "./config";
+
 interface TypingData {
   textId: string;
   cpm: string;
@@ -6,7 +8,7 @@ interface TypingData {
 }
 
 export const addProgress = async (typingData: TypingData) => {
-  const response = await fetch("http://localhost:3333/api/progress", {
+  const response = await fetch(`${baseApiUrl}/api/progress`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
