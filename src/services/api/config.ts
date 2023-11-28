@@ -3,3 +3,5 @@ export interface ServerDefaultResponse<T> {
   isOk: boolean;
   message: string;
 }
+
+export const baseApiUrl = process.env.NEXT_API_URL;
