@@ -3,37 +3,37 @@ import { MetadataRoute } from "next";
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: "http://localhost:3000",
+      url: "https://type-faster.vercel.app",
       lastModified: new Date(),
       changeFrequency: "yearly",
       priority: 1,
     },
     {
-      url: "http://localhost:3000/practice",
+      url: "https://type-faster.vercel.app/practice",
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: "http://localhost:3000/practice?mode=traditional",
+      url: "https://type-faster.vercel.app/practice?mode=traditional",
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: "http://localhost:3000/practice?mode=repeated-words",
+      url: "https://type-faster.vercel.app/practice?mode=repeated-words",
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: "http://localhost:3000/sign-up",
+      url: "https://type-faster.vercel.app/sign-up",
       lastModified: new Date(),
       changeFrequency: "yearly",
       priority: 0.5,
     },
     {
-      url: "http://localhost:3000/sign-in",
+      url: "https://type-faster.vercel.app/sign-in",
       lastModified: new Date(),
       changeFrequency: "yearly",
       priority: 0.5,
