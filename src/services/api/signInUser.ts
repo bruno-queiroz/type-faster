@@ -1,4 +1,4 @@
-import { ServerDefaultResponse } from "./config";
+import { ServerDefaultResponse, baseApiUrl } from "./config";
 
 interface UserSignInData {
   email: string;
@@ -13,7 +13,7 @@ export interface User {
 }
 
 export const signInUser = async (user: UserSignInData) => {
-  const response = await fetch("http://localhost:3333/api/user/sign-in", {
+  const response = await fetch(`${baseApiUrl}/api/user/sign-in`, {
     method: "POST",
     headers: {
       "content-type": "application/json",
