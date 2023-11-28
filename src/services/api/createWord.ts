@@ -1,4 +1,4 @@
-import { ServerDefaultResponse } from "./config";
+import { ServerDefaultResponse, baseApiUrl } from "./config";
 
 interface Word {
   word: string;
@@ -6,7 +6,7 @@ interface Word {
 }
 
 export const createWord = async (word: { word: string }) => {
-  const response = await fetch("http://localhost:3333/api/text/word", {
+  const response = await fetch(`${baseApiUrl}/api/text/word`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
