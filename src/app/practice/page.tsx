@@ -38,6 +38,7 @@ const Page = () => {
     currentWordBeginningIndex,
     isSignUpModalOpen,
     setIsSignUpModalOpen,
+    closeConsecutiveMistakesModal,
     onType,
     getNewText,
     showSelectedText,
@@ -61,7 +62,10 @@ const Page = () => {
           className="flex flex-col gap-4 bg-gray-100 p-4 pb-0"
           style={{ display: isTypingFinished ? "none" : "flex" }}
         >
-          <ConsecutiveMistakesModal modalData={consecutiveMistakesModal} />
+          <ConsecutiveMistakesModal
+            {...consecutiveMistakesModal}
+            {...{ closeConsecutiveMistakesModal }}
+          />
 
           <div>
             <div className="border-[2px] border-black w-[max-content] py-1 rounded px-4 ml-auto">
