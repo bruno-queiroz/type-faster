@@ -22,9 +22,17 @@ const Page = async () => {
         <Title>Progress</Title>
       </h1>
 
-      <ProgressTable {...progress} />
-      <ProgressChart {...progress} />
-      <ProgressBarChart {...progress} />
+      {progress.data?.progress?.length === 0 ? (
+        <div className="flex justify-center bg-gray-100 px-4 py-8 rounded w-full">
+          You need to have typed at least 4 texts to see your progress 😞
+        </div>
+      ) : (
+        <>
+          <ProgressTable {...progress} />
+          <ProgressChart {...progress} />
+          <ProgressBarChart {...progress} />
+        </>
+      )}
     </section>
   );
 };
