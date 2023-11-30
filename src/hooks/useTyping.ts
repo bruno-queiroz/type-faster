@@ -337,6 +337,13 @@ export const useTyping = (
     await addProgress(typingData);
   };
 
+  const closeConsecutiveMistakesModal = () => {
+    setConsecutiveMistakesModal({
+      isOpen: false,
+      word: "",
+    });
+  };
+
   const resetTypingStates = () => {
     setCurrentWordBeginningIndex(0);
     setIsMisspelled({ index: 0, is: false });
@@ -423,6 +430,7 @@ export const useTyping = (
     currentWordBeginningIndex,
     isSignUpModalOpen,
     setIsSignUpModalOpen,
+    closeConsecutiveMistakesModal,
     onType,
     getNewText,
     showSelectedText,
