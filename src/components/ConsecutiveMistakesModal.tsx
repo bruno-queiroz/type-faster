@@ -1,17 +1,25 @@
 import React from "react";
+import { IoCloseSharp as CloseIcon } from "react-icons/io5";
 
 interface ConsecutiveMistakesModalProps {
-  modalData: {
-    isOpen: boolean;
-    word: string;
-  };
+  isOpen: boolean;
+  word: string;
+  closeConsecutiveMistakesModal: () => void;
 }
 
 const ConsecutiveMistakesModal = ({
-  modalData: { isOpen, word },
+  isOpen,
+  word,
+  closeConsecutiveMistakesModal,
 }: ConsecutiveMistakesModalProps) => {
   return (
     <dialog open={isOpen} className="rounded p-4 z-10">
+      <button
+        className="absolute right-4 top-4"
+        onClick={closeConsecutiveMistakesModal}
+      >
+        <CloseIcon />
+      </button>
       <h3 className="text-xl font-semibold mb-4">Typo Alert</h3>
       <div className="flex flex-col gap-1">
         <p>
