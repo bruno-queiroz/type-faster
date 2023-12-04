@@ -2,10 +2,10 @@ import { ServerDefaultResponse, baseApiUrl } from "./config";
 import { User } from "./signInUser";
 
 export interface CreateUser {
-  name: string;
-  email: string;
-  password?: string;
-  image?: string;
+  name?: string | null;
+  email?: string | null;
+  password?: string | null;
+  image?: string | null;
 }
 
 export const createUser = async (user: CreateUser) => {
