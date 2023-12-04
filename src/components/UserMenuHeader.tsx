@@ -1,8 +1,25 @@
 "use client";
+import { createUser } from "@/services/api/createUser";
+import { getUserFromStack } from "@/services/api/getUserFromStack";
 import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 
 const UserMenuHeader = () => {
-  const { data } = useSession();
+  const { data, status } = useSession();
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      const addUser = async () => {
+        const user = await getUserFromStack();
+        if (user?.name && user.email) {
+          const response = await createUser(user);
+          console.log("user created", response);
+        }
+      };
+
+      addUser();
+    }
+  }, [status]);
 
   return (
     <div className="flex flex-col p-4 pb-0">
