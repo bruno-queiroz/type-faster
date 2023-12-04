@@ -1,4 +1,4 @@
-import { CreateUser, createUser } from "@/services/api/createUser";
+import { createUser } from "@/services/api/createUser";
 import NextAuth, { NextAuthOptions } from "next-auth";
 
 import GithubProvider from "next-auth/providers/github";
@@ -6,6 +6,7 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { User, signInUser } from "@/services/api/signInUser";
 import { ServerDefaultResponse } from "@/services/api/config";
+import { addUserToStack } from "@/services/api/addUserToStack";
 
 interface ExtendedCredentials {
   email: string;
@@ -58,8 +59,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user, credentials }) {
       if (credentials) return true;
-
-      await createUser(user as CreateUser);
+      await addUserToStack(user);
 
       return true;
     },
