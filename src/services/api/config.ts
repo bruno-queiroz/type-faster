@@ -5,4 +5,4 @@ export interface ServerDefaultResponse<T> {
 }
 
 export const baseApiUrl = process.env.NEXT_PUBLIC_API_URL;
-export const deployUrl = process.env.NEXT_DEPLOY_URL;
+export const deployUrl = process.env.NEXT_PUBLIC_DEPLOY_URL;
