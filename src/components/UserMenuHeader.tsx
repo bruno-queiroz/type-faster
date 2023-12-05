@@ -1,6 +1,7 @@
 "use client";
 import { createUser } from "@/services/api/createUser";
 import { getUserFromStack } from "@/services/api/getUserFromStack";
+import { spinUpServer } from "@/services/api/spinUpServer";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 
@@ -20,6 +21,10 @@ const UserMenuHeader = () => {
       addUser();
     }
   }, [status]);
+
+  useEffect(() => {
+    (async () => await spinUpServer())();
+  }, []);
 
   return (
     <div className="flex flex-col p-4 pb-0">
