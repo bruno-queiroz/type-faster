@@ -14,7 +14,7 @@ const UserMenuHeader = () => {
         const user = await getUserFromStack();
         if (user?.name && user.email) {
           const response = await createUser(user);
-          console.log("user created", response);
+          console.log("user created!", response);
         }
       };
 
