@@ -1,8 +1,8 @@
-import { baseApiUrl } from "./config";
+import { deployUrl } from "./config";
 import { CreateUser } from "./createUser";
 
 export const addUserToStack = async (user: CreateUser) => {
-  await fetch(`http://localhost:3000/api/user`, {
+  await fetch(`${deployUrl}/api/user`, {
     method: "POST",
     headers: {
       "content-type": "application/json",
