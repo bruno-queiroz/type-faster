@@ -9,9 +9,12 @@ const UserMenuHeader = () => {
   const { data, status } = useSession();
 
   useEffect(() => {
+    console.log("useEffect");
     if (status === "authenticated") {
+      console.log("status", status);
       const addUser = async () => {
         const user = await getUserFromStack();
+        console.log("user", user);
         if (user?.name && user.email) {
           const response = await createUser(user);
           console.log("user created!", response);
