@@ -14,8 +14,10 @@ export const metadata: Metadata = {
   icons: {
     icon: "/logo.svg",
   },
+  verification: {
+    google: "xd6O4zf_hfxeD3xCFaJ_WQRXjkNxU5JC0tzYqO2h0-0",
+  },
 };
-
 export default function RootLayout({
   children,
 }: {
