@@ -48,7 +48,9 @@ const Page = () => {
     () => inputElement
   );
 
-  const { data, isFetching, isError, error } = useQuery("text", getText);
+  const { data, isFetching, isError, error } = useQuery("text", getText, {
+    refetchOnMount: true,
+  });
   return (
     <section className="flex flex-col flex-1 items-center p-4">
       <Modal
