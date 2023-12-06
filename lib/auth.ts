@@ -6,7 +6,6 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { User, signInUser } from "@/services/api/signInUser";
 import { ServerDefaultResponse } from "@/services/api/config";
-import { addUserToStack } from "@/services/api/addUserToStack";
 
 interface ExtendedCredentials {
   email: string;
@@ -56,14 +55,6 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
-  callbacks: {
-    async signIn({ user, credentials }) {
-      if (credentials) return true;
-      await addUserToStack(user);
-
-      return true;
-    },
-  },
 };
 
 export default NextAuth(authOptions);
