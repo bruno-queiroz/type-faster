@@ -11,7 +11,8 @@ export const checkInput = ({
   textArray,
   currentWordBeginningIndex,
 }: CheckInput) => {
-  const inputIndex = currentWordBeginningIndex + selectionStart;
+  const inputIndex = currentWordBeginningIndex + selectionStart - 1;
+
   if (keyPressed === textArray[inputIndex]) {
     return {
       isMisspelled: false,
