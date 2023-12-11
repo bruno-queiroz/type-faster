@@ -14,10 +14,16 @@ export const updateTextColors = ({
   wrongInputColor,
 }: UpdateTextColors) => {
   let isIncorrect = false;
-  for (let i = 0; i < inputValue.length; i++) {
+  for (let i = 0; i < elements.length; i++) {
     const element = elements[currentWordBeginningIndex + i] as HTMLSpanElement;
     const elementValue = element.textContent;
     const typedLetter = inputValue[i];
+
+    if (i > inputValue.length - 1) {
+      element.style.color = "black";
+      element.style.backgroundColor = "transparent";
+      continue;
+    }
 
     if (elementValue === typedLetter && !isIncorrect) {
       element.style.color = rightInputColor;
