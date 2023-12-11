@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useQuery } from "react-query";
 import { useRef } from "react";
 
-import { useTyping } from "@/hooks/useTyping";
+import { WRONG_INPUT_COLOR, useTyping } from "@/hooks/useTyping";
 
 import { getText } from "@/services/api/getText";
 
@@ -29,7 +29,7 @@ const Page = () => {
   const {
     input,
     isTypingFinished,
-    isMisspelled,
+    misspells,
     consecutiveMistakesModal,
     cpm,
     accuracy,
@@ -101,7 +101,10 @@ const Page = () => {
                   type="text"
                   spellCheck="false"
                   className="p-2 bg-gray-100"
-                  style={{ backgroundColor: isMisspelled.is ? "#F87171" : "" }}
+                  style={{
+                    backgroundColor:
+                      misspells.length > 0 ? WRONG_INPUT_COLOR : "",
+                  }}
                   disabled={isFetching}
                   value={input}
                   onChange={onType}
