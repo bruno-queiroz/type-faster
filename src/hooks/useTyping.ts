@@ -26,13 +26,20 @@ import { useQuery } from "react-query";
 import { addProgress } from "@/services/api/addProgress";
 import { useSession } from "next-auth/react";
 import { paintSelectedBackground } from "@/utils/paintSelectedBackground";
+import { updateTextColors } from "@/utils/updateTextColors";
+import { checkInput } from "@/utils/checkInput";
 
 interface NativeEventMissingTypes extends Event {
   inputType: string;
   data: string | null;
 }
 
-let lettersTyped = 0;
+interface Misspell {
+  char: string;
+  index: number;
+}
+
+let correctLettersTyped = 0;
 export const [getTypingHistory, pushToHistory, clearTypingHistory] =
   createTypingHistory();
 export const [getTypos, addTypo, clearTypos] = typosSet();
@@ -44,10 +51,7 @@ export const useTyping = (
   const [input, setInput] = useState("");
   const [inputIndex, setInputIndex] = useState(0);
   const [currentWordBeginningIndex, setCurrentWordBeginningIndex] = useState(0);
-  const [isMisspelled, setIsMisspelled] = useState({
-    is: false,
-    index: 0,
-  });
+  const [misspells, setMisspells] = useState<Misspell[]>([]);
   const [isTypingFinished, setIsTypingFinished] = useState(false);
   const [consecutiveMistakesCount, setConsecutiveMistakesCount] = useState(0);
   const [consecutiveMistakesModal, setConsecutiveMistakesModal] = useState({
@@ -88,13 +92,12 @@ export const useTyping = (
     if (isFetching) return e.preventDefault();
 
     const nativeEvent = e.nativeEvent as NativeEventMissingTypes;
-
     const isDeleteContentBackward =
       nativeEvent.inputType === "deleteContentBackward";
     const isDeleteWordBackward = nativeEvent.inputType === "deleteWordBackward";
+    const keyPressed = nativeEvent.data || "";
 
     const currentText = e.target.value;
-
     const selectionStart = e.target.selectionStart || 0;
     const currentCursorSafeIndex = selectionStart + currentWordBeginningIndex;
 
@@ -103,206 +106,58 @@ export const useTyping = (
       inputIndex
     ] as HTMLSpanElement;
 
-    const isMoreThanFiveConsecutiveMistakes =
-      isMisspelled.is && consecutiveMistakesCount > 5;
+    setInput(e.target.value);
+    updateTextColors({
+      currentWordBeginningIndex,
+      elements: textElementChildren,
+      inputValue: currentText,
+      rightInputColor: "green",
+      wrongInputColor: "#EF4444",
+    });
 
-    if (isMoreThanFiveConsecutiveMistakes) {
-      if (isDeleteContentBackward || isDeleteWordBackward) {
-        setInput(e.target.value);
-      }
-    } else {
-      setInput(e.target.value);
+    const isDeleting = isDeleteContentBackward || isDeleteWordBackward;
+
+    if (isDeleting) {
+      return;
     }
 
-    const currentChar = currentText[currentText.length - 1];
+    setInputIndex(inputIndex + 1);
+    const inputData = checkInput({
+      selectionStart,
+      currentWordBeginningIndex,
+      keyPressed,
+      textArray,
+    });
 
-    const isCorrectInput =
-      textArray[inputIndex] === currentChar &&
-      !isMisspelled.is &&
-      !isDeleteContentBackward;
-
-    let isCorrect = true;
-    let isCheckWordNeeded = true;
-
-    if (isCorrectInput) {
-      const keyPressed = nativeEvent.data;
-
-      if (inputIndex + 1 > lettersTyped) {
-        lettersTyped++;
-      }
-
-      const isFinished = inputIndex === textArray.length - 1;
-      if (isFinished) {
-        endMatch();
-      }
-
-      const isFirstInput = lettersTyped === 1;
-      if (isFirstInput) {
-        setMistakeCount(0);
-        clearTypos();
-
-        const getCPM = getCPMContext();
-
-        intervalId.current = setInterval(() => {
-          const newCpm = getCPM(lettersTyped);
-          setCpm(newCpm);
-        }, 2000);
-      }
-
-      isCheckWordNeeded = false;
-
-      const isInputHappeningBetweenLetters =
-        input.length - 2 >= selectionStart!;
-
-      if (isInputHappeningBetweenLetters) {
-        isCheckWordNeeded = true;
-      }
-
-      if (keyPressed === " ") {
-        addUnderlineToTheNewWord(
-          inputIndex + 1,
-          textArray,
-          textElementChildren
-        );
-        removeUnderlineOfThePreviousWord(
-          currentWordBeginningIndex,
-          textArray,
-          textElementChildren
-        );
-
-        setInput("");
-        setCurrentWordBeginningIndex(inputIndex + 1);
-      }
-      if (currentWordBeginningIndex === 0) {
-        addUnderlineToTheNewWord(inputIndex, textArray, textElementChildren);
-      }
-      setInputIndex(inputIndex + 1);
-      currentCharElement.style.color = "green";
-
-      removeCursor(inputIndex - 1, textElement.current.children);
-      addCursor(inputIndex, textElement.current.children);
-    } else if (isDeleteContentBackward) {
-      const currentCharElement = textElementChildren[
-        inputIndex - 1
-      ] as HTMLSpanElement;
-
-      const wasMoreThanOneLetterDeletedAtOnce =
-        inputIndex - 1 !== e.target.value.length + currentWordBeginningIndex;
-
-      if (wasMoreThanOneLetterDeletedAtOnce) {
-        clearLetterStyles(input.length, textElementChildren, inputIndex);
-
-        setConsecutiveMistakesModal({
-          isOpen: false,
-          word: "",
-        });
-
-        setConsecutiveMistakesCount(0);
-
-        setInputIndex(e.target.value.length + currentWordBeginningIndex);
-
-        addCursor(
-          currentWordBeginningIndex - 1 + selectionStart,
-          textElement.current.children
-        );
-        removeCursor(inputIndex - 1, textElement.current.children);
-      } else {
-        if (currentCharElement) {
-          currentCharElement.style.color = "black";
-          currentCharElement.style.backgroundColor = "transparent";
-        }
-
-        if (consecutiveMistakesCount > 0) {
-          setConsecutiveMistakesCount((prev) => prev - 1);
-        }
-
-        if (consecutiveMistakesCount === 1) {
-          setConsecutiveMistakesModal({
-            isOpen: false,
-            word: "",
-          });
-        }
-
-        setInputIndex(inputIndex - 1);
-
-        addCursor(currentCursorSafeIndex - 1, textElement.current.children);
-        removeCursor(currentCursorSafeIndex, textElement.current.children);
-      }
-    } else if (isDeleteWordBackward) {
-      clearLetterStyles(input.length, textElementChildren, inputIndex);
-
-      setConsecutiveMistakesModal({
-        isOpen: false,
-        word: "",
-      });
-
-      setConsecutiveMistakesCount(0);
-
-      setInputIndex(inputIndex - (input.length - e.target.value.length));
-
-      addCursor(
-        inputIndex - (input.length - e.target.value.length) - 1,
-        textElement.current.children
-      );
-      removeCursor(inputIndex - 1, textElement.current.children);
-    } else {
-      const typingHistory = getTypingHistory();
-
-      addTypo({
-        word: getWord(currentWordBeginningIndex, textArray),
-        typingHistoryIndex: typingHistory.length,
-      });
-
-      if (consecutiveMistakesCount > 5) {
-        const word = getWord(currentWordBeginningIndex, textArray);
-
-        setConsecutiveMistakesModal({
-          isOpen: true,
-          word,
-        });
-        return;
-      }
-      setConsecutiveMistakesCount((prev) => prev + 1);
+    if (inputData.isMisspelled) {
       setMistakeCount(mistakeCount + 1);
 
-      isCorrect = false;
-
-      if (!isMisspelled.is) {
-        setIsMisspelled({ is: true, index: inputIndex });
-      }
-
-      addCursor(currentCursorSafeIndex - 1, textElement.current.children);
-      removeCursor(currentCursorSafeIndex - 2, textElement.current.children);
-
-      setInputIndex(inputIndex + 1);
+      return;
     }
 
-    const isDeleteContent = isDeleteContentBackward || isDeleteWordBackward;
+    const isFirstInput = correctLettersTyped === 1;
+    if (isFirstInput) {
+      setMistakeCount(0);
+      clearTypos();
 
-    const userGotAtLeastOneLetterRight = lettersTyped > 0;
+      const getCPM = getCPMContext();
 
-    if (userGotAtLeastOneLetterRight) {
-      pushToHistory({
-        value: nativeEvent.data,
-        isDeleteContent: isDeleteContent,
-        startPoint: currentText.length - selectionStart,
-        deletedAmount: input.length - currentText.length,
-        cpm,
-        accuracy: getAccuracy(mistakeCount, lettersTyped),
-        isCorrect,
-      });
+      intervalId.current = setInterval(() => {
+        const newCpm = getCPM(correctLettersTyped);
+        setCpm(newCpm);
+      }, 2000);
     }
 
-    if (isCheckWordNeeded) {
-      const isMisspelledData = checkWord(
-        e.target.value,
-        textElementChildren,
-        textArray,
+    if (keyPressed === " ") {
+      addUnderlineToTheNewWord(inputIndex + 1, textArray, textElementChildren);
+      removeUnderlineOfThePreviousWord(
         currentWordBeginningIndex,
-        endMatch
+        textArray,
+        textElementChildren
       );
 
-      setIsMisspelled(isMisspelledData);
+      setInput("");
+      setCurrentWordBeginningIndex(inputIndex + 1);
     }
   };
 
@@ -312,7 +167,7 @@ export const useTyping = (
     clearInterval(intervalId.current);
     setIsTypingFinished(true);
 
-    const typeAccuracy = getAccuracy(mistakeCount, lettersTyped);
+    const typeAccuracy = getAccuracy(mistakeCount, correctLettersTyped);
     const typedTime = getTypingElapsedTime(typingHistory[0].time);
 
     setAccuracy(typeAccuracy);
@@ -346,7 +201,7 @@ export const useTyping = (
 
   const resetTypingStates = () => {
     setCurrentWordBeginningIndex(0);
-    setIsMisspelled({ index: 0, is: false });
+    setMisspells([]);
     setIsTypingFinished(false);
     setInputIndex(0);
     setInput("");
@@ -360,7 +215,7 @@ export const useTyping = (
   const resetTypingHistory = () => {
     clearTypingHistory();
     clearTypos();
-    lettersTyped = 0;
+    correctLettersTyped = 0;
   };
 
   const restartTyping = () => {
@@ -425,7 +280,7 @@ export const useTyping = (
     accuracy,
     time,
     consecutiveMistakesModal,
-    isMisspelled,
+    isMisspelled: misspells,
     inputIndex,
     currentWordBeginningIndex,
     isSignUpModalOpen,
