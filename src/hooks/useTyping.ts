@@ -39,6 +39,8 @@ interface Misspell {
   index: number;
 }
 
+export const WRONG_INPUT_COLOR = "#F87171";
+
 let correctLettersTyped = 0;
 export const [getTypingHistory, pushToHistory, clearTypingHistory] =
   createTypingHistory();
@@ -112,7 +114,7 @@ export const useTyping = (
       elements: textElementChildren,
       inputValue: currentText,
       rightInputColor: "green",
-      wrongInputColor: "#EF4444",
+      wrongInputColor: WRONG_INPUT_COLOR,
     });
 
     const isDeleting = isDeleteContentBackward || isDeleteWordBackward;
@@ -280,7 +282,7 @@ export const useTyping = (
     accuracy,
     time,
     consecutiveMistakesModal,
-    isMisspelled: misspells,
+    misspells,
     inputIndex,
     currentWordBeginningIndex,
     isSignUpModalOpen,
