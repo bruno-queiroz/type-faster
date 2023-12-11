@@ -120,6 +120,10 @@ export const useTyping = (
     const isDeleting = isDeleteContentBackward || isDeleteWordBackward;
 
     if (isDeleting) {
+      const amountOfCharsDeleted =
+        inputIndex - (currentWordBeginningIndex + currentText.length);
+
+      setInputIndex(inputIndex - amountOfCharsDeleted);
       return;
     }
 
@@ -133,7 +137,7 @@ export const useTyping = (
 
     if (inputData.isMisspelled) {
       setMistakeCount(mistakeCount + 1);
-
+      setMisspells([...misspells, { char: keyPressed, index: inputIndex }]);
       return;
     }
 
