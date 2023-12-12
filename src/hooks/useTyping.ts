@@ -28,6 +28,7 @@ import { useSession } from "next-auth/react";
 import { paintSelectedBackground } from "@/utils/paintSelectedBackground";
 import { updateTextColors } from "@/utils/updateTextColors";
 import { checkInput } from "@/utils/checkInput";
+import { updateMisspells } from "@/utils/updateMisspells";
 
 interface NativeEventMissingTypes extends Event {
   inputType: string;
@@ -120,6 +121,13 @@ export const useTyping = (
     const isDeleting = isDeleteContentBackward || isDeleteWordBackward;
 
     if (isDeleting) {
+      const updatedMisspells = updateMisspells({
+        textArray,
+        currentText,
+        currentWordBeginningIndex,
+      });
+      setMisspells(updatedMisspells);
+
       const amountOfCharsDeleted =
         inputIndex - (currentWordBeginningIndex + currentText.length);
 
