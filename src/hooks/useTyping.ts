@@ -166,6 +166,11 @@ export const useTyping = (
       return;
     }
 
+    const isThereNoMisspells = misspells.length === 0;
+    if (isThereNoMisspells) {
+      correctLettersTyped++;
+    }
+
     const isFirstInput = correctLettersTyped === 1;
     if (isFirstInput) {
       setMistakeCount(0);
@@ -179,7 +184,7 @@ export const useTyping = (
       }, 2000);
     }
 
-    if (keyPressed === " " && misspells.length === 0) {
+    if (keyPressed === " " && isThereNoMisspells) {
       addUnderlineToTheNewWord(inputIndex + 1, textArray, textElementChildren);
       removeUnderlineOfThePreviousWord(
         currentWordBeginningIndex,
