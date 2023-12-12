@@ -56,7 +56,6 @@ export const useTyping = (
   const [currentWordBeginningIndex, setCurrentWordBeginningIndex] = useState(0);
   const [misspells, setMisspells] = useState<Misspell[]>([]);
   const [isTypingFinished, setIsTypingFinished] = useState(false);
-  const [consecutiveMistakesCount, setConsecutiveMistakesCount] = useState(0);
   const [consecutiveMistakesModal, setConsecutiveMistakesModal] = useState({
     isOpen: false,
     word: "",
@@ -108,17 +107,19 @@ export const useTyping = (
     const currentCharElement = textElementChildren[
       inputIndex
     ] as HTMLSpanElement;
-
-    setInput(e.target.value);
-    updateTextColors({
-      currentWordBeginningIndex,
-      elements: textElementChildren,
-      inputValue: currentText,
-      rightInputColor: "green",
-      wrongInputColor: WRONG_INPUT_COLOR,
-    });
-
     const isDeleting = isDeleteContentBackward || isDeleteWordBackward;
+
+    if (!consecutiveMistakesModal.isOpen || isDeleting) {
+      setInput(e.target.value);
+
+      updateTextColors({
+        currentWordBeginningIndex,
+        elements: textElementChildren,
+        inputValue: currentText,
+        rightInputColor: "green",
+        wrongInputColor: WRONG_INPUT_COLOR,
+      });
+    }
 
     if (isDeleting) {
       const updatedMisspells = updateMisspells({
@@ -131,9 +132,25 @@ export const useTyping = (
       const amountOfCharsDeleted =
         inputIndex - (currentWordBeginningIndex + currentText.length);
 
+      if (consecutiveMistakesModal.isOpen && updatedMisspells.length === 0) {
+        setConsecutiveMistakesModal({
+          isOpen: false,
+          word: "",
+        });
+      }
       setInputIndex(inputIndex - amountOfCharsDeleted);
       return;
     }
+
+    if (misspells.length > 7) {
+      setConsecutiveMistakesModal({
+        isOpen: true,
+        word: getWord(currentWordBeginningIndex, textArray),
+      });
+      return;
+    }
+
+    if (consecutiveMistakesModal.isOpen) return;
 
     setInputIndex(inputIndex + 1);
     const inputData = checkInput({
@@ -162,7 +179,7 @@ export const useTyping = (
       }, 2000);
     }
 
-    if (keyPressed === " ") {
+    if (keyPressed === " " && misspells.length === 0) {
       addUnderlineToTheNewWord(inputIndex + 1, textArray, textElementChildren);
       removeUnderlineOfThePreviousWord(
         currentWordBeginningIndex,
