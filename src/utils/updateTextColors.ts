@@ -14,9 +14,9 @@ export const updateTextColors = ({
   wrongInputColor,
 }: UpdateTextColors) => {
   let isIncorrect = false;
-  for (let i = 0; i < elements.length; i++) {
+  for (let i = 0; i < elements.length - currentWordBeginningIndex; i++) {
     const element = elements[currentWordBeginningIndex + i] as HTMLSpanElement;
-    const elementValue = element.textContent;
+    const elementValue = element?.textContent;
     const typedLetter = inputValue[i];
 
     if (i > inputValue.length - 1) {
