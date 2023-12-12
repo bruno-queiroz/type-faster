@@ -1,7 +1,6 @@
 export const paintSelectedBackground = (
   textElementChildren: HTMLCollection,
   currentWordBeginningIndex: number,
-  textLength: number,
   selectionStart: number,
   selectionEnd: number,
   bgColor: string
@@ -11,7 +10,7 @@ export const paintSelectedBackground = (
   while (
     textElementChildren[currentWordBeginningIndex + index].textContent !==
       " " &&
-    currentWordBeginningIndex + index < textLength
+    currentWordBeginningIndex + index < textElementChildren.length
   ) {
     const spanElement = textElementChildren[
       currentWordBeginningIndex + index
