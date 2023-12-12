@@ -8,7 +8,7 @@ export const paintSelectedBackground = (
   let index = 0;
 
   while (
-    textElementChildren[currentWordBeginningIndex + index].textContent !==
+    textElementChildren[currentWordBeginningIndex + index]?.textContent !==
       " " &&
     currentWordBeginningIndex + index < textElementChildren.length
   ) {
