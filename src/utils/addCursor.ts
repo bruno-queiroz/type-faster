@@ -1,3 +1,5 @@
+import { cursorPosition } from "@/hooks/useTyping";
+
 export const RIGHT_CURSOR_CLASSNAME = "right-cursor";
 export const LEFT_CURSOR_CLASSNAME = "left-cursor";
 
@@ -17,11 +19,12 @@ export const addCursor = (inputIndex: number, elements: HTMLCollection) => {
     cursorClass = LEFT_CURSOR_CLASSNAME;
   } else if (currentCharElement.textContent === " " && nextElement) {
     element = nextElement;
-    cursorClass = RIGHT_CURSOR_CLASSNAME;
+    cursorClass = LEFT_CURSOR_CLASSNAME;
   } else {
     element = currentCharElement;
     cursorClass = RIGHT_CURSOR_CLASSNAME;
   }
 
+  cursorPosition.index = inputIndex;
   element.classList.add(cursorClass);
 };
