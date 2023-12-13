@@ -5,17 +5,22 @@ export const removeCursor = (inputIndex: number, elements: HTMLCollection) => {
   const nextCharElement = elements[inputIndex + 1] as HTMLSpanElement;
   const firstCharElement = elements[0] as HTMLSpanElement;
 
-  const isFirstChar = inputIndex === -1;
-  if (isFirstChar) {
-    firstCharElement?.classList.remove(LEFT_CURSOR_CLASSNAME);
-    return;
-  }
+  let cursorClass = "";
+  let element: HTMLSpanElement;
 
   if (!currentCharElement) return;
 
-  if (currentCharElement?.textContent === " ") {
-    nextCharElement?.classList.remove(LEFT_CURSOR_CLASSNAME);
+  const isFirstChar = inputIndex === -1;
+  if (isFirstChar) {
+    element = firstCharElement;
+    cursorClass = LEFT_CURSOR_CLASSNAME;
+  } else if (currentCharElement?.textContent === " ") {
+    element = nextCharElement;
+    cursorClass = LEFT_CURSOR_CLASSNAME;
   } else {
-    currentCharElement?.classList.remove(RIGHT_CURSOR_CLASSNAME);
+    element = currentCharElement;
+    cursorClass = RIGHT_CURSOR_CLASSNAME;
   }
+
+  element.classList.remove(cursorClass);
 };
