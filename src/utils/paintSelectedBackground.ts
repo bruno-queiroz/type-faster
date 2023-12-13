@@ -1,6 +1,9 @@
+import { WRONG_INPUT_COLOR } from "@/hooks/useTyping";
+
 export const paintSelectedBackground = (
   textElementChildren: HTMLCollection,
   currentWordBeginningIndex: number,
+  inputElement: HTMLInputElement,
   selectionStart: number,
   selectionEnd: number,
   bgColor: string
@@ -8,8 +11,7 @@ export const paintSelectedBackground = (
   let index = 0;
 
   while (
-    textElementChildren[currentWordBeginningIndex + index]?.textContent !==
-      " " &&
+    index < inputElement.value.length &&
     currentWordBeginningIndex + index < textElementChildren.length
   ) {
     const spanElement = textElementChildren[
@@ -18,7 +20,9 @@ export const paintSelectedBackground = (
 
     if (index >= selectionStart && index <= selectionEnd && selectionEnd > 0) {
       spanElement.style.backgroundColor = bgColor;
-    } else {
+    } else if (
+      getComputedStyle(spanElement).backgroundColor !== WRONG_INPUT_COLOR
+    ) {
       spanElement.style.backgroundColor = "transparent";
     }
 
