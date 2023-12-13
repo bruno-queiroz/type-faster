@@ -104,12 +104,16 @@ export const useTyping = (
 
     const currentText = e.target.value;
     const selectionStart = e.target.selectionStart || 0;
-    const currentCursorSafeIndex = selectionStart + currentWordBeginningIndex;
+    const cursorIndex = selectionStart + currentWordBeginningIndex - 1;
 
     const textElementChildren = textElement.current?.children;
     const currentCharElement = textElementChildren[
       inputIndex
     ] as HTMLSpanElement;
+
+    removeCursor(textElementChildren);
+    addCursor(cursorIndex, textElementChildren);
+
     const isDeleting = isDeleteContentBackward || isDeleteWordBackward;
 
     if (!consecutiveMistakesModal.isOpen || isDeleting) {
@@ -264,7 +268,7 @@ export const useTyping = (
     if (!textElement.current) return;
     const elements = textElement.current.children;
 
-    removeCursor(currentWordBeginningIndex + input.length - 1, elements);
+    removeCursor(elements);
 
     resetTypingHistory();
     resetTypingStates();
