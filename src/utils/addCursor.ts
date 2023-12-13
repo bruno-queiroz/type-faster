@@ -3,9 +3,9 @@ import { cursorPosition } from "@/hooks/useTyping";
 export const RIGHT_CURSOR_CLASSNAME = "right-cursor";
 export const LEFT_CURSOR_CLASSNAME = "left-cursor";
 
-export const addCursor = (inputIndex: number, elements: HTMLCollection) => {
-  const currentCharElement = elements[inputIndex] as HTMLSpanElement;
-  const nextElement = elements[inputIndex + 1] as HTMLSpanElement;
+export const addCursor = (cursorIndex: number, elements: HTMLCollection) => {
+  const currentCharElement = elements[cursorIndex] as HTMLSpanElement;
+  const nextElement = elements[cursorIndex + 1] as HTMLSpanElement;
   const firstCharElement = elements[0] as HTMLSpanElement;
 
   let cursorClass = "";
@@ -13,7 +13,7 @@ export const addCursor = (inputIndex: number, elements: HTMLCollection) => {
 
   if (!currentCharElement) return;
 
-  const isFirstChar = inputIndex === -1;
+  const isFirstChar = cursorIndex === -1;
   if (isFirstChar) {
     element = firstCharElement;
     cursorClass = LEFT_CURSOR_CLASSNAME;
@@ -25,6 +25,6 @@ export const addCursor = (inputIndex: number, elements: HTMLCollection) => {
     cursorClass = RIGHT_CURSOR_CLASSNAME;
   }
 
-  cursorPosition.index = inputIndex;
+  cursorPosition.index = cursorIndex;
   element.classList.add(cursorClass);
 };
