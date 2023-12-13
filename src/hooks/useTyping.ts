@@ -42,6 +42,9 @@ interface Misspell {
 
 export const WRONG_INPUT_COLOR = "rgb(248, 113, 113)";
 
+export const cursorPosition = {
+  index: -1,
+};
 let correctLettersTyped = 0;
 export const [getTypingHistory, pushToHistory, clearTypingHistory] =
   createTypingHistory();
