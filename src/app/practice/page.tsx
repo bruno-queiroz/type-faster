@@ -92,7 +92,9 @@ const Page = () => {
                     <LoadingText />
                   ) : (
                     data?.data?.text?.map((char, index) => (
-                      <span key={index}>{char}</span>
+                      <span key={index} className="relative">
+                        {char}
+                      </span>
                     ))
                   )}
                 </p>
