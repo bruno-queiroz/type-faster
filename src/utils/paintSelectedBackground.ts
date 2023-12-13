@@ -1,4 +1,4 @@
-import { WRONG_INPUT_COLOR } from "@/hooks/useTyping";
+import { createSelectSpanElement } from "./createSelectSpanElement";
 
 export const paintSelectedBackground = (
   textElementChildren: HTMLCollection,
@@ -14,16 +14,19 @@ export const paintSelectedBackground = (
     index < inputElement.value.length &&
     currentWordBeginningIndex + index < textElementChildren.length
   ) {
-    const spanElement = textElementChildren[
+    const charElement = textElementChildren[
       currentWordBeginningIndex + index
     ] as HTMLSpanElement;
 
-    if (index >= selectionStart && index <= selectionEnd && selectionEnd > 0) {
-      spanElement.style.backgroundColor = bgColor;
-    } else if (
-      getComputedStyle(spanElement).backgroundColor !== WRONG_INPUT_COLOR
-    ) {
-      spanElement.style.backgroundColor = "transparent";
+    if (index >= selectionStart && index < selectionEnd && selectionEnd > 0) {
+      if (charElement.childElementCount === 0) {
+        const span = createSelectSpanElement(bgColor, charElement.textContent);
+
+        charElement.appendChild(span);
+      }
+    } else {
+      const span = charElement.firstChild?.nextSibling;
+      span?.remove();
     }
 
     index++;
