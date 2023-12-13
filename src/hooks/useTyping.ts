@@ -40,7 +40,7 @@ interface Misspell {
   index: number;
 }
 
-export const WRONG_INPUT_COLOR = "#F87171";
+export const WRONG_INPUT_COLOR = "rgb(248, 113, 113)";
 
 let correctLettersTyped = 0;
 export const [getTypingHistory, pushToHistory, clearTypingHistory] =
@@ -284,8 +284,10 @@ export const useTyping = (
     e: MouseEvent<HTMLInputElement, globalThis.MouseEvent>
   ) => {
     const textElement = getTextElement();
+    const inputElement = getInputElement();
 
     if (!textElement.current) return;
+    if (!inputElement.current) return;
     if (!data?.data?.text) return;
     if (isFetching) return e.preventDefault();
 
@@ -297,7 +299,7 @@ export const useTyping = (
     paintSelectedBackground(
       textElementChildren,
       currentWordBeginningIndex,
-      data.data.text.length,
+      inputElement.current,
       selectionStart,
       selectionEnd,
       "white"
