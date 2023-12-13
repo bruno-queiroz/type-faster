@@ -6,17 +6,22 @@ export const addCursor = (inputIndex: number, elements: HTMLCollection) => {
   const nextElement = elements[inputIndex + 1] as HTMLSpanElement;
   const firstCharElement = elements[0] as HTMLSpanElement;
 
+  let cursorClass = "";
+  let element: HTMLSpanElement;
+
+  if (!currentCharElement) return;
+
   const isFirstChar = inputIndex === -1;
   if (isFirstChar) {
-    firstCharElement.classList.add(LEFT_CURSOR_CLASSNAME);
-    return;
+    element = firstCharElement;
+    cursorClass = LEFT_CURSOR_CLASSNAME;
+  } else if (currentCharElement.textContent === " " && nextElement) {
+    element = nextElement;
+    cursorClass = RIGHT_CURSOR_CLASSNAME;
+  } else {
+    element = currentCharElement;
+    cursorClass = RIGHT_CURSOR_CLASSNAME;
   }
 
-  if (currentCharElement) {
-    if (currentCharElement.textContent === " " && nextElement) {
-      nextElement.classList.add(LEFT_CURSOR_CLASSNAME);
-    } else {
-      currentCharElement.classList.add(RIGHT_CURSOR_CLASSNAME);
-    }
-  }
+  element.classList.add(cursorClass);
 };
