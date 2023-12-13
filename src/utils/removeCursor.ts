@@ -1,8 +1,9 @@
+import { cursorPosition } from "@/hooks/useTyping";
 import { LEFT_CURSOR_CLASSNAME, RIGHT_CURSOR_CLASSNAME } from "./addCursor";
 
-export const removeCursor = (inputIndex: number, elements: HTMLCollection) => {
-  const currentCharElement = elements[inputIndex] as HTMLSpanElement;
-  const nextCharElement = elements[inputIndex + 1] as HTMLSpanElement;
+export const removeCursor = (elements: HTMLCollection) => {
+  const currentCharElement = elements[cursorPosition.index] as HTMLSpanElement;
+  const nextCharElement = elements[cursorPosition.index + 1] as HTMLSpanElement;
   const firstCharElement = elements[0] as HTMLSpanElement;
 
   let cursorClass = "";
@@ -10,7 +11,7 @@ export const removeCursor = (inputIndex: number, elements: HTMLCollection) => {
 
   if (!currentCharElement) return;
 
-  const isFirstChar = inputIndex === -1;
+  const isFirstChar = cursorPosition.index === -1;
   if (isFirstChar) {
     element = firstCharElement;
     cursorClass = LEFT_CURSOR_CLASSNAME;
@@ -22,5 +23,6 @@ export const removeCursor = (inputIndex: number, elements: HTMLCollection) => {
     cursorClass = RIGHT_CURSOR_CLASSNAME;
   }
 
+  cursorPosition.index = -1;
   element.classList.remove(cursorClass);
 };
