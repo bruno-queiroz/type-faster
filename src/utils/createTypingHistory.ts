@@ -6,6 +6,7 @@ export interface TypingHistory {
   deletedAmount: number;
   cpm: string;
   accuracy: string;
+  isCorrect: boolean;
 }
 
 type PushToHistory = Omit<TypingHistory, "time" | "value"> & {
