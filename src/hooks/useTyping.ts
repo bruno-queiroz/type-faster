@@ -124,17 +124,19 @@ export const useTyping = (
         wrongInputColor: WRONG_INPUT_COLOR,
       });
 
-      pushToHistory(
-        {
-          value: keyPressed,
-          isDeleteContent: isDeleting,
-          startPoint: currentText.length - selectionStart,
-          deletedAmount: input.length - currentText.length,
-          cpm,
-          accuracy: getAccuracy(mistakeCount, correctLettersTyped),
-        },
-        correctLettersTyped
-      );
+      setTimeout(() => {
+        pushToHistory(
+          {
+            value: keyPressed,
+            isDeleteContent: isDeleting,
+            startPoint: currentText.length - selectionStart,
+            deletedAmount: input.length - currentText.length,
+            cpm,
+            accuracy: getAccuracy(mistakeCount, correctLettersTyped),
+          },
+          correctLettersTyped
+        );
+      }, 0);
     }
 
     if (isDeleting) {
