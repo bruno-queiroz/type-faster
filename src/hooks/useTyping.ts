@@ -123,6 +123,18 @@ export const useTyping = (
         rightInputColor: "green",
         wrongInputColor: WRONG_INPUT_COLOR,
       });
+
+      pushToHistory(
+        {
+          value: keyPressed,
+          isDeleteContent: isDeleting,
+          startPoint: currentText.length - selectionStart,
+          deletedAmount: input.length - currentText.length,
+          cpm,
+          accuracy: getAccuracy(mistakeCount, correctLettersTyped),
+        },
+        correctLettersTyped
+      );
     }
 
     if (isDeleting) {
@@ -171,7 +183,7 @@ export const useTyping = (
     }
 
     const isThereNoMisspells = misspells.length === 0;
-    if (isThereNoMisspells) {
+    if (isThereNoMisspells && inputIndex + 1 > correctLettersTyped) {
       correctLettersTyped++;
     }
 
@@ -198,6 +210,10 @@ export const useTyping = (
 
       setInput("");
       setCurrentWordBeginningIndex(inputIndex + 1);
+    }
+
+    if (isThereNoMisspells && correctLettersTyped === textArray.length) {
+      endMatch();
     }
   };
 
