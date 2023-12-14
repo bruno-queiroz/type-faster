@@ -6,18 +6,13 @@ export const LEFT_CURSOR_CLASSNAME = "left-cursor";
 export const addCursor = (cursorIndex: number, elements: HTMLCollection) => {
   const currentCharElement = elements[cursorIndex] as HTMLSpanElement;
   const nextElement = elements[cursorIndex + 1] as HTMLSpanElement;
-  const firstCharElement = elements[0] as HTMLSpanElement;
 
   let cursorClass = "";
   let element: HTMLSpanElement;
 
   if (!currentCharElement) return;
 
-  const isFirstChar = cursorIndex === -1;
-  if (isFirstChar) {
-    element = firstCharElement;
-    cursorClass = LEFT_CURSOR_CLASSNAME;
-  } else if (currentCharElement.textContent === " " && nextElement) {
+  if (currentCharElement.textContent === " " && nextElement) {
     element = nextElement;
     cursorClass = LEFT_CURSOR_CLASSNAME;
   } else {
