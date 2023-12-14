@@ -1,6 +1,6 @@
 import { MouseEvent, RefObject } from "react";
 import { addCursor } from "./addCursor";
-import { removeCursorFromWord } from "./removeCursorFromWord";
+import { removeCursor } from "./removeCursor";
 
 export const onClickChangeCursor = (
   e: MouseEvent<HTMLInputElement, globalThis.MouseEvent>,
@@ -16,16 +16,10 @@ export const onClickChangeCursor = (
 
   const selection = document.getSelection()?.toString();
 
-  removeCursorFromWord(
-    currentWordBeginningIndex,
-    textElementChildren,
-    textLength - 1
-  );
+  removeCursor(textElementChildren);
 
   if (!selection) {
-    addCursor(
-      currentWordBeginningIndex + selectionStart - 1 || 1,
-      textElementChildren
-    );
+    const cursorIndex = currentWordBeginningIndex + selectionStart - 1 || 1;
+    addCursor(cursorIndex, textElementChildren);
   }
 };
