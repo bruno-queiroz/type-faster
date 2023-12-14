@@ -113,6 +113,7 @@ export const useTyping = (
 
     const isDeleting = isDeleteContentBackward || isDeleteWordBackward;
 
+    let isInputCorrect = true;
     if (!consecutiveMistakesModal.isOpen || isDeleting) {
       setInput(e.target.value);
 
@@ -133,6 +134,7 @@ export const useTyping = (
             deletedAmount: input.length - currentText.length,
             cpm,
             accuracy: getAccuracy(mistakeCount, correctLettersTyped),
+            isCorrect: isInputCorrect,
           },
           correctLettersTyped
         );
@@ -187,6 +189,7 @@ export const useTyping = (
         word: getWord(currentWordBeginningIndex, textArray),
         typingHistoryIndex: typingHistory.length,
       });
+      isInputCorrect = false;
       return;
     }
 
