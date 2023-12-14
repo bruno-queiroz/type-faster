@@ -181,6 +181,12 @@ export const useTyping = (
     if (inputData.isMisspelled) {
       setMistakeCount(mistakeCount + 1);
       setMisspells([...misspells, { char: keyPressed, index: inputIndex }]);
+
+      const typingHistory = getTypingHistory();
+      addTypo({
+        word: getWord(currentWordBeginningIndex, textArray),
+        typingHistoryIndex: typingHistory.length,
+      });
       return;
     }
 
