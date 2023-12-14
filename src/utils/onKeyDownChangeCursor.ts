@@ -38,10 +38,7 @@ export const onKeyDownChangeCursor = (
       break;
     case "ArrowRight":
       if (isShift) {
-        removeCursor(
-          currentWordBeginningIndex + selectionStart - 1,
-          textElementChildren
-        );
+        removeCursor(textElementChildren);
         break;
       }
       if (isCtrl) {
@@ -65,10 +62,7 @@ export const onKeyDownChangeCursor = (
       break;
     case "ArrowLeft":
       if (isShift) {
-        removeCursor(
-          currentWordBeginningIndex + selectionStart - 1,
-          textElementChildren
-        );
+        removeCursor(textElementChildren);
         break;
       }
       if (isCtrl) {
@@ -89,10 +83,6 @@ export const onKeyDownChangeCursor = (
 
   if (isCursorIndexTheSame) return;
 
-  removeCursor(
-    currentWordBeginningIndex + selectionStart - 1,
-    textElementChildren
-  );
-
+  removeCursor(textElementChildren);
   addCursor(currentWordBeginningIndex + cursorIndex, textElementChildren);
 };
