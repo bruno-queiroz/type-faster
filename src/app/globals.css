@@ -6,6 +6,7 @@
   box-shadow: 1px 0px 0px rgba(0, 0, 0, 1);
   animation: blink-right-cursor 1s steps(2) infinite;
   position: relative;
+  z-index: 20;
 }
 
 .right-cursor-no-animation {
@@ -17,6 +18,7 @@
   box-shadow: inset 1px 0px 0px rgba(0, 0, 0, 1);
   animation: blink-left-cursor 1s steps(2) infinite;
   position: relative;
+  z-index: 20;
 }
 
 .cursor-white {
