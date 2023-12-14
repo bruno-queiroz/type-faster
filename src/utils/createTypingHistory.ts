@@ -6,7 +6,6 @@ export interface TypingHistory {
   deletedAmount: number;
   cpm: string;
   accuracy: string;
-  isCorrect: boolean;
 }
 
 type PushToHistory = Omit<TypingHistory, "time" | "value"> & {
@@ -15,12 +14,15 @@ type PushToHistory = Omit<TypingHistory, "time" | "value"> & {
 
 export const createTypingHistory = (): [
   () => TypingHistory[],
-  (data: PushToHistory) => void,
+  (data: PushToHistory, correctLettersTyped: number) => void,
   () => void
 ] => {
   let typingHistory: TypingHistory[] = [];
 
-  const pushToHistory = (data: PushToHistory) => {
+  const pushToHistory = (data: PushToHistory, correctLettersTyped: number) => {
+    const userGotAtLeastOneLetterRight = correctLettersTyped > 0;
+    if (!userGotAtLeastOneLetterRight) return;
+
     typingHistory.push({
       ...data,
       value: data.value || "Backspace",
