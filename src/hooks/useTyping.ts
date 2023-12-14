@@ -107,9 +107,6 @@ export const useTyping = (
     const cursorIndex = selectionStart + currentWordBeginningIndex - 1;
 
     const textElementChildren = textElement.current?.children;
-    const currentCharElement = textElementChildren[
-      inputIndex
-    ] as HTMLSpanElement;
 
     removeCursor(textElementChildren);
     addCursor(cursorIndex, textElementChildren);
