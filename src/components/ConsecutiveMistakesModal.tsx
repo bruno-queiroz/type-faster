@@ -13,7 +13,7 @@ const ConsecutiveMistakesModal = ({
   closeConsecutiveMistakesModal,
 }: ConsecutiveMistakesModalProps) => {
   return (
-    <dialog open={isOpen} className="rounded p-4 z-10">
+    <dialog open={isOpen} className="rounded p-4 z-30">
       <button
         className="absolute right-4 top-4"
         onClick={closeConsecutiveMistakesModal}
