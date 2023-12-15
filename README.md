@@ -34,6 +34,9 @@ In order to upload images to show book cover images you'll need the following
 2. Create an API key on [imbb api](https://api.imgbb.com/)
 3. Put the API key that you created in your .env file
 
+### Node
+This project has also an API, to see how to setup the API [click here](https://github.com/bruno-queiroz/type-faster-api.git)
+
 </br>
 </br>
 </br>
