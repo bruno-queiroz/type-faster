@@ -9,8 +9,6 @@ import {
 
 import { addCursor } from "@/utils/addCursor";
 import { addUnderlineToTheNewWord } from "@/utils/addUnderlineToTheNewWord";
-import { checkWord } from "@/utils/checkWord";
-import { clearLetterStyles } from "@/utils/clearLetterStyles";
 import { removeCursor } from "@/utils/removeCursor";
 import { removeUnderlineOfThePreviousWord } from "@/utils/removeUnderlineOfThePreviousWord";
 import { getCPMContext } from "@/utils/getCPM";
