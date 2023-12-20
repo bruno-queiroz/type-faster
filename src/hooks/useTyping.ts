@@ -337,6 +337,7 @@ export const useTyping = (
 
   const getNewText = () => {
     restartTyping();
+    clearAllSetIntervals(0);
     refetch();
   };
 
